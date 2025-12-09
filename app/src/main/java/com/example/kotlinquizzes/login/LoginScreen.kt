@@ -12,13 +12,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -26,18 +26,21 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.kotlinquizzes.R
 import com.example.kotlinquizzes.login.LoginContract.Effect
 import com.example.kotlinquizzes.login.LoginContract.Intent
 import com.example.kotlinquizzes.login.LoginContract.State
+import com.example.kotlinquizzes.ui.theme.Dimens
 import com.example.kotlinquizzes.ui.theme.KotlinQuizzesTheme
-import com.example.kotlinquizzes.ui.theme.Purple600
+import com.example.kotlinquizzes.ui.theme.Purple500
+import com.example.kotlinquizzes.ui.theme.TextPrimary
+import com.example.kotlinquizzes.ui.theme.White
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -71,30 +74,30 @@ private fun LoginContent(
 ) {
     Scaffold(
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = "Kotlin Quizzes",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Medium,
+                        text = stringResource(R.string.login_title),
+                        fontSize = Dimens.FontMedium,
+                        fontWeight = FontWeight.Bold,
                     )
                 },
                 navigationIcon = {
                     IconButton(onClick = { onIntent(Intent.BackClicked) }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Voltar",
+                            contentDescription = stringResource(R.string.back),
                         )
                     }
                 },
                 colors =
                     TopAppBarDefaults.topAppBarColors(
-                        containerColor = Color.White,
-                        titleContentColor = Color.Black,
+                        containerColor = White,
+                        titleContentColor = TextPrimary,
                     ),
             )
         },
-        containerColor = Color.White,
+        containerColor = White,
     ) { paddingValues ->
 
         Column(
@@ -102,25 +105,28 @@ private fun LoginContent(
                 Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .padding(horizontal = 24.dp),
+                    .padding(horizontal = Dimens.PaddingDefault),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Spacer(modifier = Modifier.height(32.dp))
-            Text(
-                text = "Welcome back!",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.Black,
-            )
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(Dimens.PaddingXLarge))
 
             Text(
-                text = "Continue your Kotlin learning journey with our interactive quizzes.",
-                fontSize = 14.sp,
-                color = Color.Gray,
+                text = stringResource(R.string.login_welcome),
+                fontSize = Dimens.FontXLarge,
+                fontWeight = FontWeight.Bold,
+                color = TextPrimary,
+            )
+
+            Spacer(modifier = Modifier.height(Dimens.PaddingMedium))
+
+            Text(
+                text = stringResource(R.string.login_subtitle),
+                fontSize = Dimens.FontDefault,
+                fontWeight = FontWeight.Normal,
+                color = TextPrimary,
                 textAlign = TextAlign.Center,
-                lineHeight = 20.sp,
-                modifier = Modifier.padding(horizontal = 16.dp),
+                lineHeight = Dimens.LineHeightDefault,
+                modifier = Modifier.padding(horizontal = Dimens.PaddingDefault),
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -131,7 +137,7 @@ private fun LoginContent(
                 modifier = Modifier.fillMaxWidth(),
             )
 
-            Spacer(modifier = Modifier.height(48.dp))
+            Spacer(modifier = Modifier.height(Dimens.PaddingMedium))
         }
     }
 }
@@ -145,27 +151,27 @@ private fun GoogleSignInButton(
     Button(
         onClick = onClick,
         enabled = !isLoading,
-        modifier = modifier.height(52.dp),
-        shape = RoundedCornerShape(12.dp),
+        modifier = modifier.height(Dimens.ButtonHeight),
+        shape = RoundedCornerShape(Dimens.ButtonCornerRadius),
         colors =
             ButtonDefaults.buttonColors(
-                containerColor = Purple600,
-                contentColor = Color.White,
-                disabledContainerColor = Purple600.copy(alpha = 0.7f),
-                disabledContentColor = Color.White.copy(alpha = 0.7f),
+                containerColor = Purple500,
+                contentColor = White,
+                disabledContainerColor = Purple500.copy(alpha = 0.7f),
+                disabledContentColor = White.copy(alpha = 0.7f),
             ),
         elevation = ButtonDefaults.buttonElevation(defaultElevation = 0.dp),
     ) {
         if (isLoading) {
             CircularProgressIndicator(
-                modifier = Modifier.size(22.dp),
-                color = Color.White,
-                strokeWidth = 2.dp,
+                modifier = Modifier.size(Dimens.IconSmall),
+                color = White,
+                strokeWidth = Dimens.StrokeSmall,
             )
         } else {
             Text(
-                text = "Login with Google",
-                fontSize = 15.sp,
+                text = stringResource(R.string.login_google_button),
+                fontSize = Dimens.FontDefault,
                 fontWeight = FontWeight.Medium,
             )
         }

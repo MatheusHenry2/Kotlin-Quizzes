@@ -7,13 +7,11 @@ object LoginContract {
 
     sealed class Intent {
         data object GoogleSignInClicked : Intent()
-
         data object BackClicked : Intent()
     }
 
     sealed class Effect {
         data object NavigateToHome : Effect()
-
         data object NavigateBack : Effect()
     }
 }
