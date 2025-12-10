@@ -5,12 +5,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.kotlinquizzes.login.LoginScreen
+import com.example.kotlinquizzes.quizlist.QuizListScreen
 
 object Routes {
     const val LOGIN = "login"
-    const val HOME = "home"
-    const val QUIZ = "quiz/{quizId}"
-    const val RESULT = "result"
+    const val QUIZ_LIST = "quiz_list"
 }
 
 @Composable
@@ -24,7 +23,7 @@ fun AppNavigation() {
         composable(Routes.LOGIN) {
             LoginScreen(
                 onNavigateToHome = {
-                    navController.navigate(Routes.HOME) {
+                    navController.navigate(Routes.QUIZ_LIST) {
                         popUpTo(Routes.LOGIN) { inclusive = true }
                     }
                 },
@@ -34,13 +33,8 @@ fun AppNavigation() {
             )
         }
 
-        composable(Routes.HOME) {
-        }
-
-        composable(Routes.QUIZ) {
-        }
-
-        composable(Routes.RESULT) {
+        composable(Routes.QUIZ_LIST) {
+            QuizListScreen()
         }
     }
 }
