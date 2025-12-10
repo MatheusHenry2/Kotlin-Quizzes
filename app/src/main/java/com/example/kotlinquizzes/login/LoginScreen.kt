@@ -33,9 +33,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.kotlinquizzes.R
-import com.example.kotlinquizzes.login.LoginContract.Effect
-import com.example.kotlinquizzes.login.LoginContract.Intent
-import com.example.kotlinquizzes.login.LoginContract.State
+import com.example.kotlinquizzes.login.LoginContract.LoginAction
+import com.example.kotlinquizzes.login.LoginContract.LoginEffect
+import com.example.kotlinquizzes.login.LoginContract.LoginState
 import com.example.kotlinquizzes.ui.theme.Dimens
 import com.example.kotlinquizzes.ui.theme.KotlinQuizzesTheme
 import com.example.kotlinquizzes.ui.theme.Purple500
@@ -54,23 +54,23 @@ fun LoginScreen(
     LaunchedEffect(Unit) {
         viewModel.effect.collectLatest { effect ->
             when (effect) {
-                is Effect.NavigateToHome -> onNavigateToHome()
-                is Effect.NavigateBack -> onNavigateBack()
+                is LoginEffect.NavigateToHome -> onNavigateToHome()
+                is LoginEffect.NavigateBack -> onNavigateBack()
             }
         }
     }
 
     LoginContent(
         state = state,
-        onIntent = viewModel::onIntent,
+        onAction = viewModel::onAction,
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun LoginContent(
-    state: State,
-    onIntent: (Intent) -> Unit,
+    state: LoginState,
+    onAction: (LoginAction) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -83,7 +83,7 @@ private fun LoginContent(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { onIntent(Intent.BackClicked) }) {
+                    IconButton(onClick = { onAction(LoginAction.BackClicked) }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(R.string.back),
@@ -132,7 +132,7 @@ private fun LoginContent(
             Spacer(modifier = Modifier.weight(1f))
 
             GoogleSignInButton(
-                onClick = { onIntent(Intent.GoogleSignInClicked) },
+                onClick = { onAction(LoginAction.GoogleSignInClicked) },
                 isLoading = state.isLoading,
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -166,7 +166,7 @@ private fun GoogleSignInButton(
             CircularProgressIndicator(
                 modifier = Modifier.size(Dimens.IconSmall),
                 color = White,
-                strokeWidth = Dimens.StrokeSmall,
+                strokeWidth = 2.dp,
             )
         } else {
             Text(
@@ -183,8 +183,8 @@ private fun GoogleSignInButton(
 private fun LoginScreenPreview() {
     KotlinQuizzesTheme {
         LoginContent(
-            state = State(),
-            onIntent = {},
+            state = LoginState(),
+            onAction = {},
         )
     }
 }

@@ -1,17 +1,19 @@
 package com.example.kotlinquizzes.login
 
 object LoginContract {
-    data class State(
+    data class LoginState(
         val isLoading: Boolean = false,
     )
 
-    sealed class Intent {
-        data object GoogleSignInClicked : Intent()
-        data object BackClicked : Intent()
+    sealed interface LoginAction {
+        data object GoogleSignInClicked : LoginAction
+
+        data object BackClicked : LoginAction
     }
 
-    sealed class Effect {
-        data object NavigateToHome : Effect()
-        data object NavigateBack : Effect()
+    sealed interface LoginEffect {
+        data object NavigateToHome : LoginEffect
+
+        data object NavigateBack : LoginEffect
     }
 }
