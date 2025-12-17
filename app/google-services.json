@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1024353408160",
+    "project_id": "kotlin-quizzes",
+    "storage_bucket": "kotlin-quizzes.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1024353408160:android:949322ac4edd098d0f65c5",
+        "android_client_info": {
+          "package_name": "com.example.kotlinquizzes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1024353408160-vi4gr12lnakn08qeh8daudo1ovqlop25.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbCv-78IecH_WoefpPYtLeGink3u-sR8M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1024353408160-vi4gr12lnakn08qeh8daudo1ovqlop25.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

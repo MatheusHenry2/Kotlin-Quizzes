@@ -2,6 +2,8 @@
     <!-- App -->
     <string name="app_name">kotlinquizzes</string>
 
+    <string name="web_client_id">1024353408160-vi4gr12lnakn08qeh8daudo1ovqlop25.apps.googleusercontent.com</string>
+
     <!-- Login Screen -->
     <string name="login_title">Kotlin Quizzes</string>
     <string name="login_welcome">Welcome back!</string>

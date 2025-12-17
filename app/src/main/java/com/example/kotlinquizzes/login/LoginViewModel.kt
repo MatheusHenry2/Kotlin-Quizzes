@@ -12,7 +12,6 @@ import kotlinx.coroutines.launch
 class LoginViewModel : ViewModel() {
     private val _state = MutableStateFlow(LoginContract.LoginState())
     val state: StateFlow<LoginContract.LoginState> = _state.asStateFlow()
-
     private val _effect = Channel<LoginContract.LoginEffect>(Channel.BUFFERED)
     val effect = _effect.receiveAsFlow()
 
