@@ -1,7 +1,9 @@
 package com.example.kotlinquizzes.login
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.kotlinquizzes.utils.Constants.TAG
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,12 +25,14 @@ class LoginViewModel : ViewModel() {
     }
 
     private fun handleGoogleSignIn() {
+        Log.i(TAG, "LoginViewModel handleGoogleSignIn: start")
         viewModelScope.launch {
             _effect.send(LoginContract.LoginEffect.NavigateToHome)
         }
     }
 
     private fun handleBack() {
+        Log.i(TAG, "LoginViewModel handleBack: start")
         viewModelScope.launch {
             _effect.send(LoginContract.LoginEffect.NavigateBack)
         }
