@@ -31,6 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.kotlinquizzes.R
 import com.example.kotlinquizzes.login.LoginContract.LoginAction
@@ -45,7 +46,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun LoginScreen(
-    viewModel: LoginViewModel = viewModel(),
+    viewModel: LoginViewModel =  hiltViewModel(),
     onNavigateToHome: () -> Unit = {},
     onNavigateBack: () -> Unit = {},
 ) {

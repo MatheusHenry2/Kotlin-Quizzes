@@ -9,6 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.kotlinquizzes.quizlist.QuizListContract.QuizListAction
 import com.example.kotlinquizzes.quizlist.QuizListContract.QuizListState
@@ -16,7 +17,7 @@ import com.example.kotlinquizzes.ui.theme.KotlinQuizzesTheme
 import com.example.kotlinquizzes.ui.theme.TextPrimary
 
 @Composable
-fun QuizListScreen(viewModel: QuizListViewModel = viewModel()) {
+fun QuizListScreen(viewModel: QuizListViewModel = hiltViewModel()) {
     val state by viewModel.state.collectAsState()
 
     QuizListContent(

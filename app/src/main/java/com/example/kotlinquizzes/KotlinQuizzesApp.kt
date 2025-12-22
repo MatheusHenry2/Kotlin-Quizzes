@@ -1,12 +1,7 @@
 package com.example.kotlinquizzes
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
-class KotlinQuizzesApp : Application() {
-    override fun onCreate() {
-        super.onCreate()
-
-        // TODO: Inicializar Firebase futuramente
-        // Firebase.initialize(this)
-    }
-}
+@HiltAndroidApp
+class KotlinQuizzesApp : Application() {}
