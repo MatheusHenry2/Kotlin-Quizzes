@@ -129,4 +129,16 @@ class LoginViewModelTest {
         assertFalse(effects.contains(LoginContract.LoginEffect.NavigateToHome))
         job.cancel()
     }
+
+    @Test
+    fun testBackClicked_EmitsNavigateBackEffect() = runTest {
+        val effects = mutableListOf<LoginContract.LoginEffect>()
+        val job = launch { loginViewmodel.effect.collect { effects.add(it) } }
+
+        loginViewmodel.onAction(LoginContract.LoginAction.BackClicked)
+        advanceUntilIdle()
+
+        assertTrue(effects.contains(LoginContract.LoginEffect.NavigateBack))
+        job.cancel()
+    }
 }
