@@ -1,0 +1,47 @@
+{
+  "quizzes": [
+    {
+      "id": "kotlin_basics",
+      "title": "Kotlin Basics",
+      "description": "Variáveis, tipos, null-safety",
+      "questions": [
+        {
+          "id": "q1",
+          "text": "What is the correct way to declare a variable in Kotlin?",
+          "options": [
+            "var myVariable: Int = 10",
+            "val myVariable: Int = 10",
+            "const myVariable: Int = 10",
+            "let myVariable: Int = 10"
+          ],
+          "correctIndex": 1,
+          "tags": [
+            "variables",
+            "val-var"
+          ]
+        },
+        {
+          "id": "q2",
+          "text": "Which type represents a nullable String?",
+          "options": [
+            "String",
+            "String?",
+            "Nullable<String>",
+            "String!"
+          ],
+          "correctIndex": 1,
+          "tags": [
+            "null-safety",
+            "types"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "control_flow",
+      "title": "Control Flow",
+      "description": "if/when/loops",
+      "questions": []
+    }
+  ]
+}

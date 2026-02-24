@@ -3,9 +3,11 @@ package com.example.kotlinquizzes.login
 import android.app.Application
 import com.example.kotlinquizzes.R
 
-import com.example.kotlinquizzes.auth.GoogleAuthClient
-import com.example.kotlinquizzes.auth.model.SignInResult
-import com.example.kotlinquizzes.auth.model.UserData
+import com.example.kotlinquizzes.feature.auth.data.client.GoogleAuthClient
+import com.example.kotlinquizzes.feature.auth.data.model.SignInResult
+import com.example.kotlinquizzes.feature.auth.data.model.UserData
+import com.example.kotlinquizzes.feature.presentation.login.LoginContract
+import com.example.kotlinquizzes.feature.presentation.login.LoginViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
