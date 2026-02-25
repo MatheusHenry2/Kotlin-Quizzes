@@ -3,45 +3,237 @@
     {
       "id": "kotlin_basics",
       "title": "Kotlin Basics",
-      "description": "Variáveis, tipos, null-safety",
+      "description": "Variables, val/var, null-safety and syntax",
       "questions": [
         {
-          "id": "q1",
-          "text": "What is the correct way to declare a variable in Kotlin?",
-          "options": [
-            "var myVariable: Int = 10",
-            "val myVariable: Int = 10",
-            "const myVariable: Int = 10",
-            "let myVariable: Int = 10"
-          ],
+          "id": "kb_q1",
+          "text": "Which keyword declares an immutable variable in Kotlin?",
+          "options": ["var", "val", "let", "const"],
           "correctIndex": 1,
-          "tags": [
-            "variables",
-            "val-var"
-          ]
+          "tags": ["kotlin", "variables", "val-var"]
         },
         {
-          "id": "q2",
-          "text": "Which type represents a nullable String?",
+          "id": "kb_q2",
+          "text": "Which type represents a nullable String in Kotlin?",
+          "options": ["String", "String?", "Nullable<String>", "String!"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "null-safety", "types"]
+        },
+        {
+          "id": "kb_q3",
+          "text": "What is the correct Kotlin entry point function?",
           "options": [
-            "String",
-            "String?",
-            "Nullable<String>",
-            "String!"
+            "function main() {}",
+            "fun main() {}",
+            "void main() {}",
+            "main fun() {}"
           ],
           "correctIndex": 1,
-          "tags": [
-            "null-safety",
-            "types"
-          ]
+          "tags": ["kotlin", "syntax", "functions"]
+        },
+        {
+          "id": "kb_q4",
+          "text": "How do you use string templates in Kotlin?",
+          "options": [
+            "\"Hello {name}\"",
+            "\"Hello %s\"",
+            "\"Hello $name\"",
+            "\"Hello ${name()}\" only"
+          ],
+          "correctIndex": 2,
+          "tags": ["kotlin", "strings"]
+        }
+      ]
+    },
+    {
+      "id": "data_types",
+      "title": "Data Types",
+      "description": "Numbers, booleans, strings and collections",
+      "questions": [
+        {
+          "id": "dt_q1",
+          "text": "Which suffix is used to declare a Long literal in Kotlin?",
+          "options": ["D", "F", "L", "UL"],
+          "correctIndex": 2,
+          "tags": ["kotlin", "data-types", "numbers"]
+        },
+        {
+          "id": "dt_q2",
+          "text": "Which declaration creates a Float value?",
+          "options": [
+            "val x = 3.14",
+            "val x: Float = 3.14",
+            "val x = 3.14F",
+            "val x = Float(3.14)"
+          ],
+          "correctIndex": 2,
+          "tags": ["kotlin", "float", "numbers"]
+        },
+        {
+          "id": "dt_q3",
+          "text": "Which values are valid for Boolean in Kotlin?",
+          "options": ["0 and 1", "true and false", "yes and no", "True and False"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "boolean"]
+        },
+        {
+          "id": "dt_q4",
+          "text": "Which type represents a list of integers?",
+          "options": ["List<Int>", "Array<Number>", "IntList", "List<Number> only"],
+          "correctIndex": 0,
+          "tags": ["kotlin", "collections", "generics"]
         }
       ]
     },
     {
       "id": "control_flow",
       "title": "Control Flow",
-      "description": "if/when/loops",
-      "questions": []
+      "description": "if, when, loops and ranges",
+      "questions": [
+        {
+          "id": "cf_q1",
+          "text": "Which Kotlin keyword is often used instead of switch?",
+          "options": ["match", "switch", "when", "case"],
+          "correctIndex": 2,
+          "tags": ["kotlin", "control-flow", "when"]
+        },
+        {
+          "id": "cf_q2",
+          "text": "What does `0 until 5` produce in Kotlin?",
+          "options": [
+            "0,1,2,3,4",
+            "0,1,2,3,4,5",
+            "1,2,3,4,5",
+            "Only 0 and 5"
+          ],
+          "correctIndex": 0,
+          "tags": ["kotlin", "ranges", "loops"]
+        },
+        {
+          "id": "cf_q3",
+          "text": "Which loop is correct to iterate from 1 to 3 inclusive?",
+          "options": [
+            "for (i in 1...3)",
+            "for (i in 1 to 3)",
+            "for (i in 1..3)",
+            "for (i = 1..3)"
+          ],
+          "correctIndex": 2,
+          "tags": ["kotlin", "loops", "ranges"]
+        },
+        {
+          "id": "cf_q4",
+          "text": "Which statement is true about `if` in Kotlin?",
+          "options": [
+            "`if` can only be used as a statement",
+            "`if` can be used as an expression",
+            "`if` requires parentheses and braces always",
+            "Kotlin uses `then` instead of `if`"
+          ],
+          "correctIndex": 1,
+          "tags": ["kotlin", "if", "expressions"]
+        }
+      ]
+    },
+    {
+      "id": "functions",
+      "title": "Functions",
+      "description": "Function declaration, parameters and return types",
+      "questions": [
+        {
+          "id": "fn_q1",
+          "text": "Which is the correct function declaration in Kotlin?",
+          "options": [
+            "fun sum(a: Int, b: Int): Int",
+            "function sum(a, b): Int",
+            "sum fun(a: Int, b: Int): Int",
+            "Int sum(a: Int, b: Int)"
+          ],
+          "correctIndex": 0,
+          "tags": ["kotlin", "functions", "syntax"]
+        },
+        {
+          "id": "fn_q2",
+          "text": "What is a single-expression function?",
+          "options": [
+            "A function with one parameter",
+            "A function written using `=` and a single expression",
+            "A function that returns Unit",
+            "A function inside another function"
+          ],
+          "correctIndex": 1,
+          "tags": ["kotlin", "functions"]
+        },
+        {
+          "id": "fn_q3",
+          "text": "Which call uses named arguments correctly?",
+          "options": [
+            "greet(name = \"Ana\", age = 20)",
+            "greet(\"Ana\" = name, 20 = age)",
+            "greet(name: \"Ana\", age: 20)",
+            "greet(name -> \"Ana\", age -> 20)"
+          ],
+          "correctIndex": 0,
+          "tags": ["kotlin", "functions", "named-arguments"]
+        },
+        {
+          "id": "fn_q4",
+          "text": "What happens if a parameter has a default value?",
+          "options": [
+            "It becomes nullable automatically",
+            "It must be passed every time",
+            "The argument can be omitted in the call",
+            "It can only be used in private functions"
+          ],
+          "correctIndex": 2,
+          "tags": ["kotlin", "functions", "default-params"]
+        }
+      ]
+    },
+    {
+      "id": "oop",
+      "title": "Object-Oriented Programming",
+      "description": "Classes, inheritance, interfaces and data classes",
+      "questions": [
+        {
+          "id": "oop_q1",
+          "text": "Which keyword allows a class to be inherited in Kotlin?",
+          "options": ["public", "open", "abstract", "override"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "oop", "inheritance"]
+        },
+        {
+          "id": "oop_q2",
+          "text": "Which keyword is used to override a method in a subclass?",
+          "options": ["extend", "open", "override", "super"],
+          "correctIndex": 2,
+          "tags": ["kotlin", "oop", "override"]
+        },
+        {
+          "id": "oop_q3",
+          "text": "What is a common use of a data class in Kotlin?",
+          "options": [
+            "Creating UI layouts",
+            "Storing immutable-like model/state data",
+            "Running background threads",
+            "Managing permissions"
+          ],
+          "correctIndex": 1,
+          "tags": ["kotlin", "oop", "data-class"]
+        },
+        {
+          "id": "oop_q4",
+          "text": "Which declaration correctly implements an interface in Kotlin?",
+          "options": [
+            "class Dog implements Animal",
+            "class Dog : Animal",
+            "class Dog -> Animal",
+            "class Dog extends AnimalInterface"
+          ],
+          "correctIndex": 1,
+          "tags": ["kotlin", "oop", "interfaces"]
+        }
+      ]
     }
   ]
 }
