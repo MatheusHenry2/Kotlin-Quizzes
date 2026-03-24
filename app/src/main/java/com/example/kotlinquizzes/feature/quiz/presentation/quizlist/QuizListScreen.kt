@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,6 +21,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.PersonOutline
 import androidx.compose.material.icons.filled.School
@@ -44,9 +46,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.kotlinquizzes.core.theme.KotlinQuizzesTheme
-import com.example.kotlinquizzes.core.theme.Purple500
+import com.example.kotlinquizzes.core.theme.PurpleSoft
+import com.example.kotlinquizzes.core.theme.PurpleSubtitle
 import com.example.kotlinquizzes.core.theme.TextPrimary
 import com.example.kotlinquizzes.core.theme.White
 import com.example.kotlinquizzes.feature.quiz.domain.model.Question
@@ -113,9 +117,9 @@ private fun QuizListContent(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(horizontal = 20.dp)
+                .padding(horizontal = 16.dp)
         ) {
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             Text(
                 text = "Welcome back, ${state.userName}",
@@ -124,7 +128,7 @@ private fun QuizListContent(
                 color = TextPrimary
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
             when {
                 state.isLoading -> {
@@ -146,7 +150,7 @@ private fun QuizListContent(
                 else -> {
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp),
                         contentPadding = PaddingValues(bottom = 24.dp)
                     ) {
                         items(
@@ -176,7 +180,7 @@ private fun AvatarCircle(
 
     Box(
         modifier = modifier
-            .size(30.dp)
+            .size(32.dp)
             .clip(CircleShape)
             .background(MaterialTheme.colorScheme.surfaceVariant),
         contentAlignment = Alignment.Center
@@ -198,39 +202,48 @@ private fun QuizListItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(14.dp))
+            .defaultMinSize(minHeight = 72.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .background(PurpleSoft)
             .clickable(onClick = onClick)
-            .padding(vertical = 8.dp),
+            .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
             modifier = Modifier
-                .size(38.dp)
-                .clip(RoundedCornerShape(10.dp))
-                .background(MaterialTheme.colorScheme.surfaceVariant),
+                .size(44.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .background(White),
             contentAlignment = Alignment.Center
         ) {
-            Text(
-                text = "</>",
-                color = TextPrimary,
-                fontWeight = FontWeight.Bold
+            Icon(
+                imageVector = Icons.Default.Code,
+                contentDescription = null,
+                tint = TextPrimary,
+                modifier = Modifier.size(24.dp)
             )
         }
 
-        Spacer(modifier = Modifier.width(12.dp))
+        Spacer(modifier = Modifier.width(16.dp))
 
-        Column {
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.Center
+        ) {
             Text(
                 text = quiz.title,
                 style = MaterialTheme.typography.bodyLarge,
                 color = TextPrimary,
-                fontWeight = FontWeight.Medium
+                fontWeight = FontWeight.SemiBold
             )
 
             Text(
                 text = "${quiz.questions.size} questions",
-                style = MaterialTheme.typography.bodySmall,
-                color = Purple500
+                style = MaterialTheme.typography.bodySmall.copy(
+                    fontSize = 14.sp,
+                    color = PurpleSubtitle
+                ),
+                fontWeight = FontWeight.Normal
             )
         }
     }
