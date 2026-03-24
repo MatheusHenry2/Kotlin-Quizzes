@@ -48,6 +48,8 @@
     <string name="snackbar_quiz_completed">Congratulations! Quiz completed successfully!</string>
     <string name="snackbar_error_generic">Oops! Something went wrong. Please try again.</string>
     <string name="snackbar_error_save_progress">Oops! Failed to save progress. Please try again.</string>
+    <string name="snackbar_refresh_failed">Failed to update quizzes. Please try again.</string>
+    <string name="snackbar_refresh_success">List updated!</string>
 
     <!-- Error Messages -->
     <string name="error_quiz_not_found">Quiz not found</string>

@@ -47,6 +47,8 @@
     <string name="snackbar_quiz_completed">Parabéns! Quiz concluído com sucesso!</string>
     <string name="snackbar_error_generic">Ops! Algo deu errado. Tente novamente.</string>
     <string name="snackbar_error_save_progress">Ops! Falha ao salvar progresso. Tente novamente.</string>
+    <string name="snackbar_refresh_failed">Falha ao atualizar quizzes. Tente novamente.</string>
+    <string name="snackbar_refresh_success">Lista atualizada!</string>
 
     <!-- Error Messages -->
     <string name="error_quiz_not_found">Quiz não encontrado</string>

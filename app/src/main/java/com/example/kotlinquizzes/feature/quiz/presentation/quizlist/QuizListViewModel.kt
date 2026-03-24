@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 import kotlin.coroutines.cancellation.CancellationException
 
@@ -37,6 +38,7 @@ class QuizListViewModel @Inject constructor(
 
     private companion object {
         private const val FALLBACK_USER_NAME = "User"
+        private const val REFRESH_DELAY_MS = 800L
     }
 
     init {
@@ -51,6 +53,7 @@ class QuizListViewModel @Inject constructor(
                 }
             }
             QuizListAction.RetryClicked -> loadQuizzes()
+            QuizListAction.RefreshPulled -> refreshQuizzes()
         }
     }
 
@@ -66,6 +69,28 @@ class QuizListViewModel @Inject constructor(
             return FALLBACK_USER_NAME
         }
         return userName
+    }
+
+    private fun refreshQuizzes() {
+        viewModelScope.launch {
+            Log.d(TAG, "QuizListViewModel: refreshQuizzes started")
+            _state.update { it.copy(isRefreshing = true) }
+            try {
+                delay(REFRESH_DELAY_MS)
+                val quizzes = quizRepository.getQuizzes()
+                Log.d(TAG, "QuizListViewModel: refreshQuizzes success, count=${quizzes.size}")
+                _state.update {
+                    it.copy(isRefreshing = false, quizzes = quizzes, errorMessageResId = null)
+                }
+                uiEventManager.showSuccess(R.string.snackbar_refresh_success)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Log.e(TAG, "QuizListViewModel: refreshQuizzes failed", e)
+                _state.update { it.copy(isRefreshing = false) }
+                uiEventManager.showError(R.string.snackbar_refresh_failed)
+            }
+        }
     }
 
     private fun loadQuizzes() {

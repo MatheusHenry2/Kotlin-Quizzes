@@ -7,6 +7,7 @@ object QuizListContract {
 
     data class QuizListState(
         val isLoading: Boolean = false,
+        val isRefreshing: Boolean = false,
         val userName: String = "",
         val quizzes: List<Quiz> = emptyList(),
         @StringRes val errorMessageResId: Int? = null,
@@ -14,6 +15,7 @@ object QuizListContract {
 
     sealed interface QuizListAction {
         data object RetryClicked : QuizListAction
+        data object RefreshPulled : QuizListAction
         data class QuizClicked(val quizId: String) : QuizListAction
     }
 

@@ -47,6 +47,7 @@ import com.example.kotlinquizzes.core.theme.PurpleSoft
 import com.example.kotlinquizzes.core.theme.PurpleSubtitle
 import com.example.kotlinquizzes.core.theme.TextPrimary
 import com.example.kotlinquizzes.core.theme.White
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import com.example.kotlinquizzes.feature.quiz.domain.model.Quiz
 import com.example.kotlinquizzes.feature.quiz.presentation.quizlist.QuizListContract.QuizListAction
 import com.example.kotlinquizzes.feature.quiz.presentation.quizlist.QuizListContract.QuizListEffect
@@ -138,21 +139,27 @@ private fun QuizListContent(
                 }
 
                 else -> {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.spacedBy(12.dp),
-                        contentPadding = PaddingValues(bottom = 24.dp)
+                    PullToRefreshBox(
+                        isRefreshing = state.isRefreshing,
+                        onRefresh = { onAction(QuizListAction.RefreshPulled) },
+                        modifier = Modifier.fillMaxSize()
                     ) {
-                        items(
-                            items = state.quizzes,
-                            key = { it.id }
-                        ) { quiz ->
-                            QuizListItem(
-                                quiz = quiz,
-                                onClick = {
-                                    onAction(QuizListAction.QuizClicked(quiz.id))
-                                }
-                            )
+                        LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
+                            verticalArrangement = Arrangement.spacedBy(12.dp),
+                            contentPadding = PaddingValues(bottom = 24.dp)
+                        ) {
+                            items(
+                                items = state.quizzes,
+                                key = { it.id }
+                            ) { quiz ->
+                                QuizListItem(
+                                    quiz = quiz,
+                                    onClick = {
+                                        onAction(QuizListAction.QuizClicked(quiz.id))
+                                    }
+                                )
+                            }
                         }
                     }
                 }
