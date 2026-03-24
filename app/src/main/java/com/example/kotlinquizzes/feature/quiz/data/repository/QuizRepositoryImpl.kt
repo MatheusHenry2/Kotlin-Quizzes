@@ -1,6 +1,7 @@
 package com.example.kotlinquizzes.feature.quiz.data.repository
 
 import com.example.kotlinquizzes.feature.quiz.data.local.AssetsQuizDataSource
+import com.example.kotlinquizzes.feature.quiz.data.local.QuizProgressDataStore
 import com.example.kotlinquizzes.feature.quiz.data.mapper.QuizMappers.toDomain
 import com.example.kotlinquizzes.feature.quiz.data.model.QuizzesPayloadDto
 import com.example.kotlinquizzes.feature.quiz.domain.model.Quiz
@@ -10,7 +11,8 @@ import javax.inject.Inject
 
 class QuizRepositoryImpl @Inject constructor(
     private val dataSource: AssetsQuizDataSource,
-    private val json: Json
+    private val json: Json,
+    private val progressDataStore: QuizProgressDataStore,
 ) : QuizRepository {
 
     override suspend fun getQuizzes(): List<Quiz> {
@@ -21,5 +23,17 @@ class QuizRepositoryImpl @Inject constructor(
 
     override suspend fun getQuizById(quizId: String): Quiz? {
         return getQuizzes().firstOrNull { it.id == quizId }
+    }
+
+    override suspend fun saveQuizProgress(quizId: String, questionIndex: Int) {
+        progressDataStore.saveProgress(quizId, questionIndex)
+    }
+
+    override suspend fun getQuizProgress(quizId: String): Int {
+        return progressDataStore.getProgress(quizId)
+    }
+
+    override suspend fun clearQuizProgress(quizId: String) {
+        progressDataStore.clearProgress(quizId)
     }
 }

@@ -1,7 +1,6 @@
 <resources>
     <!-- App -->
     <string name="app_name">kotlinquizzes</string>
-
     <string name="web_client_id">1024353408160-vi4gr12lnakn08qeh8daudo1ovqlop25.apps.googleusercontent.com</string>
 
     <!-- Login Screen -->
@@ -12,4 +11,46 @@
 
     <!-- Navigation -->
     <string name="back">Back</string>
+
+    <!-- Quiz List Screen -->
+    <string name="quiz_list_title">Kotlin Quizzes</string>
+    <string name="welcome_back">Welcome back, %1$s</string>
+    <string name="questions_count">%1$d questions</string>
+    <string name="try_again">Try again</string>
+    <string name="default_user_initial">U</string>
+
+    <!-- Quiz Screen -->
+    <string name="quiz_title">Quiz</string>
+    <string name="close_quiz">Close quiz</string>
+    <string name="question_progress">Question %1$d/%2$d</string>
+    <string name="question_progress_accessibility">Question %1$d of %2$d</string>
+    <string name="question_accessibility">Question: %1$s</string>
+    <string name="option_accessibility">Option %1$d: %2$s</string>
+    <string name="next">Next</string>
+    <string name="finish">Finish</string>
+    <string name="finish_quiz_accessibility">Finish quiz</string>
+    <string name="next_question_accessibility">Next question</string>
+
+    <!-- Quiz Results Screen -->
+    <string name="quiz_results_title">Quiz Results</string>
+    <string name="close_results">Close results</string>
+    <string name="congratulations">Congratulations!</string>
+    <string name="congratulations_accessibility">Congratulations on completing the quiz</string>
+    <string name="quiz_completed_message">You have completed the quiz.</string>
+    <string name="final_score">Final Score</string>
+    <string name="final_score_accessibility">Final score: %1$d percent</string>
+    <string name="correct_answers">Correct Answers</string>
+    <string name="incorrect_answers">Incorrect Answers</string>
+    <string name="back_to_home">Back to Home</string>
+    <string name="back_to_home_accessibility">Back to home</string>
+
+    <!-- Snackbar Messages -->
+    <string name="snackbar_quiz_completed">Congratulations! Quiz completed successfully!</string>
+    <string name="snackbar_error_generic">Oops! Something went wrong. Please try again.</string>
+    <string name="snackbar_error_save_progress">Oops! Failed to save progress. Please try again.</string>
+
+    <!-- Error Messages -->
+    <string name="error_quiz_not_found">Quiz not found</string>
+    <string name="error_failed_load_quiz">Failed to load quiz</string>
+    <string name="error_failed_load_quizzes">Failed to load quizzes</string>
 </resources>

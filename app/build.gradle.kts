@@ -101,6 +101,9 @@ dependencies {
     //json
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
 
+    // DataStore
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
+
     //Icons
     implementation("androidx.compose.material:material-icons-extended")
 }

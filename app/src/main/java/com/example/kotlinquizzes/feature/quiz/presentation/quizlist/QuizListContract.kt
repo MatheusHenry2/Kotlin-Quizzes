@@ -1,14 +1,15 @@
 package com.example.kotlinquizzes.feature.quiz.presentation.quizlist
 
+import androidx.annotation.StringRes
 import com.example.kotlinquizzes.feature.quiz.domain.model.Quiz
 
 object QuizListContract {
 
     data class QuizListState(
         val isLoading: Boolean = false,
-        val userName: String = "User",
+        val userName: String = "",
         val quizzes: List<Quiz> = emptyList(),
-        val errorMessage: String? = null,
+        @StringRes val errorMessageResId: Int? = null,
     )
 
     sealed interface QuizListAction {

@@ -2,6 +2,7 @@ package com.example.kotlinquizzes.core.di
 
 import android.content.Context
 import com.example.kotlinquizzes.feature.auth.data.client.GoogleAuthClient
+import com.example.kotlinquizzes.feature.quiz.data.local.QuizProgressDataStore
 import com.example.kotlinquizzes.feature.quiz.data.repository.QuizRepositoryImpl
 import com.example.kotlinquizzes.feature.quiz.domain.repository.QuizRepository
 import com.google.firebase.auth.FirebaseAuth
@@ -26,7 +27,8 @@ object AppModule {
     @Provides
     @Singleton
     fun provideGoogleAuthClient(
-        @ApplicationContext context: Context, firebaseAuth: FirebaseAuth,
+        @ApplicationContext context: Context,
+        firebaseAuth: FirebaseAuth,
     ): GoogleAuthClient {
         return GoogleAuthClient(context, firebaseAuth)
     }
@@ -36,6 +38,12 @@ object AppModule {
     fun provideJson(): Json = Json {
         ignoreUnknownKeys = true
         isLenient = true
+    }
+
+    @Provides
+    @Singleton
+    fun provideQuizProgressDataStore(@ApplicationContext context: Context): QuizProgressDataStore {
+        return QuizProgressDataStore(context)
     }
 
     @Provides

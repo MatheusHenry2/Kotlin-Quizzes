@@ -5,12 +5,13 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kotlinquizzes.R
+import com.example.kotlinquizzes.core.ui.event.UiEventManager
+import com.example.kotlinquizzes.core.utils.Constants.TAG
 import com.example.kotlinquizzes.feature.auth.data.client.GoogleAuthClient
 import com.example.kotlinquizzes.feature.auth.data.model.SignInResult
 import com.example.kotlinquizzes.feature.presentation.login.LoginContract.LoginAction
 import com.example.kotlinquizzes.feature.presentation.login.LoginContract.LoginEffect
 import com.example.kotlinquizzes.feature.presentation.login.LoginContract.LoginState
-import com.example.kotlinquizzes.core.utils.Constants.TAG
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,6 +26,7 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val googleAuthClient: GoogleAuthClient,
     private val application: Application,
+    private val uiEventManager: UiEventManager,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(LoginState())
@@ -45,29 +47,25 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
             val webClientId = application.getString(R.string.web_client_id)
-            Log.d(TAG, "Web Client ID: $webClientId")
             val result = googleAuthClient.signIn(webClientId)
             _state.update { it.copy(isLoading = false) }
-
             when (result) {
                 is SignInResult.Success -> {
                     Log.i(TAG, "LoginViewModel handleGoogleSignIn: success")
                     _effect.send(LoginEffect.NavigateToHome)
                 }
-
                 is SignInResult.Cancelled -> {
                     Log.i(TAG, "LoginViewModel handleGoogleSignIn: cancelled")
                 }
-
                 is SignInResult.Failure -> {
                     Log.e(TAG, "LoginViewModel handleGoogleSignIn: failure", result.error)
+                    uiEventManager.showError(R.string.snackbar_error_generic)
                 }
             }
         }
     }
 
     private fun handleBack() {
-        Log.i(TAG, "LoginViewModel handleBack: start")
         viewModelScope.launch {
             _effect.send(LoginEffect.NavigateBack)
         }
