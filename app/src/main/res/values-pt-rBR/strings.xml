@@ -13,37 +13,47 @@
 
     <!-- Quiz List Screen -->
     <string name="quiz_list_title">Kotlin Quizzes</string>
-    <string name="welcome_back">Bem-vindo de volta, %1$s</string>
-    <string name="questions_count">%1$d perguntas</string>
-    <string name="try_again">Tentar novamente</string>
     <string name="default_user_initial">U</string>
+    <string name="welcome_back">Bem-vindo de volta, %s!</string>
+    <string name="questions_count">%d Perguntas</string>
+    <string name="try_again">Tentar Novamente</string>
+    <string name="user_profile_picture_description">Foto de perfil do usuário para %s</string>
+
+    <!-- Leveling Dialog -->
+    <string name="leveling_dialog_title">Descubra Seu Nível</string>
+    <string name="leveling_dialog_description">Faça nosso teste rápido de avaliação para entendermos seus pontos fortes e onde você pode melhorar. Sem pressão, apenas aprendizado!</string>
+    <string name="leveling_dialog_start_assessment_button">Iniciar Avaliação</string>
+    <string name="leveling_dialog_maybe_later_button">Talvez Mais Tarde</string>
+    <string name="leveling_dialog_icon_description">Ícone de psicologia</string>
+
+    <!-- Quiz List Item -->
+    <string name="quiz_item_icon_description">Ícone de código</string>
 
     <!-- Quiz Screen -->
     <string name="quiz_title">Quiz</string>
     <string name="close_quiz">Fechar quiz</string>
-    <string name="question_progress">Pergunta %1$d/%2$d</string>
+    <string name="question_progress">%1$d de %2$d</string>
     <string name="question_progress_accessibility">Pergunta %1$d de %2$d</string>
-    <string name="question_accessibility">Pergunta: %1$s</string>
+    <string name="question_accessibility">Pergunta: %s</string>
     <string name="option_accessibility">Opção %1$d: %2$s</string>
-    <string name="next">Próxima</string>
-    <string name="finish">Finalizar</string>
     <string name="finish_quiz_accessibility">Finalizar quiz</string>
     <string name="next_question_accessibility">Próxima pergunta</string>
+    <string name="finish">Finalizar</string>
+    <string name="next">Próximo</string>
 
     <!-- Quiz Results Screen -->
-    <string name="quiz_results_title">Resultados do Quiz</string>
+    <string name="quiz_results_title">Resultados</string>
     <string name="close_results">Fechar resultados</string>
     <string name="congratulations">Parabéns!</string>
-    <string name="congratulations_accessibility">Parabéns por completar o quiz</string>
+    <string name="congratulations_accessibility">Parabéns!</string>
     <string name="quiz_completed_message">Você completou o quiz.</string>
     <string name="final_score">Pontuação Final</string>
-    <string name="final_score_accessibility">Pontuação final: %1$d por cento</string>
-    <string name="correct_answers">Respostas Corretas</string>
-    <string name="incorrect_answers">Respostas Incorretas</string>
+    <string name="final_score_accessibility">Sua pontuação final é de %s por cento</string>
+    <string name="correct_answers">Corretas</string>
+    <string name="incorrect_answers">Incorretas</string>
     <string name="back_to_home">Voltar ao Início</string>
-    <string name="back_to_home_accessibility">Voltar ao início</string>
+    <string name="back_to_home_accessibility">Voltar para a tela inicial</string>
 
-    <!-- Snackbar Messages -->
     <string name="snackbar_quiz_completed">Parabéns! Quiz concluído com sucesso!</string>
     <string name="snackbar_error_generic">Ops! Algo deu errado. Tente novamente.</string>
     <string name="snackbar_error_save_progress">Ops! Falha ao salvar progresso. Tente novamente.</string>

@@ -52,6 +52,15 @@ class QuizListViewModel @Inject constructor(
                     _effect.send(QuizListEffect.NavigateToQuiz(action.quizId))
                 }
             }
+            QuizListAction.DismissLevelingDialog -> {
+                _state.update { it.copy(showLevelingDialog = false) }
+            }
+            QuizListAction.StartLevelingQuiz -> {
+                _state.update { it.copy(showLevelingDialog = false) }
+                viewModelScope.launch {
+                    _effect.send(QuizListEffect.NavigateToQuiz("kotlin_android_assessment"))
+                }
+            }
             QuizListAction.RetryClicked -> loadQuizzes()
             QuizListAction.RefreshPulled -> refreshQuizzes()
         }
@@ -103,7 +112,7 @@ class QuizListViewModel @Inject constructor(
                 val quizzes = quizRepository.getQuizzes()
                 Log.d(TAG, "QuizListViewModel: loadQuizzes success, count=${quizzes.size}")
                 _state.update {
-                    it.copy(isLoading = false, quizzes = quizzes)
+                    it.copy(isLoading = false, quizzes = quizzes, showLevelingDialog = true)
                 }
             } catch (e: CancellationException) {
                 throw e

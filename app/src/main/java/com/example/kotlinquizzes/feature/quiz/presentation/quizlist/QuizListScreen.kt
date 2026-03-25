@@ -21,7 +21,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Code
+import androidx.compose.material.icons.rounded.Psychology
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,6 +33,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -48,6 +53,13 @@ import com.example.kotlinquizzes.core.theme.PurpleSubtitle
 import com.example.kotlinquizzes.core.theme.TextPrimary
 import com.example.kotlinquizzes.core.theme.White
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.window.Dialog
+import com.example.kotlinquizzes.core.theme.Gray600
+import com.example.kotlinquizzes.core.theme.Purple100
+import com.example.kotlinquizzes.core.theme.Purple600
 import com.example.kotlinquizzes.feature.quiz.domain.model.Quiz
 import com.example.kotlinquizzes.feature.quiz.presentation.quizlist.QuizListContract.QuizListAction
 import com.example.kotlinquizzes.feature.quiz.presentation.quizlist.QuizListContract.QuizListEffect
@@ -103,7 +115,9 @@ private fun QuizListContent(
                 )
             )
         },
-    ) { paddingValues ->
+
+    )
+    { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -129,6 +143,13 @@ private fun QuizListContent(
                     ) {
                         CircularProgressIndicator()
                     }
+                }
+
+                state.showLevelingDialog -> {
+                    LevelingDialog(
+                        onDismiss = { onAction(QuizListAction.DismissLevelingDialog) },
+                        onStartQuiz = { onAction(QuizListAction.StartLevelingQuiz) }
+                    )
                 }
 
                 state.errorMessageResId != null -> {
@@ -175,12 +196,14 @@ private fun AvatarCircle(
 ) {
     val fallbackInitial = stringResource(R.string.default_user_initial)
     val initial = userName.trim().take(1).ifBlank { fallbackInitial }.uppercase()
+    val avatarDescription = stringResource(R.string.user_profile_picture_description, userName)
 
     Box(
         modifier = modifier
             .size(32.dp)
             .clip(CircleShape)
-            .background(MaterialTheme.colorScheme.surfaceVariant),
+            .background(MaterialTheme.colorScheme.surfaceVariant)
+            .semantics { contentDescription = avatarDescription },
         contentAlignment = Alignment.Center
     ) {
         Text(
@@ -216,7 +239,7 @@ private fun QuizListItem(
         ) {
             Icon(
                 imageVector = Icons.Default.Code,
-                contentDescription = null,
+                contentDescription = stringResource(R.string.quiz_item_icon_description),
                 tint = TextPrimary,
                 modifier = Modifier.size(24.dp)
             )
@@ -243,6 +266,93 @@ private fun QuizListItem(
                 ),
                 fontWeight = FontWeight.Normal
             )
+        }
+    }
+}
+
+@Composable
+fun LevelingDialog(
+    onDismiss: () -> Unit,
+    onStartQuiz: () -> Unit
+) {
+    Dialog(onDismissRequest = onDismiss) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            shape = RoundedCornerShape(24.dp),
+            colors = CardDefaults.cardColors(containerColor = White)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(80.dp)
+                        .clip(CircleShape)
+                        .background(Purple100),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Psychology,
+                        contentDescription = stringResource(R.string.leveling_dialog_icon_description),
+                        modifier = Modifier.size(48.dp),
+                        tint = Purple600
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Text(
+                    text = stringResource(R.string.leveling_dialog_title),
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = TextPrimary,
+                    textAlign = TextAlign.Center
+                )
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Text(
+                    text = stringResource(R.string.leveling_dialog_description),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Gray600,
+                    textAlign = TextAlign.Center
+                )
+
+                Spacer(modifier = Modifier.height(32.dp))
+
+                Button(
+                    onClick = onStartQuiz,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp),
+                    shape = RoundedCornerShape(24.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = Purple600)
+                ) {
+                    Text(
+                        text = stringResource(R.string.leveling_dialog_start_assessment_button),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = White
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                TextButton(
+                    onClick = onDismiss,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = stringResource(R.string.leveling_dialog_maybe_later_button),
+                        color = Gray600,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+            }
         }
     }
 }
