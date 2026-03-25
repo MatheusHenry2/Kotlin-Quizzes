@@ -2,6 +2,7 @@ package com.example.kotlinquizzes.login
 
 import android.app.Application
 import com.example.kotlinquizzes.R
+import com.example.kotlinquizzes.core.ui.event.UiEventManager
 
 import com.example.kotlinquizzes.feature.auth.data.client.GoogleAuthClient
 import com.example.kotlinquizzes.feature.auth.data.model.SignInResult
@@ -37,6 +38,8 @@ class LoginViewModelTest {
 
     @Mock
     private lateinit var application: Application
+    @Mock
+    private lateinit var uiEvenetManager: UiEventManager
     private lateinit var loginViewmodel: LoginViewModel
     private lateinit var closeable: AutoCloseable
     private val testDispatcher = StandardTestDispatcher()
@@ -47,7 +50,7 @@ class LoginViewModelTest {
         Dispatchers.setMain(testDispatcher)
         closeable = MockitoAnnotations.openMocks(this)
         whenever(application.getString(R.string.web_client_id)).thenReturn(fakeWebClientId)
-        loginViewmodel = LoginViewModel(googleAuthClient, application)
+        loginViewmodel = LoginViewModel(googleAuthClient, application, uiEvenetManager)
     }
 
     @After
