@@ -17,12 +17,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class QuizResultsViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
-) : ViewModel() {
+class QuizResultsViewModel @Inject constructor(savedStateHandle: SavedStateHandle) : ViewModel() {
 
-    private val totalQuestions: Int = checkNotNull(savedStateHandle[NavigationConstants.Args.TOTAL_QUESTIONS])
-    private val correctAnswers: Int = checkNotNull(savedStateHandle[NavigationConstants.Args.CORRECT_ANSWERS])
+    private val totalQuestions: Int =
+        checkNotNull(savedStateHandle[NavigationConstants.Args.TOTAL_QUESTIONS])
+    private val correctAnswers: Int =
+        checkNotNull(savedStateHandle[NavigationConstants.Args.CORRECT_ANSWERS])
 
     private val _state = MutableStateFlow(
         QuizResultsState(

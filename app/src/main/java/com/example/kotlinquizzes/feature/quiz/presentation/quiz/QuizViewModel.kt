@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 import kotlin.coroutines.cancellation.CancellationException
 
@@ -45,8 +46,11 @@ class QuizViewModel @Inject constructor(
     fun onAction(action: QuizAction) {
         when (action) {
             is QuizAction.OptionSelected -> {
-                _state.update { it.copy(selectedOptionIndex = action.index) }
-                viewModelScope.launch { _effect.send(QuizEffect.HapticFeedback) }
+                // Only allow selecting an option if not currently checking an answer
+                if (!_state.value.isCheckingAnswer) {
+                    _state.update { it.copy(selectedOptionIndex = action.index) }
+                    viewModelScope.launch { _effect.send(QuizEffect.HapticFeedback) }
+                }
             }
             QuizAction.NextClicked -> handleNext()
             QuizAction.CloseClicked -> {
@@ -96,12 +100,21 @@ class QuizViewModel @Inject constructor(
         val selectedIndex = currentState.selectedOptionIndex ?: return
         val currentQuestion = currentState.currentQuestion ?: return
 
+        // Prevent multiple clicks while checking answer
+        if (currentState.isCheckingAnswer) return
+
         val isCorrect = selectedIndex == currentQuestion.correctIndex
         val newCorrectAnswers = if (isCorrect) currentState.correctAnswers + 1 else currentState.correctAnswers
 
-        if (currentState.isLastQuestion) {
-            Log.d(TAG, "Quiz finished. Final score: $newCorrectAnswers/${currentState.totalQuestions}")
-            viewModelScope.launch {
+        _state.update { it.copy(isCheckingAnswer = true, selectedOptionIsCorrect = isCorrect) }
+
+        viewModelScope.launch {
+            delay(1500L) // Show feedback for 1.5 seconds
+
+            _state.update { it.copy(isCheckingAnswer = false, selectedOptionIsCorrect = null) }
+
+            if (currentState.isLastQuestion) {
+                Log.d(TAG, "Quiz finished. Final score: $newCorrectAnswers/${currentState.totalQuestions}")
                 try {
                     quizRepository.clearQuizProgress(quizId)
                 } catch (e: Exception) {
@@ -113,18 +126,16 @@ class QuizViewModel @Inject constructor(
                         correctAnswers = newCorrectAnswers,
                     )
                 )
-            }
-        } else {
-            Log.d(TAG, "Navigating to next question. Correct answers so far: $newCorrectAnswers")
-            val nextIndex = currentState.currentQuestionIndex + 1
-            _state.update {
-                it.copy(
-                    currentQuestionIndex = nextIndex,
-                    selectedOptionIndex = null,
-                    correctAnswers = newCorrectAnswers,
-                )
-            }
-            viewModelScope.launch {
+            } else {
+                Log.d(TAG, "Navigating to next question. Correct answers so far: $newCorrectAnswers")
+                val nextIndex = currentState.currentQuestionIndex + 1
+                _state.update {
+                    it.copy(
+                        currentQuestionIndex = nextIndex,
+                        selectedOptionIndex = null,
+                        correctAnswers = newCorrectAnswers,
+                    )
+                }
                 try {
                     quizRepository.saveQuizProgress(quizId, nextIndex)
                 } catch (e: Exception) {

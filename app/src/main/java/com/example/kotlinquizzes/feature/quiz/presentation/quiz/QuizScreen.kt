@@ -60,6 +60,9 @@ import com.example.kotlinquizzes.core.theme.Gray600
 import com.example.kotlinquizzes.core.theme.Purple100
 import com.example.kotlinquizzes.core.theme.Purple600
 import com.example.kotlinquizzes.core.theme.White
+import com.example.kotlinquizzes.core.theme.Success
+import com.example.kotlinquizzes.core.theme.Error
+import com.example.kotlinquizzes.core.theme.TextPrimary
 import com.example.kotlinquizzes.feature.quiz.domain.model.Question
 import com.example.kotlinquizzes.feature.quiz.presentation.quiz.QuizContract.QuizAction
 import com.example.kotlinquizzes.feature.quiz.presentation.quiz.QuizContract.QuizEffect
@@ -119,12 +122,11 @@ private fun QuizContent(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Close,
-                            contentDescription = null,
+                            contentDescription = closeQuizDesc,
                         )
                     }
                 },
                 actions = {
-                    // Spacer to balance the close button for centered title
                     Spacer(modifier = Modifier.size(48.dp))
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -187,11 +189,13 @@ private fun QuizContent(
                             question = question,
                             selectedOptionIndex = state.selectedOptionIndex,
                             onOptionSelected = { onAction(QuizAction.OptionSelected(it)) },
+                            isCheckingAnswer = state.isCheckingAnswer,
+                            selectedOptionIsCorrect = state.selectedOptionIsCorrect,
                         )
                     }
 
                     NextButton(
-                        enabled = state.selectedOptionIndex != null,
+                        enabled = state.selectedOptionIndex != null && !state.isCheckingAnswer,
                         isLastQuestion = state.isLastQuestion,
                         onClick = { onAction(QuizAction.NextClicked) },
                     )
@@ -241,6 +245,8 @@ private fun QuestionSection(
     question: Question,
     selectedOptionIndex: Int?,
     onOptionSelected: (Int) -> Unit,
+    isCheckingAnswer: Boolean,
+    selectedOptionIsCorrect: Boolean?,
 ) {
     Column(
         modifier = Modifier
@@ -270,6 +276,10 @@ private fun QuestionSection(
                 modifier = Modifier.semantics {
                     contentDescription = optionAccessibility
                 },
+                isCheckingAnswer = isCheckingAnswer,
+                selectedOptionIsCorrect = selectedOptionIsCorrect,
+                optionIndex = index,
+                correctOptionIndex = question.correctIndex,
             )
             Spacer(modifier = Modifier.height(12.dp))
         }
@@ -282,19 +292,42 @@ private fun OptionCard(
     isSelected: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    isCheckingAnswer: Boolean,
+    selectedOptionIsCorrect: Boolean?,
+    optionIndex: Int,
+    correctOptionIndex: Int,
 ) {
-    val borderColor = if (isSelected) Purple600 else Gray200
-    val containerColor = if (isSelected) Purple100 else White
+    val borderColor = when {
+        isCheckingAnswer && isSelected && selectedOptionIsCorrect == true -> Success
+        isCheckingAnswer && isSelected && selectedOptionIsCorrect == false -> Error
+        isCheckingAnswer && !isSelected && optionIndex == correctOptionIndex -> Success
+        isSelected -> Purple600
+        else -> Gray200
+    }
+
+    val containerColor = when {
+        isCheckingAnswer && isSelected && selectedOptionIsCorrect == true -> Success.copy(alpha = 0.1f)
+        isCheckingAnswer && isSelected && selectedOptionIsCorrect == false -> Error.copy(alpha = 0.1f)
+        isCheckingAnswer && !isSelected && optionIndex == correctOptionIndex -> Success.copy(alpha = 0.1f)
+        isSelected -> Purple100
+        else -> White
+    }
 
     Card(
         onClick = onClick,
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = containerColor),
+        colors = CardDefaults.cardColors(
+            containerColor = containerColor,
+            contentColor = TextPrimary,
+            disabledContainerColor = containerColor,
+            disabledContentColor = TextPrimary
+        ),
         border = BorderStroke(
-            width = if (isSelected) 2.dp else 1.dp,
+            width = if (isSelected || (isCheckingAnswer && optionIndex == correctOptionIndex)) 2.dp else 1.dp,
             color = borderColor,
         ),
+        enabled = !isCheckingAnswer,
     ) {
         Row(
             modifier = Modifier
@@ -308,17 +341,24 @@ private fun OptionCard(
                 colors = RadioButtonDefaults.colors(
                     selectedColor = Purple600,
                     unselectedColor = Gray600,
+                    disabledSelectedColor = if (isCheckingAnswer && isSelected) {
+                        if (selectedOptionIsCorrect == true) Success else Error
+                    } else Purple600,
+                    disabledUnselectedColor = if (isCheckingAnswer && !isSelected && optionIndex == correctOptionIndex) {
+                        Success
+                    } else Gray600
                 ),
+                enabled = !isCheckingAnswer,
             )
             Text(
                 text = text,
                 style = MaterialTheme.typography.bodyLarge,
+                color = TextPrimary,
                 modifier = Modifier.padding(start = 8.dp),
             )
         }
     }
 }
-
 @Composable
 private fun NextButton(
     enabled: Boolean,

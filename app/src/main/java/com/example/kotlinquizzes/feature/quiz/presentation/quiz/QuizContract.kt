@@ -12,6 +12,8 @@ object QuizContract {
         val currentQuestionIndex: Int = 0,
         val selectedOptionIndex: Int? = null,
         val correctAnswers: Int = 0,
+        val isCheckingAnswer: Boolean = false,
+        val selectedOptionIsCorrect: Boolean? = null,
         @StringRes val errorMessageResId: Int? = null,
     ) {
         val currentQuestion: Question?
