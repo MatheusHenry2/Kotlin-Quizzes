@@ -1,5 +1,7 @@
 package com.example.kotlinquizzes.feature.quiz.data.repository
 
+import android.util.Log
+import com.example.kotlinquizzes.core.utils.Constants.TAG
 import com.example.kotlinquizzes.feature.quiz.data.local.AssetsQuizDataSource
 import com.example.kotlinquizzes.feature.quiz.data.local.QuizProgressDataStore
 import com.example.kotlinquizzes.feature.quiz.data.mapper.QuizMappers.toDomain
@@ -26,6 +28,7 @@ class QuizRepositoryImpl @Inject constructor(
     }
 
     override suspend fun saveQuizProgress(quizId: String, questionIndex: Int) {
+        Log.d(TAG, "Progress saved for Quiz $quizId at index $questionIndex")
         progressDataStore.saveProgress(quizId, questionIndex)
     }
 
@@ -34,6 +37,7 @@ class QuizRepositoryImpl @Inject constructor(
     }
 
     override suspend fun clearQuizProgress(quizId: String) {
+        Log.d(TAG, "Progress cleared for Quiz $quizId")
         progressDataStore.clearProgress(quizId)
     }
 }

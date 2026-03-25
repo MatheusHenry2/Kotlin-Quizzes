@@ -48,14 +48,17 @@ class QuizListViewModel @Inject constructor(
     fun onAction(action: QuizListAction) {
         when (action) {
             is QuizListAction.QuizClicked -> {
+                Log.d(TAG, "Quiz selected with ID: ${action.quizId}")
                 viewModelScope.launch {
                     _effect.send(QuizListEffect.NavigateToQuiz(action.quizId))
                 }
             }
             QuizListAction.DismissLevelingDialog -> {
+                Log.d(TAG, "Leveling Dialog dismissed")
                 _state.update { it.copy(showLevelingDialog = false) }
             }
             QuizListAction.StartLevelingQuiz -> {
+                Log.d(TAG, "Leveling Quiz started from Dialog")
                 _state.update { it.copy(showLevelingDialog = false) }
                 viewModelScope.launch {
                     _effect.send(QuizListEffect.NavigateToQuiz("kotlin_android_assessment"))

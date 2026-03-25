@@ -68,6 +68,9 @@ class QuizViewModel @Inject constructor(
                 }
                 val savedProgress = quizRepository.getQuizProgress(quizId)
                 val startIndex = savedProgress.coerceIn(0, quiz.questions.size - 1)
+                
+                Log.d(TAG, "Quiz loaded: ${quiz.title} at index $startIndex")
+                
                 _state.update {
                     it.copy(
                         isLoading = false,
@@ -97,6 +100,7 @@ class QuizViewModel @Inject constructor(
         val newCorrectAnswers = if (isCorrect) currentState.correctAnswers + 1 else currentState.correctAnswers
 
         if (currentState.isLastQuestion) {
+            Log.d(TAG, "Quiz finished. Final score: $newCorrectAnswers/${currentState.totalQuestions}")
             viewModelScope.launch {
                 try {
                     quizRepository.clearQuizProgress(quizId)
@@ -111,6 +115,7 @@ class QuizViewModel @Inject constructor(
                 )
             }
         } else {
+            Log.d(TAG, "Navigating to next question. Correct answers so far: $newCorrectAnswers")
             val nextIndex = currentState.currentQuestionIndex + 1
             _state.update {
                 it.copy(
