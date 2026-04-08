@@ -10,6 +10,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.kotlinquizzes.feature.quiz.data.model.QuizDto
+import com.example.kotlinquizzes.feature.quiz.domain.model.InsightsSnapshot
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -23,14 +24,6 @@ import javax.inject.Singleton
 
 private val Context.quizUserStateDataStore: DataStore<Preferences> by preferencesDataStore(
     name = "quiz_user_state"
-)
-
-data class InsightsSnapshot(
-    val totalCorrect: Int,
-    val totalIncorrect: Int,
-    val completedQuizCount: Int,
-    val tagAttempts: Map<String, Int>,
-    val tagMistakes: Map<String, Int>,
 )
 
 @Singleton

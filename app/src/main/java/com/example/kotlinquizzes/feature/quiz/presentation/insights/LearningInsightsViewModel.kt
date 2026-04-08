@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kotlinquizzes.R
 import com.example.kotlinquizzes.core.utils.Constants.TAG
-import com.example.kotlinquizzes.feature.quiz.domain.repository.QuizRepository
+import com.example.kotlinquizzes.feature.quiz.domain.usecase.GetLearningInsightsUseCase
 import com.example.kotlinquizzes.feature.quiz.presentation.insights.LearningInsightsContract.LearningInsightsAction
 import com.example.kotlinquizzes.feature.quiz.presentation.insights.LearningInsightsContract.LearningInsightsEffect
 import com.example.kotlinquizzes.feature.quiz.presentation.insights.LearningInsightsContract.LearningInsightsState
@@ -22,7 +22,7 @@ import kotlin.coroutines.cancellation.CancellationException
 
 @HiltViewModel
 class LearningInsightsViewModel @Inject constructor(
-    private val quizRepository: QuizRepository,
+    private val getLearningInsights: GetLearningInsightsUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(LearningInsightsState())
@@ -50,7 +50,7 @@ class LearningInsightsViewModel @Inject constructor(
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, errorMessageResId = null) }
             try {
-                val insights = quizRepository.getLearningInsights()
+                val insights = getLearningInsights()
                 _state.update {
                     it.copy(isLoading = false, insights = insights, errorMessageResId = null)
                 }

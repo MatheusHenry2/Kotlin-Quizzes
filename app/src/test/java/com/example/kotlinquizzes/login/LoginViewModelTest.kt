@@ -7,8 +7,8 @@ import com.example.kotlinquizzes.core.ui.event.UiEventManager
 import com.example.kotlinquizzes.feature.auth.data.client.GoogleAuthClient
 import com.example.kotlinquizzes.feature.auth.data.model.SignInResult
 import com.example.kotlinquizzes.feature.auth.data.model.UserData
-import com.example.kotlinquizzes.feature.presentation.login.LoginContract
-import com.example.kotlinquizzes.feature.presentation.login.LoginViewModel
+import com.example.kotlinquizzes.feature.auth.presentation.login.LoginContract
+import com.example.kotlinquizzes.feature.auth.presentation.login.LoginViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch

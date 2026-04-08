@@ -1,4 +1,4 @@
-package com.example.kotlinquizzes.feature.presentation.login
+package com.example.kotlinquizzes.feature.auth.presentation.login
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -33,9 +33,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.kotlinquizzes.R
-import com.example.kotlinquizzes.feature.presentation.login.LoginContract.LoginAction
-import com.example.kotlinquizzes.feature.presentation.login.LoginContract.LoginEffect
-import com.example.kotlinquizzes.feature.presentation.login.LoginContract.LoginState
+import com.example.kotlinquizzes.feature.auth.presentation.login.LoginContract.LoginAction
+import com.example.kotlinquizzes.feature.auth.presentation.login.LoginContract.LoginEffect
+import com.example.kotlinquizzes.feature.auth.presentation.login.LoginContract.LoginState
 import com.example.kotlinquizzes.core.theme.Dimens
 import com.example.kotlinquizzes.core.theme.KotlinQuizzesTheme
 import com.example.kotlinquizzes.core.theme.Purple500

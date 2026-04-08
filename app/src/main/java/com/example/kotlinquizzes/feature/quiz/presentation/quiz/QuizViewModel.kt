@@ -9,6 +9,7 @@ import com.example.kotlinquizzes.core.navigation.NavigationConstants
 import com.example.kotlinquizzes.core.ui.event.UiEventManager
 import com.example.kotlinquizzes.core.utils.Constants.TAG
 import com.example.kotlinquizzes.feature.quiz.domain.repository.QuizRepository
+import com.example.kotlinquizzes.feature.quiz.domain.usecase.FinishQuizUseCase
 import com.example.kotlinquizzes.feature.quiz.presentation.quiz.QuizContract.QuizAction
 import com.example.kotlinquizzes.feature.quiz.presentation.quiz.QuizContract.QuizEffect
 import com.example.kotlinquizzes.feature.quiz.presentation.quiz.QuizContract.QuizState
@@ -28,14 +29,11 @@ import kotlin.coroutines.cancellation.CancellationException
 class QuizViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val quizRepository: QuizRepository,
+    private val finishQuiz: FinishQuizUseCase,
     private val uiEventManager: UiEventManager,
 ) : ViewModel() {
 
     private val quizId: String = checkNotNull(savedStateHandle[NavigationConstants.Args.QUIZ_ID])
-
-    private companion object {
-        const val INITIAL_ASSESSMENT_ID = "kotlin_android_assessment"
-    }
 
     private val _state = MutableStateFlow(QuizState())
     val state: StateFlow<QuizState> = _state.asStateFlow()
@@ -126,22 +124,7 @@ class QuizViewModel @Inject constructor(
 
             if (currentState.isLastQuestion) {
                 Log.d(TAG, "Quiz finished. Final score: $newCorrectAnswers/${currentState.totalQuestions}")
-                try {
-                    quizRepository.clearQuizProgress(quizId)
-                    quizRepository.markQuizCompleted(quizId)
-                    if (quizId == INITIAL_ASSESSMENT_ID) {
-                        quizRepository.markInitialAssessmentCompleted()
-                        // Kick off the first batch of adaptive quizzes right away
-                        // so the list is populated when the user returns.
-                        try {
-                            quizRepository.generateAdaptiveQuizzes()
-                        } catch (e: Exception) {
-                            Log.e(TAG, "QuizViewModel: initial generateAdaptiveQuizzes failed", e)
-                        }
-                    }
-                } catch (e: Exception) {
-                    Log.e(TAG, "QuizViewModel: completion bookkeeping failed", e)
-                }
+                finishQuiz(quizId)
                 _effect.send(
                     QuizEffect.QuizFinished(
                         totalQuestions = currentState.totalQuestions,

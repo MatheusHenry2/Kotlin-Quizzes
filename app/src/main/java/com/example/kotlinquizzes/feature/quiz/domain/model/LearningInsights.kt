@@ -8,13 +8,3 @@ data class LearningInsights(
     val masteryByCategory: List<CategoryMastery>,
     val topicsToImprove: List<WeakTopic>,
 )
-
-data class CategoryMastery(
-    val tag: String,
-    val masteryPercent: Int,
-)
-
-data class WeakTopic(
-    val tag: String,
-    val errorRatePercent: Int,
-)

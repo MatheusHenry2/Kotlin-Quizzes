@@ -8,10 +8,8 @@ import com.example.kotlinquizzes.feature.quiz.data.local.QuizUserStateDataStore
 import com.example.kotlinquizzes.feature.quiz.data.mapper.QuizMappers.toDomain
 import com.example.kotlinquizzes.feature.quiz.data.model.QuizDto
 import com.example.kotlinquizzes.feature.quiz.data.model.QuizzesPayloadDto
-import com.example.kotlinquizzes.feature.quiz.domain.model.CategoryMastery
-import com.example.kotlinquizzes.feature.quiz.domain.model.LearningInsights
+import com.example.kotlinquizzes.feature.quiz.domain.model.InsightsSnapshot
 import com.example.kotlinquizzes.feature.quiz.domain.model.Quiz
-import com.example.kotlinquizzes.feature.quiz.domain.model.WeakTopic
 import com.example.kotlinquizzes.feature.quiz.domain.repository.QuizRepository
 import com.example.kotlinquizzes.feature.quiz.domain.usecase.GenerateAdaptiveQuizzesUseCase
 import kotlinx.coroutines.flow.Flow
@@ -114,42 +112,6 @@ class QuizRepositoryImpl @Inject constructor(
         generateAdaptiveQuizzesUseCase()
     }
 
-    override suspend fun getLearningInsights(): LearningInsights {
-        val snapshot = userState.getInsightsSnapshot()
-        val totalAnswered = snapshot.totalCorrect + snapshot.totalIncorrect
-        val accuracyPercent = if (totalAnswered == 0) 0 else {
-            (snapshot.totalCorrect * 100) / totalAnswered
-        }
-
-        // Top 3 most-practiced tags by attempt count -> mastery %.
-        val mastery = snapshot.tagAttempts.entries
-            .sortedByDescending { it.value }
-            .take(3)
-            .map { (tag, attempts) ->
-                val mistakes = snapshot.tagMistakes[tag] ?: 0
-                val correct = (attempts - mistakes).coerceAtLeast(0)
-                val pct = if (attempts == 0) 0 else (correct * 100) / attempts
-                CategoryMastery(tag = tag, masteryPercent = pct)
-            }
-
-        // Top 3 tags with highest error rate (mistakes/attempts), min 1 attempt.
-        val weak = snapshot.tagAttempts.entries
-            .mapNotNull { (tag, attempts) ->
-                val mistakes = snapshot.tagMistakes[tag] ?: 0
-                if (mistakes == 0 || attempts == 0) return@mapNotNull null
-                val rate = (mistakes * 100) / attempts
-                WeakTopic(tag = tag, errorRatePercent = rate)
-            }
-            .sortedByDescending { it.errorRatePercent }
-            .take(3)
-
-        return LearningInsights(
-            totalQuizzesCompleted = snapshot.completedQuizCount,
-            totalCorrect = snapshot.totalCorrect,
-            totalIncorrect = snapshot.totalIncorrect,
-            accuracyPercent = accuracyPercent,
-            masteryByCategory = mastery,
-            topicsToImprove = weak,
-        )
-    }
+    override suspend fun getInsightsSnapshot(): InsightsSnapshot =
+        userState.getInsightsSnapshot()
 }

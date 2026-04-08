@@ -1,4 +1,4 @@
-package com.example.kotlinquizzes.feature.presentation.login
+package com.example.kotlinquizzes.feature.auth.presentation.login
 
 object LoginContract {
     data class LoginState(

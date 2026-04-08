@@ -1,4 +1,4 @@
-package com.example.kotlinquizzes.feature.presentation.login
+package com.example.kotlinquizzes.feature.auth.presentation.login
 
 import android.app.Application
 import android.util.Log
@@ -9,9 +9,9 @@ import com.example.kotlinquizzes.core.ui.event.UiEventManager
 import com.example.kotlinquizzes.core.utils.Constants.TAG
 import com.example.kotlinquizzes.feature.auth.data.client.GoogleAuthClient
 import com.example.kotlinquizzes.feature.auth.data.model.SignInResult
-import com.example.kotlinquizzes.feature.presentation.login.LoginContract.LoginAction
-import com.example.kotlinquizzes.feature.presentation.login.LoginContract.LoginEffect
-import com.example.kotlinquizzes.feature.presentation.login.LoginContract.LoginState
+import com.example.kotlinquizzes.feature.auth.presentation.login.LoginContract.LoginAction
+import com.example.kotlinquizzes.feature.auth.presentation.login.LoginContract.LoginEffect
+import com.example.kotlinquizzes.feature.auth.presentation.login.LoginContract.LoginState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

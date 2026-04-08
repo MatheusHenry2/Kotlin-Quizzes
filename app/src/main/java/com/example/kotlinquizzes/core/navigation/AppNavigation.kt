@@ -23,8 +23,8 @@ import com.example.kotlinquizzes.core.ui.event.UiEvent
 import com.example.kotlinquizzes.core.ui.event.UiEventManager
 import com.example.kotlinquizzes.core.ui.snackbar.CustomSnackbar
 import com.example.kotlinquizzes.core.ui.snackbar.SnackbarType
-import com.example.kotlinquizzes.feature.presentation.login.LoginScreen
-import com.example.kotlinquizzes.feature.presentation.splash.SplashScreen
+import com.example.kotlinquizzes.feature.auth.presentation.login.LoginScreen
+import com.example.kotlinquizzes.feature.quiz.presentation.splash.SplashScreen
 import com.example.kotlinquizzes.feature.quiz.presentation.insights.LearningInsightsScreen
 import com.example.kotlinquizzes.feature.quiz.presentation.quiz.QuizScreen
 import com.example.kotlinquizzes.feature.quiz.presentation.quizlist.QuizListScreen

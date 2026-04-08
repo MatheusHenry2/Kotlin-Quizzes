@@ -1,6 +1,6 @@
 package com.example.kotlinquizzes.feature.quiz.domain.repository
 
-import com.example.kotlinquizzes.feature.quiz.domain.model.LearningInsights
+import com.example.kotlinquizzes.feature.quiz.domain.model.InsightsSnapshot
 import com.example.kotlinquizzes.feature.quiz.domain.model.Quiz
 import kotlinx.coroutines.flow.Flow
 
@@ -41,6 +41,9 @@ interface QuizRepository {
      */
     suspend fun generateAdaptiveQuizzes()
 
-    /** Builds a snapshot of the user's learning progress for the insights screen. */
-    suspend fun getLearningInsights(): LearningInsights
+    /**
+     * Returns a raw snapshot of the user's answer counters. Aggregation/derived
+     * analytics belong in [com.example.kotlinquizzes.feature.quiz.domain.usecase.GetLearningInsightsUseCase].
+     */
+    suspend fun getInsightsSnapshot(): InsightsSnapshot
 }

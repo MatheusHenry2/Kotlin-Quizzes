@@ -1,4 +1,4 @@
-package com.example.kotlinquizzes.feature.presentation.splash
+package com.example.kotlinquizzes.feature.quiz.presentation.splash
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -159,7 +160,7 @@ private fun BottomLoadingBar(
         modifier = modifier
             .height(3.dp)
             .clip(RoundedCornerShape(100.dp))
-            .background(color = androidx.compose.ui.graphics.Color(0xFFDBDDDD)),
+            .background(color = Color(0xFFDBDDDD)),
     ) {
         Box(
             modifier = Modifier
