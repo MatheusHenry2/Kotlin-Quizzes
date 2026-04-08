@@ -1,6 +1,7 @@
 <resources>
     <!-- App -->
     <string name="app_name">kotlinquizzes</string>
+    <string name="app_brand_name">Kotlin Quizzes</string>
     <string name="web_client_id">1024353408160-vi4gr12lnakn08qeh8daudo1ovqlop25.apps.googleusercontent.com</string>
 
     <!-- Login Screen -->

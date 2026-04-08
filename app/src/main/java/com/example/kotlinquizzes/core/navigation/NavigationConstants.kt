@@ -10,6 +10,7 @@ object NavigationConstants {
 
     object Routes {
         const val LOGIN = "login"
+        const val SPLASH = "splash"
         const val QUIZ_LIST = "quiz_list"
         const val INSIGHTS = "insights"
         const val QUIZ = "quiz/{${Args.QUIZ_ID}}"
