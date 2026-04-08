@@ -11,6 +11,7 @@ object NavigationConstants {
     object Routes {
         const val LOGIN = "login"
         const val QUIZ_LIST = "quiz_list"
+        const val INSIGHTS = "insights"
         const val QUIZ = "quiz/{${Args.QUIZ_ID}}"
         const val QUIZ_RESULTS =
             "quiz_results/{${Args.TOTAL_QUESTIONS}}/{${Args.CORRECT_ANSWERS}}"

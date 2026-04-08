@@ -1,5 +1,6 @@
 package com.example.kotlinquizzes.feature.quiz.domain.repository
 
+import com.example.kotlinquizzes.feature.quiz.domain.model.LearningInsights
 import com.example.kotlinquizzes.feature.quiz.domain.model.Quiz
 import kotlinx.coroutines.flow.Flow
 
@@ -39,4 +40,7 @@ interface QuizRepository {
      * user's weakest tags. Safe to call when the active list becomes empty.
      */
     suspend fun generateAdaptiveQuizzes()
+
+    /** Builds a snapshot of the user's learning progress for the insights screen. */
+    suspend fun getLearningInsights(): LearningInsights
 }

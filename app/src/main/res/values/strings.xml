@@ -66,4 +66,21 @@
     <string name="error_quiz_not_found">Quiz not found</string>
     <string name="error_failed_load_quiz">Failed to load quiz</string>
     <string name="error_failed_load_quizzes">Failed to load quizzes</string>
+    <string name="error_failed_load_insights">Failed to load insights</string>
+
+    <!-- Bottom Navigation -->
+    <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_insights">Insights</string>
+
+    <!-- Learning Insights Screen -->
+    <string name="insights_your_progress">Your Progress</string>
+    <string name="insights_accuracy">Accuracy</string>
+    <string name="insights_total_quizzes">Total Quizzes</string>
+    <string name="insights_correct">Correct</string>
+    <string name="insights_incorrect">Incorrect</string>
+    <string name="insights_mastery_by_category">Mastery by Category</string>
+    <string name="insights_topics_to_improve">Topics to Improve</string>
+    <string name="insights_error_rate">%d%% error rate</string>
+    <string name="insights_no_mastery_yet">Complete quizzes to see your mastery.</string>
+    <string name="insights_no_weak_topics">No weak topics yet — keep going!</string>
 </resources>

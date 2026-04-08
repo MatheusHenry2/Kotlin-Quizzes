@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -24,6 +25,14 @@ private val Context.quizUserStateDataStore: DataStore<Preferences> by preference
     name = "quiz_user_state"
 )
 
+data class InsightsSnapshot(
+    val totalCorrect: Int,
+    val totalIncorrect: Int,
+    val completedQuizCount: Int,
+    val tagAttempts: Map<String, Int>,
+    val tagMistakes: Map<String, Int>,
+)
+
 @Singleton
 class QuizUserStateDataStore @Inject constructor(
     @ApplicationContext private val context: Context,
@@ -36,6 +45,8 @@ class QuizUserStateDataStore @Inject constructor(
         val KEY_TAG_MISTAKES = stringPreferencesKey("tag_mistakes_json")
         val KEY_TAG_ATTEMPTS = stringPreferencesKey("tag_attempts_json")
         val KEY_GENERATED_QUIZZES = stringPreferencesKey("generated_quizzes_json")
+        val KEY_TOTAL_CORRECT = intPreferencesKey("total_correct_answers")
+        val KEY_TOTAL_INCORRECT = intPreferencesKey("total_incorrect_answers")
     }
 
     private val tagMapSerializer = MapSerializer(String.serializer(), Int.serializer())
@@ -70,8 +81,14 @@ class QuizUserStateDataStore @Inject constructor(
     }
 
     suspend fun recordAnswerTags(tags: List<String>, isCorrect: Boolean) {
-        if (tags.isEmpty()) return
         context.quizUserStateDataStore.edit { prefs ->
+            // Always update overall counters, even when there are no tags.
+            if (isCorrect) {
+                prefs[KEY_TOTAL_CORRECT] = (prefs[KEY_TOTAL_CORRECT] ?: 0) + 1
+            } else {
+                prefs[KEY_TOTAL_INCORRECT] = (prefs[KEY_TOTAL_INCORRECT] ?: 0) + 1
+            }
+            if (tags.isEmpty()) return@edit
             val attempts = decodeMap(prefs[KEY_TAG_ATTEMPTS]).toMutableMap()
             val mistakes = decodeMap(prefs[KEY_TAG_MISTAKES]).toMutableMap()
             tags.forEach { tag ->
@@ -83,6 +100,17 @@ class QuizUserStateDataStore @Inject constructor(
             prefs[KEY_TAG_ATTEMPTS] = json.encodeToString(tagMapSerializer, attempts)
             prefs[KEY_TAG_MISTAKES] = json.encodeToString(tagMapSerializer, mistakes)
         }
+    }
+
+    suspend fun getInsightsSnapshot(): InsightsSnapshot {
+        val prefs = context.quizUserStateDataStore.data.first()
+        return InsightsSnapshot(
+            totalCorrect = prefs[KEY_TOTAL_CORRECT] ?: 0,
+            totalIncorrect = prefs[KEY_TOTAL_INCORRECT] ?: 0,
+            completedQuizCount = (prefs[KEY_COMPLETED_QUIZ_IDS] ?: emptySet()).size,
+            tagAttempts = decodeMap(prefs[KEY_TAG_ATTEMPTS]),
+            tagMistakes = decodeMap(prefs[KEY_TAG_MISTAKES]),
+        )
     }
 
     suspend fun getWeakestTags(limit: Int): List<String> {

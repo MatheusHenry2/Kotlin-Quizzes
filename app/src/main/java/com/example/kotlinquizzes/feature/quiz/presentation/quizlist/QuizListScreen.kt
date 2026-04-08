@@ -48,6 +48,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.kotlinquizzes.R
+import com.example.kotlinquizzes.core.navigation.BottomNavBar
+import com.example.kotlinquizzes.core.navigation.BottomNavDestination
 import com.example.kotlinquizzes.core.theme.PurpleSoft
 import com.example.kotlinquizzes.core.theme.PurpleSubtitle
 import com.example.kotlinquizzes.core.theme.TextPrimary
@@ -69,6 +71,7 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun QuizListScreen(
     onNavigateToQuiz: (String) -> Unit = {},
+    onNavigateToInsights: () -> Unit = {},
     viewModel: QuizListViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
@@ -84,6 +87,7 @@ fun QuizListScreen(
     QuizListContent(
         state = state,
         onAction = viewModel::onAction,
+        onNavigateToInsights = onNavigateToInsights,
     )
 }
 
@@ -92,9 +96,18 @@ fun QuizListScreen(
 private fun QuizListContent(
     state: QuizListState,
     onAction: (QuizListAction) -> Unit,
+    onNavigateToInsights: () -> Unit,
 ) {
     Scaffold(
         containerColor = White,
+        bottomBar = {
+            BottomNavBar(
+                current = BottomNavDestination.HOME,
+                onNavigate = { destination ->
+                    if (destination == BottomNavDestination.INSIGHTS) onNavigateToInsights()
+                },
+            )
+        },
         topBar = {
             CenterAlignedTopAppBar(
                 title = {

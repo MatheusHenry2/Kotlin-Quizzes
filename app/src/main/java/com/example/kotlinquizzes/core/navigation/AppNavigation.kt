@@ -24,6 +24,7 @@ import com.example.kotlinquizzes.core.ui.event.UiEventManager
 import com.example.kotlinquizzes.core.ui.snackbar.CustomSnackbar
 import com.example.kotlinquizzes.core.ui.snackbar.SnackbarType
 import com.example.kotlinquizzes.feature.presentation.login.LoginScreen
+import com.example.kotlinquizzes.feature.quiz.presentation.insights.LearningInsightsScreen
 import com.example.kotlinquizzes.feature.quiz.presentation.quiz.QuizScreen
 import com.example.kotlinquizzes.feature.quiz.presentation.quizlist.QuizListScreen
 import com.example.kotlinquizzes.feature.quiz.presentation.quizresults.QuizResultsScreen
@@ -83,6 +84,22 @@ fun AppNavigation(uiEventManager: UiEventManager) {
                 QuizListScreen(
                     onNavigateToQuiz = { quizId ->
                         navController.navigate(NavigationConstants.Routes.quizRoute(quizId))
+                    },
+                    onNavigateToInsights = {
+                        navController.navigate(NavigationConstants.Routes.INSIGHTS) {
+                            launchSingleTop = true
+                        }
+                    },
+                )
+            }
+
+            composable(NavigationConstants.Routes.INSIGHTS) {
+                LearningInsightsScreen(
+                    onNavigateToHome = {
+                        navController.navigate(NavigationConstants.Routes.QUIZ_LIST) {
+                            popUpTo(NavigationConstants.Routes.QUIZ_LIST) { inclusive = true }
+                            launchSingleTop = true
+                        }
                     },
                 )
             }
