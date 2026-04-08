@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -236,6 +237,7 @@ private fun ProgressSection(
                 .clip(RoundedCornerShape(4.dp)),
             color = Purple600,
             trackColor = Gray200,
+            drawStopIndicator = {},
         )
     }
 }
@@ -262,7 +264,7 @@ private fun QuestionSection(
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp)
+                .heightIn(min = 56.dp)
                 .semantics { contentDescription = questionAccessibility },
         )
         Spacer(modifier = Modifier.height(24.dp))
@@ -354,7 +356,9 @@ private fun OptionCard(
                 text = text,
                 style = MaterialTheme.typography.bodyLarge,
                 color = TextPrimary,
-                modifier = Modifier.padding(start = 8.dp),
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 8.dp),
             )
         }
     }
