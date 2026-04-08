@@ -6,11 +6,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.kotlinquizzes.R
 import com.example.kotlinquizzes.core.ui.event.UiEventManager
 import com.example.kotlinquizzes.core.utils.Constants.TAG
+import com.example.kotlinquizzes.feature.auth.domain.usecase.GetCurrentUserNameUseCase
 import com.example.kotlinquizzes.feature.quiz.domain.repository.QuizRepository
+import com.example.kotlinquizzes.feature.quiz.domain.usecase.EnsureAdaptiveQuizzesUseCase
 import com.example.kotlinquizzes.feature.quiz.presentation.quizlist.QuizListContract.QuizListAction
 import com.example.kotlinquizzes.feature.quiz.presentation.quizlist.QuizListContract.QuizListEffect
 import com.example.kotlinquizzes.feature.quiz.presentation.quizlist.QuizListContract.QuizListState
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -27,7 +28,8 @@ import kotlin.coroutines.cancellation.CancellationException
 @HiltViewModel
 class QuizListViewModel @Inject constructor(
     private val quizRepository: QuizRepository,
-    private val firebaseAuth: FirebaseAuth,
+    private val getCurrentUserName: GetCurrentUserNameUseCase,
+    private val ensureAdaptiveQuizzes: EnsureAdaptiveQuizzesUseCase,
     private val uiEventManager: UiEventManager,
 ) : ViewModel() {
 
@@ -38,7 +40,6 @@ class QuizListViewModel @Inject constructor(
     val effect = _effect.receiveAsFlow()
 
     private companion object {
-        const val FALLBACK_USER_NAME = "User"
         const val REFRESH_DELAY_MS = 800L
     }
 
@@ -73,20 +74,6 @@ class QuizListViewModel @Inject constructor(
         }
     }
 
-    private fun loadUserName(): String {
-        val currentUser = firebaseAuth.currentUser
-        if (currentUser == null) {
-            Log.d(TAG, "QuizListViewModel: Firebase currentUser is null")
-            return FALLBACK_USER_NAME
-        }
-        val userName = currentUser.displayName?.trim().orEmpty()
-        if (userName.isBlank()) {
-            Log.d(TAG, "QuizListViewModel: Firebase displayName is blank")
-            return FALLBACK_USER_NAME
-        }
-        return userName
-    }
-
     private fun refreshQuizzes() {
         viewModelScope.launch {
             Log.d(TAG, "QuizListViewModel: refreshQuizzes started")
@@ -114,7 +101,7 @@ class QuizListViewModel @Inject constructor(
         viewModelScope.launch {
             Log.d(TAG, "QuizListViewModel: observeQuizzes started")
             _state.update {
-                it.copy(isLoading = true, errorMessageResId = null, userName = loadUserName())
+                it.copy(isLoading = true, errorMessageResId = null, userName = getCurrentUserName())
             }
             try {
                 quizRepository.observeQuizzes().collect { quizzes ->
@@ -149,24 +136,23 @@ class QuizListViewModel @Inject constructor(
     }
 
     /**
-     * Triggers adaptive quiz generation when the active list is empty AND the
-     * user has already completed the initial assessment. Guards against
-     * concurrent generations with [isGenerating].
+     * Delegates the "should we generate adaptive quizzes?" decision to
+     * [EnsureAdaptiveQuizzesUseCase] and only manages the UI loading flag here.
      */
     private fun ensureQuizzesAvailable(currentCount: Int) {
-        if (currentCount > 0 || isGenerating) return
+        if (isGenerating) return
         viewModelScope.launch {
-            val assessmentDone = quizRepository.isInitialAssessmentCompleted()
-            if (!assessmentDone) return@launch
             isGenerating = true
             _state.update { it.copy(isGenerating = true) }
             try {
-                Log.d(TAG, "QuizListViewModel: list empty, generating new quizzes")
-                quizRepository.generateAdaptiveQuizzes()
+                val triggered = ensureAdaptiveQuizzes(currentCount)
+                if (triggered) {
+                    Log.d(TAG, "QuizListViewModel: adaptive quiz generation triggered")
+                }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                Log.e(TAG, "QuizListViewModel: generateAdaptiveQuizzes failed", e)
+                Log.e(TAG, "QuizListViewModel: ensureAdaptiveQuizzes failed", e)
                 uiEventManager.showError(R.string.snackbar_error_generic)
             } finally {
                 isGenerating = false

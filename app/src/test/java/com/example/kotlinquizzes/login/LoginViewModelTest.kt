@@ -1,12 +1,9 @@
 package com.example.kotlinquizzes.login
 
-import android.app.Application
-import com.example.kotlinquizzes.R
 import com.example.kotlinquizzes.core.ui.event.UiEventManager
-
-import com.example.kotlinquizzes.feature.auth.data.client.GoogleAuthClient
 import com.example.kotlinquizzes.feature.auth.data.model.SignInResult
 import com.example.kotlinquizzes.feature.auth.data.model.UserData
+import com.example.kotlinquizzes.feature.auth.domain.usecase.SignInWithGoogleUseCase
 import com.example.kotlinquizzes.feature.auth.presentation.login.LoginContract
 import com.example.kotlinquizzes.feature.auth.presentation.login.LoginViewModel
 import kotlinx.coroutines.Dispatchers
@@ -34,23 +31,19 @@ import org.robolectric.RobolectricTestRunner
 class LoginViewModelTest {
 
     @Mock
-    private lateinit var googleAuthClient: GoogleAuthClient
+    private lateinit var signInWithGoogle: SignInWithGoogleUseCase
 
-    @Mock
-    private lateinit var application: Application
     @Mock
     private lateinit var uiEvenetManager: UiEventManager
     private lateinit var loginViewmodel: LoginViewModel
     private lateinit var closeable: AutoCloseable
     private val testDispatcher = StandardTestDispatcher()
-    private val fakeWebClientId = "fake-web-client-id"
 
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
         closeable = MockitoAnnotations.openMocks(this)
-        whenever(application.getString(R.string.web_client_id)).thenReturn(fakeWebClientId)
-        loginViewmodel = LoginViewModel(googleAuthClient, application, uiEvenetManager)
+        loginViewmodel = LoginViewModel(signInWithGoogle, uiEvenetManager)
     }
 
     @After
@@ -68,7 +61,7 @@ class LoginViewModelTest {
 
     @Test
     fun testHandleGoogleSignIn_WhenFinished_IsNotLoading() = runTest {
-        whenever(googleAuthClient.signIn(fakeWebClientId)).thenReturn(SignInResult.Cancelled)
+        whenever(signInWithGoogle()).thenReturn(SignInResult.Cancelled)
 
         loginViewmodel.onAction(LoginContract.LoginAction.GoogleSignInClicked)
 
@@ -77,18 +70,18 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun testGoogleSignIn_Clicked_CallsSignInWithWebClientId() = runTest {
-        whenever(googleAuthClient.signIn(fakeWebClientId)).thenReturn(SignInResult.Cancelled)
+    fun testGoogleSignIn_Clicked_InvokesSignInUseCase() = runTest {
+        whenever(signInWithGoogle()).thenReturn(SignInResult.Cancelled)
 
         loginViewmodel.onAction(LoginContract.LoginAction.GoogleSignInClicked)
 
         advanceUntilIdle()
-        verify(googleAuthClient).signIn(fakeWebClientId)
+        verify(signInWithGoogle).invoke()
     }
 
     @Test
     fun testGoogleSignIn_WhenSuccess_EmitsNavigateToHomeEffect() = runTest {
-        whenever(googleAuthClient.signIn(fakeWebClientId)).thenReturn(
+        whenever(signInWithGoogle()).thenReturn(
             SignInResult.Success(
                 user = UserData(
                     "uid",
@@ -109,7 +102,7 @@ class LoginViewModelTest {
 
     @Test
     fun testGoogleSignIn_WhenCancelled_DoesNotEmitNavigateToHome() = runTest {
-        whenever(googleAuthClient.signIn(fakeWebClientId)).thenReturn(SignInResult.Cancelled)
+        whenever(signInWithGoogle()).thenReturn(SignInResult.Cancelled)
         val effects = mutableListOf<LoginContract.LoginEffect>()
         val job = launch { loginViewmodel.effect.collect { effects.add(it) } }
         loginViewmodel.onAction(LoginContract.LoginAction.GoogleSignInClicked)
@@ -121,7 +114,7 @@ class LoginViewModelTest {
 
     @Test
     fun testGoogleSignIn_WhenFailure_DoesNotEmitNavigateToHome() = runTest {
-        whenever(googleAuthClient.signIn(fakeWebClientId)).thenReturn(
+        whenever(signInWithGoogle()).thenReturn(
             SignInResult.Failure(
                 RuntimeException("boom")
             )

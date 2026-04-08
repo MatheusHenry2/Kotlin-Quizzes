@@ -1,14 +1,13 @@
 package com.example.kotlinquizzes.feature.auth.presentation.login
 
-import android.app.Application
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kotlinquizzes.R
 import com.example.kotlinquizzes.core.ui.event.UiEventManager
 import com.example.kotlinquizzes.core.utils.Constants.TAG
-import com.example.kotlinquizzes.feature.auth.data.client.GoogleAuthClient
 import com.example.kotlinquizzes.feature.auth.data.model.SignInResult
+import com.example.kotlinquizzes.feature.auth.domain.usecase.SignInWithGoogleUseCase
 import com.example.kotlinquizzes.feature.auth.presentation.login.LoginContract.LoginAction
 import com.example.kotlinquizzes.feature.auth.presentation.login.LoginContract.LoginEffect
 import com.example.kotlinquizzes.feature.auth.presentation.login.LoginContract.LoginState
@@ -24,8 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val googleAuthClient: GoogleAuthClient,
-    private val application: Application,
+    private val signInWithGoogle: SignInWithGoogleUseCase,
     private val uiEventManager: UiEventManager,
 ) : ViewModel() {
 
@@ -46,8 +44,7 @@ class LoginViewModel @Inject constructor(
         Log.i(TAG, "LoginViewModel handleGoogleSignIn: start")
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
-            val webClientId = application.getString(R.string.web_client_id)
-            val result = googleAuthClient.signIn(webClientId)
+            val result = signInWithGoogle()
             _state.update { it.copy(isLoading = false) }
             when (result) {
                 is SignInResult.Success -> {
