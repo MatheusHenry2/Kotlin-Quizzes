@@ -33,6 +33,10 @@ class QuizViewModel @Inject constructor(
 
     private val quizId: String = checkNotNull(savedStateHandle[NavigationConstants.Args.QUIZ_ID])
 
+    private companion object {
+        const val INITIAL_ASSESSMENT_ID = "kotlin_android_assessment"
+    }
+
     private val _state = MutableStateFlow(QuizState())
     val state: StateFlow<QuizState> = _state.asStateFlow()
 
@@ -109,6 +113,13 @@ class QuizViewModel @Inject constructor(
         _state.update { it.copy(isCheckingAnswer = true, selectedOptionIsCorrect = isCorrect) }
 
         viewModelScope.launch {
+            // Record tag-level statistics for adaptive generation.
+            try {
+                quizRepository.recordAnswer(currentQuestion.tags, isCorrect)
+            } catch (e: Exception) {
+                Log.e(TAG, "QuizViewModel: recordAnswer failed", e)
+            }
+
             delay(1500L) // Show feedback for 1.5 seconds
 
             _state.update { it.copy(isCheckingAnswer = false, selectedOptionIsCorrect = null) }
@@ -117,8 +128,19 @@ class QuizViewModel @Inject constructor(
                 Log.d(TAG, "Quiz finished. Final score: $newCorrectAnswers/${currentState.totalQuestions}")
                 try {
                     quizRepository.clearQuizProgress(quizId)
+                    quizRepository.markQuizCompleted(quizId)
+                    if (quizId == INITIAL_ASSESSMENT_ID) {
+                        quizRepository.markInitialAssessmentCompleted()
+                        // Kick off the first batch of adaptive quizzes right away
+                        // so the list is populated when the user returns.
+                        try {
+                            quizRepository.generateAdaptiveQuizzes()
+                        } catch (e: Exception) {
+                            Log.e(TAG, "QuizViewModel: initial generateAdaptiveQuizzes failed", e)
+                        }
+                    }
                 } catch (e: Exception) {
-                    Log.e(TAG, "QuizViewModel: clearQuizProgress failed", e)
+                    Log.e(TAG, "QuizViewModel: completion bookkeeping failed", e)
                 }
                 _effect.send(
                     QuizEffect.QuizFinished(

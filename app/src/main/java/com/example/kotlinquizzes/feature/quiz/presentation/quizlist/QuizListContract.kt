@@ -8,6 +8,7 @@ object QuizListContract {
     data class QuizListState(
         val isLoading: Boolean = false,
         val isRefreshing: Boolean = false,
+        val isGenerating: Boolean = false,
         val userName: String = "",
         val quizzes: List<Quiz> = emptyList(),
         val showLevelingDialog: Boolean = false,

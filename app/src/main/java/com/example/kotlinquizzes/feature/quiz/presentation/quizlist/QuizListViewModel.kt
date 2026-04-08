@@ -13,13 +13,14 @@ import com.example.kotlinquizzes.feature.quiz.presentation.quizlist.QuizListCont
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.delay
 import javax.inject.Inject
 import kotlin.coroutines.cancellation.CancellationException
 
@@ -37,12 +38,15 @@ class QuizListViewModel @Inject constructor(
     val effect = _effect.receiveAsFlow()
 
     private companion object {
-        private const val FALLBACK_USER_NAME = "User"
-        private const val REFRESH_DELAY_MS = 800L
+        const val FALLBACK_USER_NAME = "User"
+        const val REFRESH_DELAY_MS = 800L
     }
 
+    private var isGenerating = false
+    private var hasShownLevelingDialog = false
+
     init {
-        loadQuizzes()
+        observeQuizzes()
     }
 
     fun onAction(action: QuizListAction) {
@@ -64,7 +68,7 @@ class QuizListViewModel @Inject constructor(
                     _effect.send(QuizListEffect.NavigateToQuiz("kotlin_android_assessment"))
                 }
             }
-            QuizListAction.RetryClicked -> loadQuizzes()
+            QuizListAction.RetryClicked -> observeQuizzes()
             QuizListAction.RefreshPulled -> refreshQuizzes()
         }
     }
@@ -89,11 +93,12 @@ class QuizListViewModel @Inject constructor(
             _state.update { it.copy(isRefreshing = true) }
             try {
                 delay(REFRESH_DELAY_MS)
-                val quizzes = quizRepository.getQuizzes()
+                val quizzes = quizRepository.observeQuizzes().first()
                 Log.d(TAG, "QuizListViewModel: refreshQuizzes success, count=${quizzes.size}")
                 _state.update {
-                    it.copy(isRefreshing = false, quizzes = quizzes, errorMessageResId = null)
+                    it.copy(isRefreshing = false, errorMessageResId = null)
                 }
+                ensureQuizzesAvailable(quizzes.size)
                 uiEventManager.showSuccess(R.string.snackbar_refresh_success)
             } catch (e: CancellationException) {
                 throw e
@@ -105,26 +110,67 @@ class QuizListViewModel @Inject constructor(
         }
     }
 
-    private fun loadQuizzes() {
+    private fun observeQuizzes() {
         viewModelScope.launch {
-            Log.d(TAG, "QuizListViewModel: loadQuizzes started")
+            Log.d(TAG, "QuizListViewModel: observeQuizzes started")
             _state.update {
                 it.copy(isLoading = true, errorMessageResId = null, userName = loadUserName())
             }
             try {
-                val quizzes = quizRepository.getQuizzes()
-                Log.d(TAG, "QuizListViewModel: loadQuizzes success, count=${quizzes.size}")
-                _state.update {
-                    it.copy(isLoading = false, quizzes = quizzes, showLevelingDialog = true)
+                quizRepository.observeQuizzes().collect { quizzes ->
+                    val assessmentDone = quizRepository.isInitialAssessmentCompleted()
+                    Log.d(
+                        TAG,
+                        "QuizListViewModel: list updated count=${quizzes.size} assessmentDone=$assessmentDone",
+                    )
+                    // Show the leveling dialog only the first time the list loads
+                    // and only if the initial assessment has not been completed.
+                    val shouldShowDialog = !assessmentDone && !hasShownLevelingDialog
+                    if (shouldShowDialog) hasShownLevelingDialog = true
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            quizzes = quizzes,
+                            showLevelingDialog = if (assessmentDone) false else it.showLevelingDialog || shouldShowDialog,
+                        )
+                    }
+                    ensureQuizzesAvailable(quizzes.size)
                 }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                Log.e(TAG, "QuizListViewModel: loadQuizzes failed", e)
+                Log.e(TAG, "QuizListViewModel: observeQuizzes failed", e)
                 _state.update {
                     it.copy(isLoading = false, errorMessageResId = R.string.error_failed_load_quizzes)
                 }
                 uiEventManager.showError(R.string.snackbar_error_generic)
+            }
+        }
+    }
+
+    /**
+     * Triggers adaptive quiz generation when the active list is empty AND the
+     * user has already completed the initial assessment. Guards against
+     * concurrent generations with [isGenerating].
+     */
+    private fun ensureQuizzesAvailable(currentCount: Int) {
+        if (currentCount > 0 || isGenerating) return
+        viewModelScope.launch {
+            val assessmentDone = quizRepository.isInitialAssessmentCompleted()
+            if (!assessmentDone) return@launch
+            isGenerating = true
+            _state.update { it.copy(isGenerating = true) }
+            try {
+                Log.d(TAG, "QuizListViewModel: list empty, generating new quizzes")
+                quizRepository.generateAdaptiveQuizzes()
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Log.e(TAG, "QuizListViewModel: generateAdaptiveQuizzes failed", e)
+                uiEventManager.showError(R.string.snackbar_error_generic)
+            } finally {
+                isGenerating = false
+                _state.update { it.copy(isGenerating = false) }
             }
         }
     }
