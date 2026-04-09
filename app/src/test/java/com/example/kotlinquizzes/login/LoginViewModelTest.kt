@@ -31,7 +31,7 @@ import org.robolectric.RobolectricTestRunner
 class LoginViewModelTest {
 
     @Mock
-    private lateinit var signInWithGoogle: SignInWithGoogleUseCase
+    private lateinit var signInWithGoogleUseCase: SignInWithGoogleUseCase
 
     @Mock
     private lateinit var uiEvenetManager: UiEventManager
@@ -43,7 +43,7 @@ class LoginViewModelTest {
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
         closeable = MockitoAnnotations.openMocks(this)
-        loginViewmodel = LoginViewModel(signInWithGoogle, uiEvenetManager)
+        loginViewmodel = LoginViewModel(signInWithGoogleUseCase, uiEvenetManager)
     }
 
     @After
@@ -61,7 +61,7 @@ class LoginViewModelTest {
 
     @Test
     fun testHandleGoogleSignIn_WhenFinished_IsNotLoading() = runTest {
-        whenever(signInWithGoogle()).thenReturn(SignInResult.Cancelled)
+        whenever(signInWithGoogleUseCase()).thenReturn(SignInResult.Cancelled)
 
         loginViewmodel.onAction(LoginContract.LoginAction.GoogleSignInClicked)
 
@@ -71,17 +71,17 @@ class LoginViewModelTest {
 
     @Test
     fun testGoogleSignIn_Clicked_InvokesSignInUseCase() = runTest {
-        whenever(signInWithGoogle()).thenReturn(SignInResult.Cancelled)
+        whenever(signInWithGoogleUseCase()).thenReturn(SignInResult.Cancelled)
 
         loginViewmodel.onAction(LoginContract.LoginAction.GoogleSignInClicked)
 
         advanceUntilIdle()
-        verify(signInWithGoogle).invoke()
+        verify(signInWithGoogleUseCase).invoke()
     }
 
     @Test
     fun testGoogleSignIn_WhenSuccess_EmitsNavigateToHomeEffect() = runTest {
-        whenever(signInWithGoogle()).thenReturn(
+        whenever(signInWithGoogleUseCase()).thenReturn(
             SignInResult.Success(
                 user = UserData(
                     "uid",
@@ -102,7 +102,7 @@ class LoginViewModelTest {
 
     @Test
     fun testGoogleSignIn_WhenCancelled_DoesNotEmitNavigateToHome() = runTest {
-        whenever(signInWithGoogle()).thenReturn(SignInResult.Cancelled)
+        whenever(signInWithGoogleUseCase()).thenReturn(SignInResult.Cancelled)
         val effects = mutableListOf<LoginContract.LoginEffect>()
         val job = launch { loginViewmodel.effect.collect { effects.add(it) } }
         loginViewmodel.onAction(LoginContract.LoginAction.GoogleSignInClicked)
@@ -114,7 +114,7 @@ class LoginViewModelTest {
 
     @Test
     fun testGoogleSignIn_WhenFailure_DoesNotEmitNavigateToHome() = runTest {
-        whenever(signInWithGoogle()).thenReturn(
+        whenever(signInWithGoogleUseCase()).thenReturn(
             SignInResult.Failure(
                 RuntimeException("boom")
             )

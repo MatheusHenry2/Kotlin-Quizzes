@@ -44,10 +44,10 @@ class QuizListViewModelTest {
     private lateinit var quizRepository: QuizRepository
 
     @Mock
-    private lateinit var getCurrentUserName: GetCurrentUserNameUseCase
+    private lateinit var getCurrentUserNameUseCase: GetCurrentUserNameUseCase
 
     @Mock
-    private lateinit var ensureAdaptiveQuizzes: EnsureAdaptiveQuizzesUseCase
+    private lateinit var ensureAdaptiveQuizzesUseCase: EnsureAdaptiveQuizzesUseCase
 
     @Mock
     private lateinit var uiEventManager: UiEventManager
@@ -84,14 +84,14 @@ class QuizListViewModelTest {
 
     private fun createViewModel(): QuizListViewModel = QuizListViewModel(
         quizRepository,
-        getCurrentUserName,
-        ensureAdaptiveQuizzes,
+        getCurrentUserNameUseCase,
+        ensureAdaptiveQuizzesUseCase,
         uiEventManager,
     )
 
     @Test
     fun testObserveQuizzes_WhenSuccess_UpdatesStateWithQuizzesAndUserName() = runTest {
-        whenever(getCurrentUserName()).thenReturn("Matheus")
+        whenever(getCurrentUserNameUseCase()).thenReturn("Matheus")
         whenever(quizRepository.observeQuizzes()).thenReturn(flowOf(listOf(sampleQuiz)))
         whenever(quizRepository.isInitialAssessmentCompleted()).thenReturn(true)
 
@@ -107,7 +107,7 @@ class QuizListViewModelTest {
 
     @Test
     fun testObserveQuizzes_WhenAssessmentNotDone_ShowsLevelingDialog() = runTest {
-        whenever(getCurrentUserName()).thenReturn("Matheus")
+        whenever(getCurrentUserNameUseCase()).thenReturn("Matheus")
         whenever(quizRepository.observeQuizzes()).thenReturn(flowOf(listOf(sampleQuiz)))
         whenever(quizRepository.isInitialAssessmentCompleted()).thenReturn(false)
 
@@ -119,7 +119,7 @@ class QuizListViewModelTest {
 
     @Test
     fun testObserveQuizzes_WhenAssessmentDone_DoesNotShowLevelingDialog() = runTest {
-        whenever(getCurrentUserName()).thenReturn("Matheus")
+        whenever(getCurrentUserNameUseCase()).thenReturn("Matheus")
         whenever(quizRepository.observeQuizzes()).thenReturn(flowOf(listOf(sampleQuiz)))
         whenever(quizRepository.isInitialAssessmentCompleted()).thenReturn(true)
 
@@ -131,7 +131,7 @@ class QuizListViewModelTest {
 
     @Test
     fun testObserveQuizzes_WhenFails_SetsErrorAndShowsSnackbar() = runTest {
-        whenever(getCurrentUserName()).thenReturn("Matheus")
+        whenever(getCurrentUserNameUseCase()).thenReturn("Matheus")
         whenever(quizRepository.observeQuizzes()).thenReturn(
             flow { throw RuntimeException("boom") }
         )
@@ -147,7 +147,7 @@ class QuizListViewModelTest {
 
     @Test
     fun testQuizClicked_EmitsNavigateToQuizEffect() = runTest {
-        whenever(getCurrentUserName()).thenReturn("Matheus")
+        whenever(getCurrentUserNameUseCase()).thenReturn("Matheus")
         whenever(quizRepository.observeQuizzes()).thenReturn(flowOf(emptyList()))
         whenever(quizRepository.isInitialAssessmentCompleted()).thenReturn(true)
 
@@ -166,7 +166,7 @@ class QuizListViewModelTest {
 
     @Test
     fun testStartLevelingQuiz_DismissesDialogAndEmitsNavigateToAssessment() = runTest {
-        whenever(getCurrentUserName()).thenReturn("Matheus")
+        whenever(getCurrentUserNameUseCase()).thenReturn("Matheus")
         whenever(quizRepository.observeQuizzes()).thenReturn(flowOf(listOf(sampleQuiz)))
         whenever(quizRepository.isInitialAssessmentCompleted()).thenReturn(false)
 
@@ -191,7 +191,7 @@ class QuizListViewModelTest {
 
     @Test
     fun testDismissLevelingDialog_HidesDialog() = runTest {
-        whenever(getCurrentUserName()).thenReturn("Matheus")
+        whenever(getCurrentUserNameUseCase()).thenReturn("Matheus")
         whenever(quizRepository.observeQuizzes()).thenReturn(flowOf(listOf(sampleQuiz)))
         whenever(quizRepository.isInitialAssessmentCompleted()).thenReturn(false)
 
@@ -206,7 +206,7 @@ class QuizListViewModelTest {
 
     @Test
     fun testRefreshPulled_WhenSuccess_ShowsSuccessSnackbar() = runTest {
-        whenever(getCurrentUserName()).thenReturn("Matheus")
+        whenever(getCurrentUserNameUseCase()).thenReturn("Matheus")
         whenever(quizRepository.observeQuizzes()).thenReturn(flowOf(listOf(sampleQuiz)))
         whenever(quizRepository.isInitialAssessmentCompleted()).thenReturn(true)
 
@@ -222,7 +222,7 @@ class QuizListViewModelTest {
 
     @Test
     fun testRefreshPulled_WhenFails_ShowsErrorSnackbar() = runTest {
-        whenever(getCurrentUserName()).thenReturn("Matheus")
+        whenever(getCurrentUserNameUseCase()).thenReturn("Matheus")
         // First call (init) succeeds; second call (refresh) fails.
         whenever(quizRepository.observeQuizzes())
             .thenReturn(flowOf(listOf(sampleQuiz)))
@@ -241,23 +241,23 @@ class QuizListViewModelTest {
 
     @Test
     fun testEnsureAdaptiveQuizzes_IsInvokedAfterListEmits() = runTest {
-        whenever(getCurrentUserName()).thenReturn("Matheus")
+        whenever(getCurrentUserNameUseCase()).thenReturn("Matheus")
         whenever(quizRepository.observeQuizzes()).thenReturn(flowOf(emptyList()))
         whenever(quizRepository.isInitialAssessmentCompleted()).thenReturn(true)
-        whenever(ensureAdaptiveQuizzes(any())).thenReturn(true)
+        whenever(ensureAdaptiveQuizzesUseCase(any())).thenReturn(true)
 
         viewModel = createViewModel()
         advanceUntilIdle()
 
-        verify(ensureAdaptiveQuizzes).invoke(0)
+        verify(ensureAdaptiveQuizzesUseCase).invoke(0)
     }
 
     @Test
     fun testEnsureAdaptiveQuizzes_WhenThrows_ShowsErrorSnackbar() = runTest {
-        whenever(getCurrentUserName()).thenReturn("Matheus")
+        whenever(getCurrentUserNameUseCase()).thenReturn("Matheus")
         whenever(quizRepository.observeQuizzes()).thenReturn(flowOf(emptyList()))
         whenever(quizRepository.isInitialAssessmentCompleted()).thenReturn(true)
-        whenever(ensureAdaptiveQuizzes(any())).thenThrow(RuntimeException("gen failed"))
+        whenever(ensureAdaptiveQuizzesUseCase(any())).thenThrow(RuntimeException("gen failed"))
 
         viewModel = createViewModel()
         advanceUntilIdle()
@@ -268,7 +268,7 @@ class QuizListViewModelTest {
 
     @Test
     fun testRetryClicked_TriggersObserveQuizzesAgain() = runTest {
-        whenever(getCurrentUserName()).thenReturn("Matheus")
+        whenever(getCurrentUserNameUseCase()).thenReturn("Matheus")
         whenever(quizRepository.observeQuizzes()).thenReturn(flowOf(listOf(sampleQuiz)))
         whenever(quizRepository.isInitialAssessmentCompleted()).thenReturn(true)
 

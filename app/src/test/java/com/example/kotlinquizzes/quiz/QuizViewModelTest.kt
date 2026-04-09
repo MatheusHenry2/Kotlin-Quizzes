@@ -43,7 +43,7 @@ class QuizViewModelTest {
     private lateinit var quizRepository: QuizRepository
 
     @Mock
-    private lateinit var finishQuiz: FinishQuizUseCase
+    private lateinit var finishQuizUseCase: FinishQuizUseCase
 
     @Mock
     private lateinit var uiEventManager: UiEventManager
@@ -90,7 +90,7 @@ class QuizViewModelTest {
     private fun createViewModel(): QuizViewModel {
         val savedStateHandle =
             SavedStateHandle(mapOf(NavigationConstants.Args.QUIZ_ID to quizId))
-        return QuizViewModel(savedStateHandle, quizRepository, finishQuiz, uiEventManager)
+        return QuizViewModel(savedStateHandle, quizRepository, finishQuizUseCase, uiEventManager)
     }
 
     @Test
@@ -235,7 +235,7 @@ class QuizViewModelTest {
         viewModel.onAction(QuizContract.QuizAction.NextClicked)
         advanceUntilIdle()
 
-        verify(finishQuiz).invoke(quizId)
+        verify(finishQuizUseCase).invoke(quizId)
         val finished = effects.filterIsInstance<QuizContract.QuizEffect.QuizFinished>().firstOrNull()
         assertEquals(2, finished?.totalQuestions)
         assertEquals(1, finished?.correctAnswers)

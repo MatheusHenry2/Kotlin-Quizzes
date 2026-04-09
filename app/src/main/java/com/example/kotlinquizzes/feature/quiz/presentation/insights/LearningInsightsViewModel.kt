@@ -22,7 +22,7 @@ import kotlin.coroutines.cancellation.CancellationException
 
 @HiltViewModel
 class LearningInsightsViewModel @Inject constructor(
-    private val getLearningInsights: GetLearningInsightsUseCase,
+    private val getLearningInsightsUseCase: GetLearningInsightsUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(LearningInsightsState())
@@ -50,7 +50,7 @@ class LearningInsightsViewModel @Inject constructor(
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, errorMessageResId = null) }
             try {
-                val insights = getLearningInsights()
+                val insights = getLearningInsightsUseCase()
                 _state.update {
                     it.copy(isLoading = false, insights = insights, errorMessageResId = null)
                 }

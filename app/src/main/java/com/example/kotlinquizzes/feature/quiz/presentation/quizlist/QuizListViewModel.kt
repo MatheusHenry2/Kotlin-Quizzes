@@ -28,8 +28,8 @@ import kotlin.coroutines.cancellation.CancellationException
 @HiltViewModel
 class QuizListViewModel @Inject constructor(
     private val quizRepository: QuizRepository,
-    private val getCurrentUserName: GetCurrentUserNameUseCase,
-    private val ensureAdaptiveQuizzes: EnsureAdaptiveQuizzesUseCase,
+    private val getCurrentUserNameUseCase: GetCurrentUserNameUseCase,
+    private val ensureAdaptiveQuizzesUseCase: EnsureAdaptiveQuizzesUseCase,
     private val uiEventManager: UiEventManager,
 ) : ViewModel() {
 
@@ -101,7 +101,7 @@ class QuizListViewModel @Inject constructor(
         viewModelScope.launch {
             Log.d(TAG, "QuizListViewModel: observeQuizzes started")
             _state.update {
-                it.copy(isLoading = true, errorMessageResId = null, userName = getCurrentUserName())
+                it.copy(isLoading = true, errorMessageResId = null, userName = getCurrentUserNameUseCase())
             }
             try {
                 quizRepository.observeQuizzes().collect { quizzes ->
@@ -145,14 +145,14 @@ class QuizListViewModel @Inject constructor(
             isGenerating = true
             _state.update { it.copy(isGenerating = true) }
             try {
-                val triggered = ensureAdaptiveQuizzes(currentCount)
+                val triggered = ensureAdaptiveQuizzesUseCase(currentCount)
                 if (triggered) {
                     Log.d(TAG, "QuizListViewModel: adaptive quiz generation triggered")
                 }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                Log.e(TAG, "QuizListViewModel: ensureAdaptiveQuizzes failed", e)
+                Log.e(TAG, "QuizListViewModel: ensureAdaptiveQuizzesUseCase failed", e)
                 uiEventManager.showError(R.string.snackbar_error_generic)
             } finally {
                 isGenerating = false

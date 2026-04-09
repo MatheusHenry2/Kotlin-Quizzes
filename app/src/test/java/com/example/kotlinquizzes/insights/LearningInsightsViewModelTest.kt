@@ -35,7 +35,7 @@ import org.robolectric.RobolectricTestRunner
 class LearningInsightsViewModelTest {
 
     @Mock
-    private lateinit var getLearningInsights: GetLearningInsightsUseCase
+    private lateinit var getLearningInsightsUseCase: GetLearningInsightsUseCase
 
     private lateinit var viewModel: LearningInsightsViewModel
     private lateinit var closeable: AutoCloseable
@@ -64,9 +64,9 @@ class LearningInsightsViewModelTest {
 
     @Test
     fun testInitialState_BeforeAnyDispatch_IsLoading() = runTest {
-        whenever(getLearningInsights()).thenReturn(sampleInsights)
+        whenever(getLearningInsightsUseCase()).thenReturn(sampleInsights)
 
-        viewModel = LearningInsightsViewModel(getLearningInsights)
+        viewModel = LearningInsightsViewModel(getLearningInsightsUseCase)
 
         // Before advancing the dispatcher the launched coroutine has not run.
         assertTrue(viewModel.state.value.isLoading)
@@ -75,9 +75,9 @@ class LearningInsightsViewModelTest {
 
     @Test
     fun testLoadInsights_WhenSuccess_PopulatesStateWithInsights() = runTest {
-        whenever(getLearningInsights()).thenReturn(sampleInsights)
+        whenever(getLearningInsightsUseCase()).thenReturn(sampleInsights)
 
-        viewModel = LearningInsightsViewModel(getLearningInsights)
+        viewModel = LearningInsightsViewModel(getLearningInsightsUseCase)
         advanceUntilIdle()
 
         val state = viewModel.state.value
@@ -88,9 +88,9 @@ class LearningInsightsViewModelTest {
 
     @Test
     fun testLoadInsights_WhenThrows_SetsErrorMessage() = runTest {
-        whenever(getLearningInsights()).thenThrow(RuntimeException("boom"))
+        whenever(getLearningInsightsUseCase()).thenThrow(RuntimeException("boom"))
 
-        viewModel = LearningInsightsViewModel(getLearningInsights)
+        viewModel = LearningInsightsViewModel(getLearningInsightsUseCase)
         advanceUntilIdle()
 
         val state = viewModel.state.value
@@ -101,24 +101,24 @@ class LearningInsightsViewModelTest {
 
     @Test
     fun testRetryClicked_InvokesUseCaseAgain() = runTest {
-        whenever(getLearningInsights()).thenReturn(sampleInsights)
+        whenever(getLearningInsightsUseCase()).thenReturn(sampleInsights)
 
-        viewModel = LearningInsightsViewModel(getLearningInsights)
+        viewModel = LearningInsightsViewModel(getLearningInsightsUseCase)
         advanceUntilIdle()
 
         viewModel.onAction(LearningInsightsContract.LearningInsightsAction.RetryClicked)
         advanceUntilIdle()
 
-        verify(getLearningInsights, times(2)).invoke()
+        verify(getLearningInsightsUseCase, times(2)).invoke()
     }
 
     @Test
     fun testRetryClicked_AfterError_RecoversToSuccess() = runTest {
-        whenever(getLearningInsights())
+        whenever(getLearningInsightsUseCase())
             .thenThrow(RuntimeException("boom"))
             .thenReturn(sampleInsights)
 
-        viewModel = LearningInsightsViewModel(getLearningInsights)
+        viewModel = LearningInsightsViewModel(getLearningInsightsUseCase)
         advanceUntilIdle()
         assertEquals(R.string.error_failed_load_insights, viewModel.state.value.errorMessageResId)
 
@@ -132,9 +132,9 @@ class LearningInsightsViewModelTest {
 
     @Test
     fun testBackToHomeClicked_EmitsNavigateToHomeEffect() = runTest {
-        whenever(getLearningInsights()).thenReturn(sampleInsights)
+        whenever(getLearningInsightsUseCase()).thenReturn(sampleInsights)
 
-        viewModel = LearningInsightsViewModel(getLearningInsights)
+        viewModel = LearningInsightsViewModel(getLearningInsightsUseCase)
         advanceUntilIdle()
 
         val effects = mutableListOf<LearningInsightsContract.LearningInsightsEffect>()

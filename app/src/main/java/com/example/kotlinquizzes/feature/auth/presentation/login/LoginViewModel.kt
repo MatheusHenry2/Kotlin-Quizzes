@@ -23,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val signInWithGoogle: SignInWithGoogleUseCase,
+    private val signInWithGoogleUseCase: SignInWithGoogleUseCase,
     private val uiEventManager: UiEventManager,
 ) : ViewModel() {
 
@@ -44,7 +44,7 @@ class LoginViewModel @Inject constructor(
         Log.i(TAG, "LoginViewModel handleGoogleSignIn: start")
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
-            val result = signInWithGoogle()
+            val result = signInWithGoogleUseCase()
             _state.update { it.copy(isLoading = false) }
             when (result) {
                 is SignInResult.Success -> {

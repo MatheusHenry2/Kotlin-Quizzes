@@ -29,7 +29,7 @@ import kotlin.coroutines.cancellation.CancellationException
 class QuizViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val quizRepository: QuizRepository,
-    private val finishQuiz: FinishQuizUseCase,
+    private val finishQuizUseCase: FinishQuizUseCase,
     private val uiEventManager: UiEventManager,
 ) : ViewModel() {
 
@@ -124,7 +124,7 @@ class QuizViewModel @Inject constructor(
 
             if (currentState.isLastQuestion) {
                 Log.d(TAG, "Quiz finished. Final score: $newCorrectAnswers/${currentState.totalQuestions}")
-                finishQuiz(quizId)
+                finishQuizUseCase(quizId)
                 _effect.send(
                     QuizEffect.QuizFinished(
                         totalQuestions = currentState.totalQuestions,
