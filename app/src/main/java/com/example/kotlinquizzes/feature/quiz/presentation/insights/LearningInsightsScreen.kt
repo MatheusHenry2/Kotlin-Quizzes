@@ -5,12 +5,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -178,7 +178,7 @@ private fun TopSummaryCard(insights: LearningInsights) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(32.dp),
+                .padding(24.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Text(
@@ -191,10 +191,12 @@ private fun TopSummaryCard(insights: LearningInsights) {
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.Bottom,
-                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Row(verticalAlignment = Alignment.Bottom) {
+                Row(
+                    modifier = Modifier.weight(1f),
+                    verticalAlignment = Alignment.Bottom,
+                ) {
                     Text(
                         text = "${insights.accuracyPercent}%",
                         color = Purple600,
@@ -207,10 +209,14 @@ private fun TopSummaryCard(insights: LearningInsights) {
                         color = Gray600,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Medium,
-                        modifier = Modifier.padding(bottom = 8.dp),
+                        modifier = Modifier.padding(bottom = 10.dp),
                     )
                 }
-                Column(horizontalAlignment = Alignment.End) {
+
+                Column(
+                    horizontalAlignment = Alignment.End,
+                    verticalArrangement = Arrangement.Center,
+                ) {
                     Text(
                         text = insights.totalQuizzesCompleted.toString(),
                         color = TextPrimary,
@@ -222,6 +228,7 @@ private fun TopSummaryCard(insights: LearningInsights) {
                         color = Gray600,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Medium,
+                        letterSpacing = 0.4.sp,
                     )
                 }
             }
@@ -258,26 +265,31 @@ private fun CountTile(
 ) {
     Row(
         modifier = modifier
-            .height(71.dp)
+            .heightIn(min = 84.dp)
             .clip(RoundedCornerShape(12.dp))
             .background(Gray200)
-            .padding(16.dp),
+            .padding(horizontal = 16.dp, vertical = 14.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Box(
             modifier = Modifier
                 .width(8.dp)
-                .height(32.dp)
+                .height(36.dp)
                 .clip(RoundedCornerShape(4.dp))
                 .background(accentColor),
         )
+
         Spacer(Modifier.width(12.dp))
-        Column {
+
+        Column(
+            verticalArrangement = Arrangement.spacedBy(2.dp),
+        ) {
             Text(
                 text = count.toString(),
                 color = TextPrimary,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
+                maxLines = 1,
             )
             Text(
                 text = label.uppercase(),
@@ -285,6 +297,7 @@ private fun CountTile(
                 fontSize = 10.sp,
                 fontWeight = FontWeight.SemiBold,
                 letterSpacing = 0.25.sp,
+                maxLines = 1,
             )
         }
     }
