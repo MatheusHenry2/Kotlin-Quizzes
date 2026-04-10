@@ -55,10 +55,12 @@ import com.example.kotlinquizzes.core.theme.PurpleSubtitle
 import com.example.kotlinquizzes.core.theme.TextPrimary
 import com.example.kotlinquizzes.core.theme.White
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.window.Dialog
+import com.example.kotlinquizzes.core.utils.TestTags
 import com.example.kotlinquizzes.core.theme.Gray600
 import com.example.kotlinquizzes.core.theme.Purple100
 import com.example.kotlinquizzes.core.theme.Purple600
@@ -93,7 +95,7 @@ fun QuizListScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun QuizListContent(
+internal fun QuizListContent(
     state: QuizListState,
     onAction: (QuizListAction) -> Unit,
     onNavigateToInsights: () -> Unit,
@@ -143,7 +145,8 @@ private fun QuizListContent(
                 text = stringResource(R.string.welcome_back, state.userName),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold,
-                color = TextPrimary
+                color = TextPrimary,
+                modifier = Modifier.testTag(TestTags.WELCOME_TEXT)
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -151,7 +154,9 @@ private fun QuizListContent(
             when {
                 state.isLoading -> {
                     Box(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .testTag(TestTags.QUIZ_LIST_LOADING),
                         contentAlignment = Alignment.Center
                     ) {
                         CircularProgressIndicator()
@@ -168,7 +173,8 @@ private fun QuizListContent(
                 state.errorMessageResId != null -> {
                     ErrorContent(
                         message = stringResource(state.errorMessageResId),
-                        onRetry = { onAction(QuizListAction.RetryClicked) }
+                        onRetry = { onAction(QuizListAction.RetryClicked) },
+                        modifier = Modifier.testTag(TestTags.QUIZ_LIST_ERROR)
                     )
                 }
 
@@ -176,23 +182,45 @@ private fun QuizListContent(
                     PullToRefreshBox(
                         isRefreshing = state.isRefreshing,
                         onRefresh = { onAction(QuizListAction.RefreshPulled) },
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .testTag(TestTags.QUIZ_LIST_CONTENT)
                     ) {
-                        LazyColumn(
-                            modifier = Modifier.fillMaxSize(),
-                            verticalArrangement = Arrangement.spacedBy(12.dp),
-                            contentPadding = PaddingValues(bottom = 24.dp)
-                        ) {
-                            items(
-                                items = state.quizzes,
-                                key = { it.id }
-                            ) { quiz ->
-                                QuizListItem(
-                                    quiz = quiz,
-                                    onClick = {
-                                        onAction(QuizListAction.QuizClicked(quiz.id))
-                                    }
+                        if (state.quizzes.isEmpty()) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .testTag(TestTags.QUIZ_LIST_EMPTY),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.quiz_list_empty),
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = Gray600,
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier.padding(horizontal = 32.dp)
                                 )
+                            }
+                        } else {
+                            LazyColumn(
+                                modifier = Modifier.fillMaxSize(),
+                                verticalArrangement = Arrangement.spacedBy(12.dp),
+                                contentPadding = PaddingValues(bottom = 24.dp)
+                            ) {
+                                items(
+                                    items = state.quizzes,
+                                    key = { it.id }
+                                ) { quiz ->
+                                    QuizListItem(
+                                        quiz = quiz,
+                                        onClick = {
+                                            onAction(QuizListAction.QuizClicked(quiz.id))
+                                        },
+                                        modifier = Modifier.testTag(
+                                            TestTags.QUIZ_LIST_ITEM_PREFIX + quiz.id
+                                        )
+                                    )
+                                }
                             }
                         }
                     }
@@ -216,6 +244,7 @@ private fun AvatarCircle(
             .size(32.dp)
             .clip(CircleShape)
             .background(MaterialTheme.colorScheme.surfaceVariant)
+            .testTag(TestTags.AVATAR_CIRCLE)
             .semantics { contentDescription = avatarDescription },
         contentAlignment = Alignment.Center
     ) {
@@ -232,9 +261,10 @@ private fun AvatarCircle(
 private fun QuizListItem(
     quiz: Quiz,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .defaultMinSize(minHeight = 72.dp)
             .clip(RoundedCornerShape(16.dp))
@@ -374,9 +404,10 @@ fun LevelingDialog(
 private fun ErrorContent(
     message: String,
     onRetry: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(top = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally

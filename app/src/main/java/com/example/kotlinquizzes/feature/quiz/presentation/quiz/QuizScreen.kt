@@ -48,12 +48,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.kotlinquizzes.core.utils.TestTags
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.kotlinquizzes.R
 import com.example.kotlinquizzes.core.theme.Gray200
@@ -98,7 +100,7 @@ fun QuizScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun QuizContent(
+internal fun QuizContent(
     state: QuizState,
     onAction: (QuizAction) -> Unit,
 ) {
@@ -142,7 +144,8 @@ private fun QuizContent(
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(paddingValues),
+                        .padding(paddingValues)
+                        .testTag(TestTags.QUIZ_LOADING),
                     contentAlignment = Alignment.Center,
                 ) {
                     CircularProgressIndicator(color = Purple600)
@@ -153,7 +156,8 @@ private fun QuizContent(
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(paddingValues),
+                        .padding(paddingValues)
+                        .testTag(TestTags.QUIZ_ERROR),
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
@@ -168,7 +172,8 @@ private fun QuizContent(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(paddingValues),
+                        .padding(paddingValues)
+                        .testTag(TestTags.QUIZ_CONTENT),
                 ) {
                     ProgressSection(
                         currentIndex = state.currentQuestionIndex,

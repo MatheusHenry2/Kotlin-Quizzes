@@ -11,7 +11,9 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import com.example.kotlinquizzes.core.utils.TestTags
 import com.example.kotlinquizzes.R
 import com.example.kotlinquizzes.core.theme.Gray600
 import com.example.kotlinquizzes.core.theme.Purple100
@@ -31,6 +33,7 @@ fun BottomNavBar(
         containerColor = White,
     ) {
         NavigationBarItem(
+            modifier = Modifier.testTag(TestTags.BOTTOM_NAV_HOME),
             selected = current == BottomNavDestination.HOME,
             onClick = { if (current != BottomNavDestination.HOME) onNavigate(BottomNavDestination.HOME) },
             icon = {
@@ -49,6 +52,7 @@ fun BottomNavBar(
             ),
         )
         NavigationBarItem(
+            modifier = Modifier.testTag(TestTags.BOTTOM_NAV_INSIGHTS),
             selected = current == BottomNavDestination.INSIGHTS,
             onClick = { if (current != BottomNavDestination.INSIGHTS) onNavigate(BottomNavDestination.INSIGHTS) },
             icon = {

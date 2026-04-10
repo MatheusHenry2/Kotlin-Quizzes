@@ -40,12 +40,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.kotlinquizzes.core.utils.TestTags
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.kotlinquizzes.R
 import com.example.kotlinquizzes.core.theme.Gray50
@@ -83,7 +85,7 @@ fun QuizResultsScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun QuizResultsContent(
+internal fun QuizResultsContent(
     state: QuizResultsState,
     onAction: (QuizResultsAction) -> Unit,
 ) {
@@ -134,7 +136,8 @@ private fun QuizResultsContent(
                 .fillMaxSize()
                 .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 24.dp),
+                .padding(horizontal = 24.dp)
+                .testTag(TestTags.RESULTS_CONTENT),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Spacer(modifier = Modifier.height(32.dp))

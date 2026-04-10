@@ -37,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -55,6 +56,7 @@ import com.example.kotlinquizzes.core.theme.White
 import com.example.kotlinquizzes.feature.quiz.domain.model.CategoryMastery
 import com.example.kotlinquizzes.feature.quiz.domain.model.LearningInsights
 import com.example.kotlinquizzes.feature.quiz.domain.model.WeakTopic
+import com.example.kotlinquizzes.core.utils.TestTags
 import com.example.kotlinquizzes.feature.quiz.presentation.insights.LearningInsightsContract.LearningInsightsAction
 import com.example.kotlinquizzes.feature.quiz.presentation.insights.LearningInsightsContract.LearningInsightsEffect
 import com.example.kotlinquizzes.feature.quiz.presentation.insights.LearningInsightsContract.LearningInsightsState
@@ -87,7 +89,7 @@ fun LearningInsightsScreen(
 }
 
 @Composable
-private fun LearningInsightsContent(
+internal fun LearningInsightsContent(
     state: LearningInsightsState,
     onAction: (LearningInsightsAction) -> Unit,
     onNavigateToHome: () -> Unit,
@@ -111,7 +113,9 @@ private fun LearningInsightsContent(
             when {
                 state.isLoading -> {
                     Box(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .testTag(TestTags.INSIGHTS_LOADING),
                         contentAlignment = Alignment.Center,
                     ) {
                         CircularProgressIndicator(color = Purple600)
@@ -122,7 +126,8 @@ private fun LearningInsightsContent(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(24.dp),
+                            .padding(24.dp)
+                            .testTag(TestTags.INSIGHTS_ERROR),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center,
                     ) {
@@ -143,6 +148,15 @@ private fun LearningInsightsContent(
                         onBackToHome = { onAction(LearningInsightsAction.BackToHomeClicked) },
                     )
                 }
+
+                else -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        CircularProgressIndicator(color = Purple600)
+                    }
+                }
             }
         }
     }
@@ -157,7 +171,8 @@ private fun InsightsBody(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(horizontal = 24.dp, vertical = 24.dp),
+            .padding(horizontal = 24.dp, vertical = 24.dp)
+            .testTag(TestTags.INSIGHTS_CONTENT),
         verticalArrangement = Arrangement.spacedBy(32.dp),
     ) {
         TopSummaryCard(insights = insights)
@@ -476,7 +491,8 @@ private fun BackToHomeButton(onClick: () -> Unit) {
             .clip(RoundedCornerShape(24.dp))
             .background(Gray200)
             .clickable(onClick = onClick)
-            .padding(vertical = 16.dp),
+            .padding(vertical = 16.dp)
+            .testTag(TestTags.INSIGHTS_BACK_HOME),
         contentAlignment = Alignment.Center,
     ) {
         Text(
