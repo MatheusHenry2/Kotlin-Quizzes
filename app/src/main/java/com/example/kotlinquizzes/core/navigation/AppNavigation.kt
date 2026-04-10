@@ -95,7 +95,11 @@ fun AppNavigation(uiEventManager: UiEventManager) {
             composable(NavigationConstants.Routes.QUIZ_LIST) {
                 QuizListScreen(
                     onNavigateToQuiz = { quizId ->
-                        navController.navigate(NavigationConstants.Routes.quizRoute(quizId))
+                        if (navController.currentDestination?.route == NavigationConstants.Routes.QUIZ_LIST) {
+                            navController.navigate(NavigationConstants.Routes.quizRoute(quizId)) {
+                                launchSingleTop = true
+                            }
+                        }
                     },
                     onNavigateToInsights = {
                         navController.navigate(NavigationConstants.Routes.INSIGHTS) {
@@ -123,7 +127,11 @@ fun AppNavigation(uiEventManager: UiEventManager) {
                 ),
             ) {
                 QuizScreen(
-                    onNavigateBack = { navController.popBackStack() },
+                    onNavigateBack = {
+                        if (navController.currentDestination?.route == NavigationConstants.Routes.QUIZ) {
+                            navController.popBackStack()
+                        }
+                    },
                     onQuizFinished = { totalQuestions, correctAnswers ->
                         navController.navigate(
                             NavigationConstants.Routes.quizResultsRoute(totalQuestions, correctAnswers)
