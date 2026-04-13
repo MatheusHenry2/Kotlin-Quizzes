@@ -118,6 +118,19 @@ class QuizViewModel @Inject constructor(
                 Log.e(TAG, "QuizViewModel: recordAnswer failed", e)
             }
 
+            // Persist progress immediately after the answer is confirmed (before the
+            // feedback delay) so that process death or app-close during feedback does
+            // not force a re-answer of the same question on restore.
+            if (!currentState.isLastQuestion) {
+                val nextIndex = currentState.currentQuestionIndex + 1
+                try {
+                    quizRepository.saveQuizProgress(quizId, nextIndex)
+                } catch (e: Exception) {
+                    Log.e(TAG, "QuizViewModel: saveQuizProgress failed", e)
+                    uiEventManager.showError(R.string.snackbar_error_save_progress)
+                }
+            }
+
             delay(1500L) // Show feedback for 1.5 seconds
 
             _state.update { it.copy(isCheckingAnswer = false, selectedOptionIsCorrect = null) }
@@ -140,12 +153,6 @@ class QuizViewModel @Inject constructor(
                         selectedOptionIndex = null,
                         correctAnswers = newCorrectAnswers,
                     )
-                }
-                try {
-                    quizRepository.saveQuizProgress(quizId, nextIndex)
-                } catch (e: Exception) {
-                    Log.e(TAG, "QuizViewModel: saveQuizProgress failed", e)
-                    uiEventManager.showError(R.string.snackbar_error_save_progress)
                 }
             }
         }

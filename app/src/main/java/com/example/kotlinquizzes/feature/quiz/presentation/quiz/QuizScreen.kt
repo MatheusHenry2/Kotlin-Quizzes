@@ -119,6 +119,7 @@ internal fun QuizContent(
                     val closeQuizDesc = stringResource(R.string.close_quiz)
                     IconButton(
                         onClick = { onAction(QuizAction.CloseClicked) },
+                        enabled = !state.isCheckingAnswer,
                         modifier = Modifier.semantics {
                             contentDescription = closeQuizDesc
                         },

@@ -361,6 +361,65 @@ class NavigationFlowTest {
         assertEquals("NavigateBack must pop when on quiz route", 1, popCount)
     }
 
+    // --- Next + X Race Condition Regression Tests ---
+
+    /**
+     * Root cause fix verification: the X button must be DISABLED when isCheckingAnswer = true.
+     * Before the fix the IconButton had no `enabled` guard, so a click during the 1.5 s
+     * feedback window would dispatch CloseClicked, causing a stale-feedback flash and
+     * potentially a double popBackStack that emptied the nav stack.
+     */
+    @Test
+    fun quizCloseButton_isDisabledDuringAnswerFeedback() {
+        var closeDispatched = false
+
+        composeTestRule.setContent {
+            KotlinQuizzesTheme {
+                QuizContent(
+                    state = QuizState(isCheckingAnswer = true, selectedOptionIsCorrect = true),
+                    onAction = { action ->
+                        if (action is QuizAction.CloseClicked) closeDispatched = true
+                    },
+                )
+            }
+        }
+
+        // The button is disabled — performClick on a disabled node is a no-op in Compose tests.
+        composeTestRule.onNodeWithContentDescription("Close quiz").performClick()
+
+        assertFalse(
+            "CloseClicked must NOT be dispatched during answer feedback (isCheckingAnswer = true)",
+            closeDispatched,
+        )
+    }
+
+    /**
+     * Sanity check: the X button must remain fully functional when the quiz is NOT
+     * in the checking-answer state (normal navigation).
+     */
+    @Test
+    fun quizCloseButton_isEnabledWhenNotCheckingAnswer() {
+        var closeDispatched = false
+
+        composeTestRule.setContent {
+            KotlinQuizzesTheme {
+                QuizContent(
+                    state = QuizState(isLoading = true),
+                    onAction = { action ->
+                        if (action is QuizAction.CloseClicked) closeDispatched = true
+                    },
+                )
+            }
+        }
+
+        composeTestRule.onNodeWithContentDescription("Close quiz").performClick()
+
+        assertTrue(
+            "CloseClicked must be dispatched when isCheckingAnswer = false",
+            closeDispatched,
+        )
+    }
+
     // --- Screen Rendering Stability Tests ---
 
     @Test
