@@ -22,6 +22,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,6 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.kotlinquizzes.R
 import com.example.kotlinquizzes.core.theme.Gray50
 import com.example.kotlinquizzes.core.theme.Purple100
@@ -50,18 +52,27 @@ private const val SPLASH_DURATION_MS = 3000L
 @Composable
 fun SplashScreen(
     onSplashFinished: () -> Unit,
+    viewModel: SplashViewModel = hiltViewModel(),
 ) {
+    val seedingDone by viewModel.seedingDone.collectAsState()
     var progressTarget by remember { mutableStateOf(0f) }
     val progress by animateFloatAsState(
         targetValue = progressTarget,
         animationSpec = tween(durationMillis = SPLASH_DURATION_MS.toInt(), easing = LinearEasing),
         label = "splash-progress",
     )
+    var animationDone by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         progressTarget = 1f
         delay(SPLASH_DURATION_MS)
-        onSplashFinished()
+        animationDone = true
+    }
+
+    LaunchedEffect(seedingDone, animationDone) {
+        if (seedingDone && animationDone) {
+            onSplashFinished()
+        }
     }
 
     Surface(

@@ -2,103 +2,2168 @@
   "quizzes": [
     {
       "id": "kotlin_android_assessment",
-      "title": "Android & Kotlin Skills Assessment",
-      "description": "Initial quiz to identify your knowledge level in syntax, logic, and Android fundamentals.",
+      "title": "Kotlin & Android Assessment",
       "questions": [
         {
-          "id": "kb_q1",
+          "id": "assess_q1",
+          "text": "Which keyword declares an immutable local variable in Kotlin?",
+          "options": ["var", "val", "const", "let"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "variables", "basics"]
+        },
+        {
+          "id": "assess_q2",
+          "text": "What does the '?.' operator do in Kotlin?",
+          "options": ["Throws NPE if null", "Calls the function only if receiver is non-null", "Converts to non-null type", "Creates a nullable variable"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "null-safety", "operators"]
+        },
+        {
+          "id": "assess_q3",
+          "text": "Which Android component has a lifecycle managed by the system?",
+          "options": ["ViewModel", "Repository", "Activity", "UseCase"],
+          "correctIndex": 2,
+          "tags": ["android", "lifecycle", "components"]
+        },
+        {
+          "id": "assess_q4",
+          "text": "What is the purpose of 'suspend' keyword in Kotlin?",
+          "options": ["Makes a function run on the main thread", "Marks a function that can be paused and resumed", "Stops the current thread", "Creates a new thread"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "coroutines", "concurrency"]
+        },
+        {
+          "id": "assess_q5",
+          "text": "In Jetpack Compose, what does 'remember' do?",
+          "options": ["Saves data to disk", "Stores a value across recompositions", "Creates a ViewModel", "Caches network responses"],
+          "correctIndex": 1,
+          "tags": ["android", "compose", "state"]
+        },
+        {
+          "id": "assess_q6",
+          "text": "What is the difference between 'map' and 'flatMap' on collections?",
+          "options": ["map filters, flatMap transforms", "map transforms 1-to-1, flatMap flattens nested collections", "They are identical", "flatMap is faster than map"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "collections", "functional"]
+        },
+        {
+          "id": "assess_q7",
+          "text": "Which scope function uses 'it' as the object reference and returns the lambda result?",
+          "options": ["apply", "also", "let", "run"],
+          "correctIndex": 2,
+          "tags": ["kotlin", "scope-functions", "idioms"]
+        },
+        {
+          "id": "assess_q8",
+          "text": "What is the purpose of Room's @Entity annotation?",
+          "options": ["Defines a DAO method", "Marks a class as a database table", "Creates a database migration", "Defines a query"],
+          "correctIndex": 1,
+          "tags": ["android", "room", "database"]
+        },
+        {
+          "id": "assess_q9",
+          "text": "What does 'by lazy' do in Kotlin?",
+          "options": ["Runs initialization immediately", "Defers initialization until first access", "Creates a mutable property", "Makes a property nullable"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "delegation", "properties"]
+        },
+        {
+          "id": "assess_q10",
+          "text": "Which Hilt annotation is used to inject dependencies into a ViewModel?",
+          "options": ["@Inject", "@HiltViewModel", "@Module", "@Provides"],
+          "correctIndex": 1,
+          "tags": ["android", "hilt", "dependency-injection"]
+        }
+      ]
+    },
+    {
+      "id": "kotlin_basics_1",
+      "title": "Kotlin Basics: Variables & Types",
+      "questions": [
+        {
+          "id": "kb1_q1",
           "text": "Which keyword declares an immutable variable in Kotlin?",
           "options": ["var", "val", "let", "const"],
           "correctIndex": 1,
           "tags": ["kotlin", "variables", "basics"]
         },
         {
-          "id": "kb_q2",
+          "id": "kb1_q2",
+          "text": "What is the default visibility modifier in Kotlin?",
+          "options": ["private", "protected", "internal", "public"],
+          "correctIndex": 3,
+          "tags": ["kotlin", "visibility", "basics"]
+        },
+        {
+          "id": "kb1_q3",
           "text": "Which type represents a nullable String in Kotlin?",
           "options": ["String", "String?", "Nullable<String>", "String!"],
           "correctIndex": 1,
           "tags": ["kotlin", "null-safety", "types"]
         },
         {
-          "id": "kb_q3",
+          "id": "kb1_q4",
+          "text": "What is the result of 'val x: Int = 10; x = 20'?",
+          "options": ["x becomes 20", "Compilation error", "Runtime error", "x stays 10"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "variables", "basics"]
+        },
+        {
+          "id": "kb1_q5",
+          "text": "Which of these is NOT a basic Kotlin type?",
+          "options": ["Int", "Double", "Boolean", "Decimal"],
+          "correctIndex": 3,
+          "tags": ["kotlin", "types", "basics"]
+        }
+      ]
+    },
+    {
+      "id": "kotlin_basics_2",
+      "title": "Kotlin Basics: Functions & Syntax",
+      "questions": [
+        {
+          "id": "kb2_q1",
           "text": "What is the correct Kotlin entry point function?",
-          "options": [
-            "function main() {}",
-            "fun main() {}",
-            "void main() {}",
-            "main fun() {}"
-          ],
+          "options": ["function main() {}", "fun main() {}", "void main() {}", "main fun() {}"],
           "correctIndex": 1,
           "tags": ["kotlin", "syntax", "functions"]
         },
         {
-          "id": "kb_q4",
+          "id": "kb2_q2",
+          "text": "How do you define a single-expression function?",
+          "options": ["fun add(a: Int, b: Int) = a + b", "fun add(a, b) => a + b", "def add(a: Int, b: Int) = a + b", "func add(a: Int, b: Int) -> a + b"],
+          "correctIndex": 0,
+          "tags": ["kotlin", "functions", "syntax"]
+        },
+        {
+          "id": "kb2_q3",
+          "text": "What does the 'Unit' return type mean?",
+          "options": ["Returns an integer", "Returns nothing meaningful (like void)", "Returns a boolean", "Returns a single item"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "functions", "types"]
+        },
+        {
+          "id": "kb2_q4",
           "text": "How do you use string templates in Kotlin?",
-          "options": [
-            "\"Hello {name}\"",
-            "\"Hello %s\"",
-            "\"Hello $name\"",
-            "\"Hello ${name()}\" only"
-          ],
+          "options": ["\"Hello {name}\"", "\"Hello %s\"", "\"Hello $name\"", "\"Hello + name\""],
           "correctIndex": 2,
           "tags": ["kotlin", "strings", "basics"]
         },
         {
-          "id": "kb_q5",
-          "text": "What is the primary purpose of a 'Data Class' in Kotlin?",
-          "options": [
-            "To hold UI state only",
-            "To handle database connections",
-            "To hold data with automatically generated equals/hashCode/toString",
-            "To create singleton objects"
-          ],
+          "id": "kb2_q5",
+          "text": "What keyword is used to define a function parameter with a default value?",
+          "options": ["default", "optional", "No special keyword, just assign in signature", "nullable"],
+          "correctIndex": 2,
+          "tags": ["kotlin", "functions", "syntax"]
+        }
+      ]
+    },
+    {
+      "id": "kotlin_null_safety",
+      "title": "Kotlin Null Safety",
+      "questions": [
+        {
+          "id": "kns_q1",
+          "text": "What does the Elvis operator (?:) do in Kotlin?",
+          "options": ["Checks if a value is true", "Returns left if NOT null, otherwise right", "Forces a non-null cast", "Terminates a loop"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "null-safety", "operators"]
+        },
+        {
+          "id": "kns_q2",
+          "text": "What does the '!!' operator do?",
+          "options": ["Safe call", "Asserts non-null, throws NPE if null", "Null check", "Default value assignment"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "null-safety", "operators"]
+        },
+        {
+          "id": "kns_q3",
+          "text": "What is the safe call operator in Kotlin?",
+          "options": ["!!", "?:", "?.", "::"],
+          "correctIndex": 2,
+          "tags": ["kotlin", "null-safety", "operators"]
+        },
+        {
+          "id": "kns_q4",
+          "text": "What does 'val name: String? = null' mean?",
+          "options": ["name cannot be null", "name is always null", "name can hold null or a String", "Compilation error"],
+          "correctIndex": 2,
+          "tags": ["kotlin", "null-safety", "types"]
+        },
+        {
+          "id": "kns_q5",
+          "text": "Which function executes a block only if the object is non-null?",
+          "options": ["apply", "let", "run", "also"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "null-safety", "scope-functions"]
+        }
+      ]
+    },
+    {
+      "id": "kotlin_collections",
+      "title": "Kotlin Collections",
+      "questions": [
+        {
+          "id": "kc_q1",
+          "text": "What is the difference between listOf() and mutableListOf()?",
+          "options": ["No difference", "listOf is read-only, mutableListOf is modifiable", "listOf is faster", "mutableListOf is deprecated"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "collections", "basics"]
+        },
+        {
+          "id": "kc_q2",
+          "text": "Which function transforms each element of a list?",
+          "options": ["filter", "map", "reduce", "forEach"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "collections", "functional-programming"]
+        },
+        {
+          "id": "kc_q3",
+          "text": "What does the 'filter' function return?",
+          "options": ["The first matching element", "A new list with elements that match the predicate", "A boolean", "The count of matching elements"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "collections", "functional-programming"]
+        },
+        {
+          "id": "kc_q4",
+          "text": "How do you create a HashMap in Kotlin?",
+          "options": ["HashMap()", "hashMapOf()", "mapOf().toHashMap()", "All of the above"],
+          "correctIndex": 3,
+          "tags": ["kotlin", "collections", "data-structures"]
+        },
+        {
+          "id": "kc_q5",
+          "text": "What does 'flatMap' do on a list of lists?",
+          "options": ["Sorts the lists", "Flattens nested lists into a single list after transformation", "Filters empty lists", "Counts elements"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "collections", "functional-programming"]
+        }
+      ]
+    },
+    {
+      "id": "kotlin_oop",
+      "title": "Kotlin OOP: Classes & Objects",
+      "questions": [
+        {
+          "id": "koop_q1",
+          "text": "What is the primary purpose of a Data Class in Kotlin?",
+          "options": ["Hold UI state only", "Handle database connections", "Hold data with auto-generated equals/hashCode/toString", "Create singletons"],
           "correctIndex": 2,
           "tags": ["kotlin", "classes", "data-handling"]
         },
         {
-          "id": "kb_q6",
-          "text": "Which scope is used to launch a coroutine that should live as long as the Activity is active?",
-          "options": ["GlobalScope", "lifecycleScope", "viewModelScope", "MainScope"],
+          "id": "koop_q2",
+          "text": "How do you create a singleton in Kotlin?",
+          "options": ["static class", "object declaration", "singleton keyword", "final class"],
           "correctIndex": 1,
-          "tags": ["android", "coroutines", "lifecycle"]
+          "tags": ["kotlin", "classes", "design-patterns"]
         },
         {
-          "id": "kb_q7",
-          "text": "In Android, which component is used to share data between different applications?",
+          "id": "koop_q3",
+          "text": "What does 'sealed class' provide?",
+          "options": ["Thread safety", "Restricted class hierarchy known at compile time", "Immutability", "Serialization"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "classes", "advanced"]
+        },
+        {
+          "id": "koop_q4",
+          "text": "What is a companion object?",
+          "options": ["An inner class", "A static-like member of a class", "A coroutine scope", "A test helper"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "classes", "syntax"]
+        },
+        {
+          "id": "koop_q5",
+          "text": "Can Kotlin classes inherit from multiple classes?",
+          "options": ["Yes, always", "No, single inheritance only", "Only with interfaces", "Only abstract classes"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "classes", "inheritance"]
+        }
+      ]
+    },
+    {
+      "id": "kotlin_functional",
+      "title": "Kotlin Functional Programming",
+      "questions": [
+        {
+          "id": "kfp_q1",
+          "text": "What is a Higher-Order Function?",
+          "options": ["A function that must be called from a class", "A function that takes or returns another function", "A function with high priority", "A function that doesn't return any value"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "functional-programming", "advanced"]
+        },
+        {
+          "id": "kfp_q2",
+          "text": "What is a lambda expression in Kotlin?",
+          "options": ["A named function", "An anonymous function literal", "A class method", "A coroutine builder"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "functional-programming", "lambdas"]
+        },
+        {
+          "id": "kfp_q3",
+          "text": "What does the 'it' keyword refer to in a lambda?",
+          "options": ["The class instance", "The single parameter of a lambda", "The return value", "The outer scope"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "functional-programming", "lambdas"]
+        },
+        {
+          "id": "kfp_q4",
+          "text": "Which scope function returns the context object?",
+          "options": ["let", "run", "apply", "with"],
+          "correctIndex": 2,
+          "tags": ["kotlin", "scope-functions", "functional-programming"]
+        },
+        {
+          "id": "kfp_q5",
+          "text": "What does 'inline' keyword do for a function?",
+          "options": ["Makes it private", "Inlines the function body at call site to reduce overhead", "Makes it a coroutine", "Makes it thread-safe"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "functional-programming", "performance"]
+        }
+      ]
+    },
+    {
+      "id": "kotlin_coroutines_basics",
+      "title": "Coroutines: Getting Started",
+      "questions": [
+        {
+          "id": "kcb_q1",
+          "text": "What does 'suspend' keyword indicate?",
+          "options": ["Function runs on main thread", "Function can be paused and resumed", "Function is deprecated", "Function is synchronous"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "coroutines", "basics"]
+        },
+        {
+          "id": "kcb_q2",
+          "text": "Which builder starts a coroutine that doesn't block the current thread?",
+          "options": ["runBlocking", "launch", "async", "Both launch and async"],
+          "correctIndex": 3,
+          "tags": ["kotlin", "coroutines", "builders"]
+        },
+        {
+          "id": "kcb_q3",
+          "text": "What does 'Dispatchers.IO' optimize for?",
+          "options": ["CPU-intensive work", "Disk and network I/O", "UI updates", "Memory management"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "coroutines", "dispatchers"]
+        },
+        {
+          "id": "kcb_q4",
+          "text": "How do you get the result of an 'async' coroutine?",
+          "options": ["Call .result()", "Call .await()", "Call .get()", "Call .join()"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "coroutines", "async"]
+        },
+        {
+          "id": "kcb_q5",
+          "text": "What is structured concurrency?",
+          "options": ["Using only one thread", "Coroutines are organized in a hierarchy for lifecycle management", "Sequential code execution", "Lock-based synchronization"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "coroutines", "architecture"]
+        }
+      ]
+    },
+    {
+      "id": "kotlin_coroutines_advanced",
+      "title": "Coroutines: Advanced Patterns",
+      "questions": [
+        {
+          "id": "kca_q1",
+          "text": "What is a Flow in Kotlin coroutines?",
+          "options": ["A one-shot value", "A cold asynchronous stream of values", "A thread pool", "A synchronization primitive"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "coroutines", "flow"]
+        },
+        {
+          "id": "kca_q2",
+          "text": "What is the difference between StateFlow and SharedFlow?",
+          "options": ["No difference", "StateFlow always has a current value, SharedFlow may not", "SharedFlow is deprecated", "StateFlow is for UI only"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "coroutines", "flow"]
+        },
+        {
+          "id": "kca_q3",
+          "text": "How do you handle exceptions in a coroutine?",
+          "options": ["Only try/catch", "CoroutineExceptionHandler or try/catch", "Exceptions are ignored", "Using @Throws annotation"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "coroutines", "error-handling"]
+        },
+        {
+          "id": "kca_q4",
+          "text": "What does 'withContext' do?",
+          "options": ["Creates a new coroutine", "Switches the dispatcher without creating a new coroutine", "Cancels current coroutine", "Blocks the thread"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "coroutines", "dispatchers"]
+        },
+        {
+          "id": "kca_q5",
+          "text": "What happens when a parent coroutine is cancelled?",
+          "options": ["Nothing", "All children are also cancelled", "Only the first child is cancelled", "Children continue running"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "coroutines", "cancellation"]
+        }
+      ]
+    },
+    {
+      "id": "android_components",
+      "title": "Android Core Components",
+      "questions": [
+        {
+          "id": "ac_q1",
+          "text": "Which component is used to share data between applications?",
           "options": ["Broadcast Receiver", "Content Provider", "Service", "Activity"],
           "correctIndex": 1,
           "tags": ["android", "components", "architecture"]
         },
         {
-          "id": "kb_q8",
-          "text": "What does the 'Elvis Operator' (?:) do in Kotlin?",
-          "options": [
-            "It checks if a value is true",
-            "It returns the left-hand value if it's NOT null, otherwise the right-hand value",
-            "It forces a non-null cast",
-            "It terminates a loop"
-          ],
+          "id": "ac_q2",
+          "text": "What is the purpose of an Android Service?",
+          "options": ["Display UI", "Perform long-running operations in the background", "Handle user input", "Store data"],
           "correctIndex": 1,
-          "tags": ["kotlin", "null-safety", "operators"]
+          "tags": ["android", "components", "services"]
         },
         {
-          "id": "kb_q9",
-          "text": "Which Jetpack library is recommended for managing complex UI navigation?",
+          "id": "ac_q3",
+          "text": "What does a BroadcastReceiver do?",
+          "options": ["Sends network requests", "Responds to system-wide broadcast announcements", "Manages database", "Renders UI"],
+          "correctIndex": 1,
+          "tags": ["android", "components", "broadcast"]
+        },
+        {
+          "id": "ac_q4",
+          "text": "What file declares all activities and permissions?",
+          "options": ["build.gradle", "AndroidManifest.xml", "settings.gradle", "proguard-rules.pro"],
+          "correctIndex": 1,
+          "tags": ["android", "manifest", "basics"]
+        },
+        {
+          "id": "ac_q5",
+          "text": "What is an Intent in Android?",
+          "options": ["A UI component", "A messaging object for requesting actions", "A database query", "A layout file"],
+          "correctIndex": 1,
+          "tags": ["android", "intents", "components"]
+        }
+      ]
+    },
+    {
+      "id": "android_lifecycle",
+      "title": "Android Activity Lifecycle",
+      "questions": [
+        {
+          "id": "al_q1",
+          "text": "Which lifecycle method is called when an Activity first becomes visible?",
+          "options": ["onCreate", "onStart", "onResume", "onRestart"],
+          "correctIndex": 1,
+          "tags": ["android", "lifecycle", "activity"]
+        },
+        {
+          "id": "al_q2",
+          "text": "Which scope should be used for coroutines tied to a ViewModel?",
+          "options": ["GlobalScope", "lifecycleScope", "viewModelScope", "MainScope"],
+          "correctIndex": 2,
+          "tags": ["android", "coroutines", "lifecycle"]
+        },
+        {
+          "id": "al_q3",
+          "text": "What happens during onSaveInstanceState?",
+          "options": ["Activity is destroyed", "State is saved before potential destruction", "Activity is resumed", "Nothing important"],
+          "correctIndex": 1,
+          "tags": ["android", "lifecycle", "state-management"]
+        },
+        {
+          "id": "al_q4",
+          "text": "When is onDestroy() called?",
+          "options": ["When activity goes to background", "When the activity is finishing or being destroyed by system", "When user presses home", "On every configuration change"],
+          "correctIndex": 1,
+          "tags": ["android", "lifecycle", "activity"]
+        },
+        {
+          "id": "al_q5",
+          "text": "Which lifecycle method is called when the activity is no longer in the foreground?",
+          "options": ["onPause", "onStop", "onDestroy", "onRestart"],
+          "correctIndex": 0,
+          "tags": ["android", "lifecycle", "activity"]
+        }
+      ]
+    },
+    {
+      "id": "compose_basics",
+      "title": "Jetpack Compose Basics",
+      "questions": [
+        {
+          "id": "cb_q1",
+          "text": "What annotation marks a Compose UI function?",
+          "options": ["@Component", "@Composable", "@View", "@Widget"],
+          "correctIndex": 1,
+          "tags": ["compose", "basics", "annotations"]
+        },
+        {
+          "id": "cb_q2",
+          "text": "What is recomposition in Compose?",
+          "options": ["Rebuilding the entire UI", "Re-executing composables when state changes", "Destroying and recreating an activity", "Reloading resources"],
+          "correctIndex": 1,
+          "tags": ["compose", "recomposition", "state"]
+        },
+        {
+          "id": "cb_q3",
+          "text": "Which function remembers a value across recompositions?",
+          "options": ["recall", "remember", "persist", "save"],
+          "correctIndex": 1,
+          "tags": ["compose", "state", "basics"]
+        },
+        {
+          "id": "cb_q4",
+          "text": "What layout places children vertically?",
+          "options": ["Row", "Column", "Box", "Stack"],
+          "correctIndex": 1,
+          "tags": ["compose", "layout", "basics"]
+        },
+        {
+          "id": "cb_q5",
+          "text": "What is the purpose of Modifier in Compose?",
+          "options": ["Define routes", "Decorate or add behavior to composables", "Connect to database", "Handle navigation"],
+          "correctIndex": 1,
+          "tags": ["compose", "modifier", "basics"]
+        }
+      ]
+    },
+    {
+      "id": "compose_state",
+      "title": "Compose State Management",
+      "questions": [
+        {
+          "id": "cs_q1",
+          "text": "What does mutableStateOf() create?",
+          "options": ["A constant", "An observable state that triggers recomposition", "A coroutine", "A database entry"],
+          "correctIndex": 1,
+          "tags": ["compose", "state", "reactive"]
+        },
+        {
+          "id": "cs_q2",
+          "text": "What is state hoisting in Compose?",
+          "options": ["Storing state in a database", "Moving state up to a caller composable", "Using global state", "Caching state"],
+          "correctIndex": 1,
+          "tags": ["compose", "state", "architecture"]
+        },
+        {
+          "id": "cs_q3",
+          "text": "How do you collect a StateFlow in Compose?",
+          "options": ["flow.value", "flow.collectAsState()", "flow.observe()", "flow.get()"],
+          "correctIndex": 1,
+          "tags": ["compose", "state", "flow"]
+        },
+        {
+          "id": "cs_q4",
+          "text": "What is derivedStateOf used for?",
+          "options": ["Creating side effects", "Computing a value derived from other state objects", "Navigation", "Theming"],
+          "correctIndex": 1,
+          "tags": ["compose", "state", "performance"]
+        },
+        {
+          "id": "cs_q5",
+          "text": "Why should state be immutable in Compose?",
+          "options": ["To save memory", "So Compose can detect changes and recompose", "For security", "It's not required"],
+          "correctIndex": 1,
+          "tags": ["compose", "state", "architecture"]
+        }
+      ]
+    },
+    {
+      "id": "compose_navigation",
+      "title": "Compose Navigation",
+      "questions": [
+        {
+          "id": "cn_q1",
+          "text": "Which Jetpack library manages UI navigation in Compose?",
           "options": ["Room", "Retrofit", "Navigation Component", "WorkManager"],
           "correctIndex": 2,
-          "tags": ["android", "jetpack", "navigation"]
+          "tags": ["compose", "navigation", "jetpack"]
         },
         {
-          "id": "kb_q10",
-          "text": "What is a 'Higher-Order Function' in Kotlin?",
-          "options": [
-            "A function that must be called from a class",
-            "A function that takes another function as a parameter or returns one",
-            "A function with a high priority in execution",
-            "A function that doesn't return any value"
-          ],
+          "id": "cn_q2",
+          "text": "What is a NavHost in Compose Navigation?",
+          "options": ["A server", "A container that displays destinations", "A back button handler", "A deep link handler"],
           "correctIndex": 1,
-          "tags": ["kotlin", "functional-programming", "advanced"]
+          "tags": ["compose", "navigation", "components"]
+        },
+        {
+          "id": "cn_q3",
+          "text": "How do you pass arguments in a navigation route?",
+          "options": ["Using Bundle only", "Including them in the route string pattern", "Via SharedPreferences", "Through global variables"],
+          "correctIndex": 1,
+          "tags": ["compose", "navigation", "arguments"]
+        },
+        {
+          "id": "cn_q4",
+          "text": "What does popUpTo do in navigation?",
+          "options": ["Opens a popup dialog", "Removes destinations from the back stack up to a given route", "Creates a new stack", "Refreshes the current screen"],
+          "correctIndex": 1,
+          "tags": ["compose", "navigation", "back-stack"]
+        },
+        {
+          "id": "cn_q5",
+          "text": "What does launchSingleTop = true prevent?",
+          "options": ["Navigation entirely", "Multiple copies of the same destination on the stack", "Back button from working", "Deep links"],
+          "correctIndex": 1,
+          "tags": ["compose", "navigation", "back-stack"]
+        }
+      ]
+    },
+    {
+      "id": "compose_side_effects",
+      "title": "Compose Side Effects",
+      "questions": [
+        {
+          "id": "cse_q1",
+          "text": "What is LaunchedEffect used for?",
+          "options": ["Styling composables", "Running suspend functions tied to composition lifecycle", "Creating animations", "Defining routes"],
+          "correctIndex": 1,
+          "tags": ["compose", "side-effects", "coroutines"]
+        },
+        {
+          "id": "cse_q2",
+          "text": "When does DisposableEffect's onDispose block run?",
+          "options": ["On recomposition", "When the composable leaves the composition", "On every frame", "Never"],
+          "correctIndex": 1,
+          "tags": ["compose", "side-effects", "lifecycle"]
+        },
+        {
+          "id": "cse_q3",
+          "text": "What is the difference between LaunchedEffect and SideEffect?",
+          "options": ["No difference", "LaunchedEffect is for suspend code, SideEffect runs after every successful recomposition", "SideEffect is deprecated", "LaunchedEffect blocks the thread"],
+          "correctIndex": 1,
+          "tags": ["compose", "side-effects", "advanced"]
+        },
+        {
+          "id": "cse_q4",
+          "text": "What key should you pass to LaunchedEffect to run it only once?",
+          "options": ["true", "Unit", "null", "0"],
+          "correctIndex": 1,
+          "tags": ["compose", "side-effects", "basics"]
+        },
+        {
+          "id": "cse_q5",
+          "text": "What does rememberCoroutineScope() provide?",
+          "options": ["A ViewModel", "A CoroutineScope tied to the composable's lifecycle", "A Flow", "A state holder"],
+          "correctIndex": 1,
+          "tags": ["compose", "side-effects", "coroutines"]
+        }
+      ]
+    },
+    {
+      "id": "compose_lists",
+      "title": "Compose Lists & Performance",
+      "questions": [
+        {
+          "id": "cl_q1",
+          "text": "What is the Compose equivalent of RecyclerView?",
+          "options": ["ScrollView", "LazyColumn", "ListView", "Column"],
+          "correctIndex": 1,
+          "tags": ["compose", "lists", "performance"]
+        },
+        {
+          "id": "cl_q2",
+          "text": "Why should you provide a key in LazyColumn items?",
+          "options": ["For styling", "For efficient item identity and recomposition", "It's mandatory", "For accessibility"],
+          "correctIndex": 1,
+          "tags": ["compose", "lists", "performance"]
+        },
+        {
+          "id": "cl_q3",
+          "text": "What does LazyRow do?",
+          "options": ["Creates a vertical list", "Creates a horizontal scrolling list", "Creates a grid", "Creates a pager"],
+          "correctIndex": 1,
+          "tags": ["compose", "lists", "layout"]
+        },
+        {
+          "id": "cl_q4",
+          "text": "How do you add spacing between items in LazyColumn?",
+          "options": ["padding modifier", "verticalArrangement = Arrangement.spacedBy()", "margin modifier", "Spacer between items"],
+          "correctIndex": 1,
+          "tags": ["compose", "lists", "layout"]
+        },
+        {
+          "id": "cl_q5",
+          "text": "What is the purpose of contentPadding in LazyColumn?",
+          "options": ["Padding around each item", "Padding around the entire list content", "Padding on the screen", "No purpose"],
+          "correctIndex": 1,
+          "tags": ["compose", "lists", "layout"]
+        }
+      ]
+    },
+    {
+      "id": "compose_theming",
+      "title": "Compose Theming & Material Design",
+      "questions": [
+        {
+          "id": "ct_q1",
+          "text": "What function provides the Material 3 theme in Compose?",
+          "options": ["Theme()", "MaterialTheme()", "AppTheme()", "ComposeTheme()"],
+          "correctIndex": 1,
+          "tags": ["compose", "theming", "material-design"]
+        },
+        {
+          "id": "ct_q2",
+          "text": "How do you access the current color scheme in Compose?",
+          "options": ["Colors.current", "MaterialTheme.colorScheme", "Theme.colors", "getColors()"],
+          "correctIndex": 1,
+          "tags": ["compose", "theming", "colors"]
+        },
+        {
+          "id": "ct_q3",
+          "text": "What is a Surface composable?",
+          "options": ["A layout container", "A material design container with color and elevation", "An animation wrapper", "A scroll container"],
+          "correctIndex": 1,
+          "tags": ["compose", "material-design", "components"]
+        },
+        {
+          "id": "ct_q4",
+          "text": "How do you define custom typography in Material 3?",
+          "options": ["Using CSS", "By providing a Typography object to MaterialTheme", "In XML", "Using font tags"],
+          "correctIndex": 1,
+          "tags": ["compose", "theming", "typography"]
+        },
+        {
+          "id": "ct_q5",
+          "text": "What does dynamicColorScheme provide on Android 12+?",
+          "options": ["Random colors", "Colors based on the user's wallpaper", "Dark mode only", "High contrast colors"],
+          "correctIndex": 1,
+          "tags": ["compose", "theming", "material-design"]
+        }
+      ]
+    },
+    {
+      "id": "android_viewmodel",
+      "title": "ViewModel & Architecture",
+      "questions": [
+        {
+          "id": "avm_q1",
+          "text": "What is the main benefit of ViewModel?",
+          "options": ["Faster rendering", "Survives configuration changes", "Replaces Activities", "Handles navigation"],
+          "correctIndex": 1,
+          "tags": ["android", "viewmodel", "architecture"]
+        },
+        {
+          "id": "avm_q2",
+          "text": "Where should business logic live in MVVM?",
+          "options": ["View/UI layer", "ViewModel or domain layer", "Only in repositories", "In Activities"],
+          "correctIndex": 1,
+          "tags": ["android", "viewmodel", "architecture"]
+        },
+        {
+          "id": "avm_q3",
+          "text": "What is SavedStateHandle used for?",
+          "options": ["Navigation arguments and process-death state restoration", "Database access", "Network calls", "Dependency injection"],
+          "correctIndex": 0,
+          "tags": ["android", "viewmodel", "state-management"]
+        },
+        {
+          "id": "avm_q4",
+          "text": "When is a ViewModel cleared?",
+          "options": ["On every rotation", "When the associated lifecycle owner is permanently destroyed", "Never", "On app background"],
+          "correctIndex": 1,
+          "tags": ["android", "viewmodel", "lifecycle"]
+        },
+        {
+          "id": "avm_q5",
+          "text": "Should a ViewModel hold a reference to a Context?",
+          "options": ["Yes, always", "No, it can cause memory leaks", "Only the Activity context", "Only in tests"],
+          "correctIndex": 1,
+          "tags": ["android", "viewmodel", "best-practices"]
+        }
+      ]
+    },
+    {
+      "id": "android_room_basics",
+      "title": "Room Database Basics",
+      "questions": [
+        {
+          "id": "arb_q1",
+          "text": "What annotation marks a Room entity?",
+          "options": ["@Table", "@Entity", "@Model", "@Schema"],
+          "correctIndex": 1,
+          "tags": ["android", "room", "database"]
+        },
+        {
+          "id": "arb_q2",
+          "text": "What is a DAO in Room?",
+          "options": ["Data Access Object - interface for database operations", "Data Application Object", "Database Administration Object", "Dynamic Array Object"],
+          "correctIndex": 0,
+          "tags": ["android", "room", "database"]
+        },
+        {
+          "id": "arb_q3",
+          "text": "Which annotation marks the primary key of an entity?",
+          "options": ["@Id", "@PrimaryKey", "@Key", "@Primary"],
+          "correctIndex": 1,
+          "tags": ["android", "room", "database"]
+        },
+        {
+          "id": "arb_q4",
+          "text": "How do you observe Room data reactively?",
+          "options": ["Using callbacks", "Returning Flow or LiveData from DAO queries", "Polling the database", "Using EventBus"],
+          "correctIndex": 1,
+          "tags": ["android", "room", "flow"]
+        },
+        {
+          "id": "arb_q5",
+          "text": "What does @Insert(onConflict = OnConflictStrategy.REPLACE) do?",
+          "options": ["Ignores duplicates", "Replaces existing row on primary key conflict", "Throws an exception", "Deletes all rows first"],
+          "correctIndex": 1,
+          "tags": ["android", "room", "database"]
+        }
+      ]
+    },
+    {
+      "id": "android_room_advanced",
+      "title": "Room: Relations & Migrations",
+      "questions": [
+        {
+          "id": "ara_q1",
+          "text": "How do you define a one-to-many relationship in Room?",
+          "options": ["Using @Relation annotation", "Using JOIN only", "Using foreign keys only", "Room doesn't support relations"],
+          "correctIndex": 0,
+          "tags": ["android", "room", "relations"]
+        },
+        {
+          "id": "ara_q2",
+          "text": "What is a Room Migration?",
+          "options": ["Moving to a new phone", "Code that updates the database schema between versions", "Backing up data", "Exporting to CSV"],
+          "correctIndex": 1,
+          "tags": ["android", "room", "migrations"]
+        },
+        {
+          "id": "ara_q3",
+          "text": "What does fallbackToDestructiveMigration do?",
+          "options": ["Crashes the app", "Drops and recreates the database when migration is missing", "Ignores schema changes", "Backs up data first"],
+          "correctIndex": 1,
+          "tags": ["android", "room", "migrations"]
+        },
+        {
+          "id": "ara_q4",
+          "text": "Can Room DAO methods return Flow?",
+          "options": ["No", "Yes, for reactive observation of database changes", "Only LiveData", "Only suspend functions"],
+          "correctIndex": 1,
+          "tags": ["android", "room", "flow"]
+        },
+        {
+          "id": "ara_q5",
+          "text": "What is @Embedded used for in Room?",
+          "options": ["Embedding video", "Including fields of another object as columns in the entity", "Creating views", "Linking tables"],
+          "correctIndex": 1,
+          "tags": ["android", "room", "entities"]
+        }
+      ]
+    },
+    {
+      "id": "hilt_basics",
+      "title": "Hilt Dependency Injection",
+      "questions": [
+        {
+          "id": "hb_q1",
+          "text": "What is the purpose of Dependency Injection?",
+          "options": ["Faster compilation", "Providing dependencies from outside rather than creating them internally", "Encrypting data", "Managing navigation"],
+          "correctIndex": 1,
+          "tags": ["android", "hilt", "dependency-injection"]
+        },
+        {
+          "id": "hb_q2",
+          "text": "What annotation marks a Hilt module?",
+          "options": ["@Component", "@Module", "@Provider", "@Inject"],
+          "correctIndex": 1,
+          "tags": ["android", "hilt", "dependency-injection"]
+        },
+        {
+          "id": "hb_q3",
+          "text": "What does @Singleton scope mean in Hilt?",
+          "options": ["Created once, destroyed immediately", "One instance for the entire app lifetime", "One per activity", "One per fragment"],
+          "correctIndex": 1,
+          "tags": ["android", "hilt", "scopes"]
+        },
+        {
+          "id": "hb_q4",
+          "text": "How do you inject a ViewModel with Hilt?",
+          "options": ["@Inject constructor", "@HiltViewModel + @Inject constructor", "ViewModelFactory", "Manual creation"],
+          "correctIndex": 1,
+          "tags": ["android", "hilt", "viewmodel"]
+        },
+        {
+          "id": "hb_q5",
+          "text": "What does @InstallIn(SingletonComponent::class) mean?",
+          "options": ["Module lives for one activity", "Module bindings are available app-wide", "Module is for tests only", "Module is unscoped"],
+          "correctIndex": 1,
+          "tags": ["android", "hilt", "scopes"]
+        }
+      ]
+    },
+    {
+      "id": "android_networking",
+      "title": "Android Networking with Retrofit",
+      "questions": [
+        {
+          "id": "an_q1",
+          "text": "What is Retrofit primarily used for?",
+          "options": ["Database access", "Type-safe HTTP client for API calls", "UI rendering", "Image loading"],
+          "correctIndex": 1,
+          "tags": ["android", "networking", "retrofit"]
+        },
+        {
+          "id": "an_q2",
+          "text": "Which annotation defines a GET request in Retrofit?",
+          "options": ["@Fetch", "@GET", "@Request", "@HttpGet"],
+          "correctIndex": 1,
+          "tags": ["android", "networking", "retrofit"]
+        },
+        {
+          "id": "an_q3",
+          "text": "What serialization library is commonly used with Retrofit for Kotlin?",
+          "options": ["Jackson", "Gson only", "kotlinx.serialization or Moshi", "XML parser"],
+          "correctIndex": 2,
+          "tags": ["android", "networking", "serialization"]
+        },
+        {
+          "id": "an_q4",
+          "text": "What is an OkHttp Interceptor used for?",
+          "options": ["Blocking requests", "Modifying or logging HTTP requests/responses", "Caching images", "Managing threads"],
+          "correctIndex": 1,
+          "tags": ["android", "networking", "okhttp"]
+        },
+        {
+          "id": "an_q5",
+          "text": "How should network calls be handled relative to the main thread?",
+          "options": ["On the main thread", "Off the main thread using coroutines/Dispatchers.IO", "It doesn't matter", "Using Handler"],
+          "correctIndex": 1,
+          "tags": ["android", "networking", "threading"]
+        }
+      ]
+    },
+    {
+      "id": "android_datastore",
+      "title": "DataStore Preferences",
+      "questions": [
+        {
+          "id": "ads_q1",
+          "text": "What is DataStore Preferences a replacement for?",
+          "options": ["Room", "SharedPreferences", "SQLite", "ContentProvider"],
+          "correctIndex": 1,
+          "tags": ["android", "datastore", "storage"]
+        },
+        {
+          "id": "ads_q2",
+          "text": "Is DataStore synchronous or asynchronous?",
+          "options": ["Synchronous", "Asynchronous with Flow", "Both", "Neither"],
+          "correctIndex": 1,
+          "tags": ["android", "datastore", "flow"]
+        },
+        {
+          "id": "ads_q3",
+          "text": "What type of data is DataStore Preferences best for?",
+          "options": ["Large relational data", "Simple key-value pairs", "Binary files", "Images"],
+          "correctIndex": 1,
+          "tags": ["android", "datastore", "storage"]
+        },
+        {
+          "id": "ads_q4",
+          "text": "How do you write to DataStore?",
+          "options": ["Direct assignment", "Using edit { } suspend function", "Using putString()", "Using SQL INSERT"],
+          "correctIndex": 1,
+          "tags": ["android", "datastore", "storage"]
+        },
+        {
+          "id": "ads_q5",
+          "text": "What are the two types of DataStore?",
+          "options": ["Read and Write", "Preferences DataStore and Proto DataStore", "Local and Remote", "Sync and Async"],
+          "correctIndex": 1,
+          "tags": ["android", "datastore", "storage"]
+        }
+      ]
+    },
+    {
+      "id": "kotlin_extensions",
+      "title": "Kotlin Extension Functions & Properties",
+      "questions": [
+        {
+          "id": "ke_q1",
+          "text": "What is an extension function in Kotlin?",
+          "options": ["A function inside a class", "A function added to an existing class without modifying it", "A static method", "An abstract function"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "extensions", "advanced"]
+        },
+        {
+          "id": "ke_q2",
+          "text": "Can extension functions access private members of the class?",
+          "options": ["Yes", "No", "Only in the same module", "Only with reflection"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "extensions", "visibility"]
+        },
+        {
+          "id": "ke_q3",
+          "text": "What is an extension property?",
+          "options": ["A stored property added to a class", "A computed property added to a class without a backing field", "A nullable property", "A constant"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "extensions", "properties"]
+        },
+        {
+          "id": "ke_q4",
+          "text": "Are extension functions resolved statically or dynamically?",
+          "options": ["Dynamically (based on runtime type)", "Statically (based on declared type)", "Both", "Neither"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "extensions", "advanced"]
+        },
+        {
+          "id": "ke_q5",
+          "text": "Where are extension functions typically defined?",
+          "options": ["Inside the target class", "In a separate file at the top level", "In a companion object", "In an interface"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "extensions", "best-practices"]
+        }
+      ]
+    },
+    {
+      "id": "kotlin_generics",
+      "title": "Kotlin Generics",
+      "questions": [
+        {
+          "id": "kg_q1",
+          "text": "What do generics allow in Kotlin?",
+          "options": ["Only numeric types", "Type-safe, parameterized classes and functions", "Dynamic typing", "Runtime type changes"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "generics", "types"]
+        },
+        {
+          "id": "kg_q2",
+          "text": "What does 'out' variance in generics mean?",
+          "options": ["The type can be consumed only", "The type is produced (covariant)", "The type is invariant", "The type is erased"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "generics", "variance"]
+        },
+        {
+          "id": "kg_q3",
+          "text": "What does 'in' variance in generics mean?",
+          "options": ["The type is produced only", "The type can be consumed (contravariant)", "The type is invariant", "Input parameter only"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "generics", "variance"]
+        },
+        {
+          "id": "kg_q4",
+          "text": "What is type erasure?",
+          "options": ["Removing types at compile time", "Generic type information is removed at runtime", "Deleting classes", "Type casting"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "generics", "jvm"]
+        },
+        {
+          "id": "kg_q5",
+          "text": "What does 'reified' keyword do with inline functions?",
+          "options": ["Makes the function slower", "Preserves generic type information at runtime", "Makes it abstract", "Removes the function"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "generics", "advanced"]
+        }
+      ]
+    },
+    {
+      "id": "kotlin_delegation",
+      "title": "Kotlin Delegation",
+      "questions": [
+        {
+          "id": "kd_q1",
+          "text": "What is the 'by' keyword used for in Kotlin?",
+          "options": ["Naming variables", "Delegation (class or property)", "Creating loops", "Defining annotations"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "delegation", "advanced"]
+        },
+        {
+          "id": "kd_q2",
+          "text": "What does 'by lazy' do for a property?",
+          "options": ["Makes it nullable", "Initializes the property on first access", "Makes it mutable", "Deletes the property"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "delegation", "properties"]
+        },
+        {
+          "id": "kd_q3",
+          "text": "What is class delegation in Kotlin?",
+          "options": ["Inheriting from multiple classes", "Forwarding interface implementation to another object", "Abstract classes", "Creating factories"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "delegation", "design-patterns"]
+        },
+        {
+          "id": "kd_q4",
+          "text": "What does 'by observable' property delegate do?",
+          "options": ["Makes property immutable", "Calls a callback when the property value changes", "Creates a Flow", "Syncs with database"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "delegation", "properties"]
+        },
+        {
+          "id": "kd_q5",
+          "text": "Can you create custom property delegates?",
+          "options": ["No", "Yes, by implementing getValue/setValue operators", "Only for var properties", "Only in Android"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "delegation", "advanced"]
+        }
+      ]
+    },
+    {
+      "id": "android_testing",
+      "title": "Android Testing Fundamentals",
+      "questions": [
+        {
+          "id": "at_q1",
+          "text": "What is the difference between unit tests and instrumented tests?",
+          "options": ["No difference", "Unit tests run on JVM, instrumented tests run on a device/emulator", "Unit tests are slower", "Instrumented tests don't need a device"],
+          "correctIndex": 1,
+          "tags": ["android", "testing", "basics"]
+        },
+        {
+          "id": "at_q2",
+          "text": "Which testing library provides createComposeRule?",
+          "options": ["JUnit", "Espresso", "Compose UI Test", "Mockito"],
+          "correctIndex": 2,
+          "tags": ["android", "testing", "compose"]
+        },
+        {
+          "id": "at_q3",
+          "text": "What does Mockito do?",
+          "options": ["Creates real objects", "Creates mock objects for testing", "Runs UI tests", "Generates test data"],
+          "correctIndex": 1,
+          "tags": ["android", "testing", "mocking"]
+        },
+        {
+          "id": "at_q4",
+          "text": "What is Turbine used for in testing?",
+          "options": ["UI testing", "Testing Kotlin Flow emissions", "Network testing", "Database testing"],
+          "correctIndex": 1,
+          "tags": ["android", "testing", "flow"]
+        },
+        {
+          "id": "at_q5",
+          "text": "What annotation is used to run tests with Robolectric?",
+          "options": ["@RunWith(Robolectric::class)", "@RunWith(RobolectricTestRunner::class)", "@Robolectric", "@Test"],
+          "correctIndex": 1,
+          "tags": ["android", "testing", "robolectric"]
+        }
+      ]
+    },
+    {
+      "id": "kotlin_error_handling",
+      "title": "Kotlin Error Handling",
+      "questions": [
+        {
+          "id": "keh_q1",
+          "text": "Does Kotlin have checked exceptions?",
+          "options": ["Yes", "No, all exceptions are unchecked", "Only for IO", "Only with annotations"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "error-handling", "exceptions"]
+        },
+        {
+          "id": "keh_q2",
+          "text": "What does the 'runCatching' function return?",
+          "options": ["A Boolean", "A Result object wrapping success or failure", "An exception", "Nothing"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "error-handling", "stdlib"]
+        },
+        {
+          "id": "keh_q3",
+          "text": "How should CancellationException be handled in coroutines?",
+          "options": ["Catch and ignore it", "Re-throw it to maintain cancellation behavior", "Log and continue", "Never catch it at all"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "error-handling", "coroutines"]
+        },
+        {
+          "id": "keh_q4",
+          "text": "What does 'requireNotNull' do?",
+          "options": ["Returns null", "Throws IllegalArgumentException if the value is null", "Returns a default value", "Logs a warning"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "error-handling", "null-safety"]
+        },
+        {
+          "id": "keh_q5",
+          "text": "What is the 'Nothing' type in Kotlin?",
+          "options": ["Same as Unit", "A type with no instances, used for functions that never return", "Null type", "Void type"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "types", "error-handling"]
+        }
+      ]
+    },
+    {
+      "id": "compose_animation",
+      "title": "Compose Animations",
+      "questions": [
+        {
+          "id": "ca_q1",
+          "text": "Which API provides simple state-based animation in Compose?",
+          "options": ["ObjectAnimator", "animateXAsState", "TransitionManager", "PropertyAnimation"],
+          "correctIndex": 1,
+          "tags": ["compose", "animation", "basics"]
+        },
+        {
+          "id": "ca_q2",
+          "text": "What does AnimatedVisibility do?",
+          "options": ["Moves a composable", "Animates the appearance and disappearance of content", "Changes colors", "Scales content"],
+          "correctIndex": 1,
+          "tags": ["compose", "animation", "visibility"]
+        },
+        {
+          "id": "ca_q3",
+          "text": "What is AnimatedContent used for?",
+          "options": ["Loading images", "Animating transitions between different content based on state", "Playing videos", "Scrolling"],
+          "correctIndex": 1,
+          "tags": ["compose", "animation", "transitions"]
+        },
+        {
+          "id": "ca_q4",
+          "text": "What is an animationSpec?",
+          "options": ["A test specification", "Configuration for how an animation behaves (duration, easing)", "A color palette", "A layout spec"],
+          "correctIndex": 1,
+          "tags": ["compose", "animation", "configuration"]
+        },
+        {
+          "id": "ca_q5",
+          "text": "Which spec creates a spring-based animation?",
+          "options": ["tween", "spring", "keyframes", "snap"],
+          "correctIndex": 1,
+          "tags": ["compose", "animation", "physics"]
+        }
+      ]
+    },
+    {
+      "id": "android_permissions",
+      "title": "Android Permissions",
+      "questions": [
+        {
+          "id": "ap_q1",
+          "text": "What are runtime permissions in Android?",
+          "options": ["Permissions granted at install time", "Permissions the user must approve while the app is running", "Permissions for root access", "Developer-only permissions"],
+          "correctIndex": 1,
+          "tags": ["android", "permissions", "security"]
+        },
+        {
+          "id": "ap_q2",
+          "text": "Starting from which API level are runtime permissions required?",
+          "options": ["API 19", "API 21", "API 23 (Marshmallow)", "API 26"],
+          "correctIndex": 2,
+          "tags": ["android", "permissions", "api-levels"]
+        },
+        {
+          "id": "ap_q3",
+          "text": "Where do you declare permissions in Android?",
+          "options": ["build.gradle", "AndroidManifest.xml", "strings.xml", "settings.gradle"],
+          "correctIndex": 1,
+          "tags": ["android", "permissions", "manifest"]
+        },
+        {
+          "id": "ap_q4",
+          "text": "What happens if you don't request a required permission?",
+          "options": ["App crashes at startup", "SecurityException when accessing the protected feature", "Permission is auto-granted", "Nothing"],
+          "correctIndex": 1,
+          "tags": ["android", "permissions", "error-handling"]
+        },
+        {
+          "id": "ap_q5",
+          "text": "How do you handle permission requests in Compose?",
+          "options": ["Using ActivityCompat only", "Using rememberLauncherForActivityResult with RequestPermission contract", "Permissions are automatic", "Using XML"],
+          "correctIndex": 1,
+          "tags": ["android", "permissions", "compose"]
+        }
+      ]
+    },
+    {
+      "id": "android_workmanager",
+      "title": "WorkManager Background Tasks",
+      "questions": [
+        {
+          "id": "awm_q1",
+          "text": "What is WorkManager best suited for?",
+          "options": ["Real-time UI updates", "Deferrable, guaranteed background work", "Database queries", "Navigation"],
+          "correctIndex": 1,
+          "tags": ["android", "workmanager", "background"]
+        },
+        {
+          "id": "awm_q2",
+          "text": "What class do you extend to define work in WorkManager?",
+          "options": ["Service", "Worker or CoroutineWorker", "AsyncTask", "IntentService"],
+          "correctIndex": 1,
+          "tags": ["android", "workmanager", "workers"]
+        },
+        {
+          "id": "awm_q3",
+          "text": "Can WorkManager chain multiple tasks?",
+          "options": ["No", "Yes, using then() or beginWith().then()", "Only two tasks", "Only parallel tasks"],
+          "correctIndex": 1,
+          "tags": ["android", "workmanager", "chaining"]
+        },
+        {
+          "id": "awm_q4",
+          "text": "What are Constraints in WorkManager?",
+          "options": ["Time limits", "Conditions that must be met before work runs (e.g., network required)", "Size limits", "Thread limits"],
+          "correctIndex": 1,
+          "tags": ["android", "workmanager", "constraints"]
+        },
+        {
+          "id": "awm_q5",
+          "text": "Does WorkManager survive app restarts?",
+          "options": ["No", "Yes, it persists work across app and device restarts", "Only on some devices", "Only with foreground service"],
+          "correctIndex": 1,
+          "tags": ["android", "workmanager", "persistence"]
+        }
+      ]
+    },
+    {
+      "id": "kotlin_scope_functions",
+      "title": "Kotlin Scope Functions Deep Dive",
+      "questions": [
+        {
+          "id": "ksf_q1",
+          "text": "What is the context object reference in 'let'?",
+          "options": ["this", "it", "self", "context"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "scope-functions", "syntax"]
+        },
+        {
+          "id": "ksf_q2",
+          "text": "Which scope function uses 'this' as context and returns the lambda result?",
+          "options": ["let", "also", "run", "apply"],
+          "correctIndex": 2,
+          "tags": ["kotlin", "scope-functions", "syntax"]
+        },
+        {
+          "id": "ksf_q3",
+          "text": "What does 'also' return?",
+          "options": ["Lambda result", "The context object itself", "null", "Unit"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "scope-functions", "syntax"]
+        },
+        {
+          "id": "ksf_q4",
+          "text": "When should you use 'apply'?",
+          "options": ["For null checks", "For object configuration (setting properties)", "For mapping data", "For error handling"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "scope-functions", "best-practices"]
+        },
+        {
+          "id": "ksf_q5",
+          "text": "How does 'with' differ from 'run'?",
+          "options": ["No difference", "'with' takes the object as an argument instead of being called on it", "'with' is deprecated", "'with' is for null-safe calls"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "scope-functions", "syntax"]
+        }
+      ]
+    },
+    {
+      "id": "android_architecture_patterns",
+      "title": "Android Architecture Patterns",
+      "questions": [
+        {
+          "id": "aap_q1",
+          "text": "What does MVI stand for?",
+          "options": ["Model-View-Interface", "Model-View-Intent", "Module-View-Injection", "Main-View-Input"],
+          "correctIndex": 1,
+          "tags": ["android", "architecture", "mvi"]
+        },
+        {
+          "id": "aap_q2",
+          "text": "In Clean Architecture, which layer should NOT depend on Android framework?",
+          "options": ["Presentation", "Data", "Domain", "All layers depend on Android"],
+          "correctIndex": 2,
+          "tags": ["android", "architecture", "clean-architecture"]
+        },
+        {
+          "id": "aap_q3",
+          "text": "What is the Repository pattern?",
+          "options": ["A Git concept", "An abstraction that mediates between data sources and the domain", "A UI pattern", "A testing pattern"],
+          "correctIndex": 1,
+          "tags": ["android", "architecture", "repository"]
+        },
+        {
+          "id": "aap_q4",
+          "text": "What is a Use Case (Interactor) in Clean Architecture?",
+          "options": ["A UI component", "A single business action encapsulated in a class", "A database table", "A test case"],
+          "correctIndex": 1,
+          "tags": ["android", "architecture", "clean-architecture"]
+        },
+        {
+          "id": "aap_q5",
+          "text": "What principle does the UDF (Unidirectional Data Flow) follow?",
+          "options": ["Data flows in all directions", "State flows down, events flow up", "Only UI can change state", "No state at all"],
+          "correctIndex": 1,
+          "tags": ["android", "architecture", "state-management"]
+        }
+      ]
+    },
+    {
+      "id": "android_firebase_auth",
+      "title": "Firebase Authentication",
+      "questions": [
+        {
+          "id": "afa_q1",
+          "text": "What is Firebase Authentication?",
+          "options": ["A database", "A backend service for user identity verification", "A UI library", "A testing tool"],
+          "correctIndex": 1,
+          "tags": ["android", "firebase", "authentication"]
+        },
+        {
+          "id": "afa_q2",
+          "text": "Which sign-in method does Google Sign-In use?",
+          "options": ["Username/password", "OAuth 2.0", "Basic auth", "API keys"],
+          "correctIndex": 1,
+          "tags": ["android", "firebase", "google-sign-in"]
+        },
+        {
+          "id": "afa_q3",
+          "text": "How do you get the current user in Firebase Auth?",
+          "options": ["FirebaseAuth.currentUser", "FirebaseAuth.getInstance().currentUser", "Firebase.getUser()", "Auth.user"],
+          "correctIndex": 1,
+          "tags": ["android", "firebase", "authentication"]
+        },
+        {
+          "id": "afa_q4",
+          "text": "What does FirebaseAuth.signOut() do?",
+          "options": ["Deletes the user account", "Signs out the current user locally", "Disables the account", "Clears the database"],
+          "correctIndex": 1,
+          "tags": ["android", "firebase", "authentication"]
+        },
+        {
+          "id": "afa_q5",
+          "text": "What is an AuthStateListener?",
+          "options": ["A UI component", "A callback that fires when the user's sign-in state changes", "A permission handler", "A network monitor"],
+          "correctIndex": 1,
+          "tags": ["android", "firebase", "authentication"]
+        }
+      ]
+    },
+    {
+      "id": "kotlin_sequences",
+      "title": "Kotlin Sequences & Lazy Evaluation",
+      "questions": [
+        {
+          "id": "ks_q1",
+          "text": "What is the main advantage of Sequences over Lists for chained operations?",
+          "options": ["Faster for small collections", "Lazy evaluation — processes elements one at a time", "Thread safety", "Type safety"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "sequences", "performance"]
+        },
+        {
+          "id": "ks_q2",
+          "text": "How do you convert a List to a Sequence?",
+          "options": ["list.toSequence()", "list.asSequence()", "sequenceOf(list)", "Sequence(list)"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "sequences", "syntax"]
+        },
+        {
+          "id": "ks_q3",
+          "text": "When are Sequences more efficient than Lists?",
+          "options": ["Always", "For large collections with multiple chained operations", "For small collections", "Never"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "sequences", "performance"]
+        },
+        {
+          "id": "ks_q4",
+          "text": "What is a terminal operation on a Sequence?",
+          "options": ["map", "filter", "toList or first — triggers evaluation", "asSequence"],
+          "correctIndex": 2,
+          "tags": ["kotlin", "sequences", "operations"]
+        },
+        {
+          "id": "ks_q5",
+          "text": "Can you use Sequences with coroutines Flow?",
+          "options": ["Yes, they are the same", "No, they are separate concepts (Sequences are synchronous)", "Only with channels", "Sequences are deprecated"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "sequences", "coroutines"]
+        }
+      ]
+    },
+    {
+      "id": "compose_accessibility",
+      "title": "Compose Accessibility",
+      "questions": [
+        {
+          "id": "cac_q1",
+          "text": "How do you add a content description for screen readers in Compose?",
+          "options": ["Using android:contentDescription", "Using Modifier.semantics { contentDescription = ... }", "Using a label attribute", "It's automatic"],
+          "correctIndex": 1,
+          "tags": ["compose", "accessibility", "semantics"]
+        },
+        {
+          "id": "cac_q2",
+          "text": "What does testTag do in Compose?",
+          "options": ["Adds a label for accessibility", "Assigns a tag for UI testing", "Applies a style", "Defines a route"],
+          "correctIndex": 1,
+          "tags": ["compose", "testing", "accessibility"]
+        },
+        {
+          "id": "cac_q3",
+          "text": "How do you merge semantics of child composables?",
+          "options": ["Using clearSemantics", "Using Modifier.semantics(mergeDescendants = true)", "It happens automatically", "Using a Group composable"],
+          "correctIndex": 1,
+          "tags": ["compose", "accessibility", "semantics"]
+        },
+        {
+          "id": "cac_q4",
+          "text": "Why is touch target size important for accessibility?",
+          "options": ["Looks better", "Ensures users with motor impairments can interact reliably", "Required by Android", "Improves performance"],
+          "correctIndex": 1,
+          "tags": ["compose", "accessibility", "best-practices"]
+        },
+        {
+          "id": "cac_q5",
+          "text": "How do you find a composable in a Compose test?",
+          "options": ["findViewById", "onNodeWithText, onNodeWithTag, onNodeWithContentDescription", "querySelector", "findView"],
+          "correctIndex": 1,
+          "tags": ["compose", "testing", "accessibility"]
+        }
+      ]
+    },
+    {
+      "id": "android_security",
+      "title": "Android Security Basics",
+      "questions": [
+        {
+          "id": "as_q1",
+          "text": "Where should you store API keys in Android?",
+          "options": ["Hardcoded in source", "In local.properties or server-side, never in committed code", "In strings.xml", "In the manifest"],
+          "correctIndex": 1,
+          "tags": ["android", "security", "best-practices"]
+        },
+        {
+          "id": "as_q2",
+          "text": "What is ProGuard/R8 used for?",
+          "options": ["Testing", "Code shrinking, obfuscation, and optimization", "UI rendering", "Database management"],
+          "correctIndex": 1,
+          "tags": ["android", "security", "build"]
+        },
+        {
+          "id": "as_q3",
+          "text": "What is certificate pinning?",
+          "options": ["Pinning UI elements", "Ensuring the app only trusts specific server certificates", "A UI animation", "A navigation pattern"],
+          "correctIndex": 1,
+          "tags": ["android", "security", "networking"]
+        },
+        {
+          "id": "as_q4",
+          "text": "How should sensitive data be stored locally?",
+          "options": ["SharedPreferences", "Encrypted storage (EncryptedSharedPreferences or AndroidKeyStore)", "Plain text files", "In the manifest"],
+          "correctIndex": 1,
+          "tags": ["android", "security", "storage"]
+        },
+        {
+          "id": "as_q5",
+          "text": "What is the Android Keystore System?",
+          "options": ["A file browser", "A container for cryptographic keys protected by hardware", "An app store", "A debugging tool"],
+          "correctIndex": 1,
+          "tags": ["android", "security", "encryption"]
+        }
+      ]
+    },
+    {
+      "id": "kotlin_coroutines_flow_operators",
+      "title": "Flow Operators & Transformations",
+      "questions": [
+        {
+          "id": "kcfo_q1",
+          "text": "What does the 'combine' operator do with multiple flows?",
+          "options": ["Merges them sequentially", "Emits when any flow emits, combining latest values from all", "Cancels all flows", "Filters flows"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "coroutines", "flow"]
+        },
+        {
+          "id": "kcfo_q2",
+          "text": "What is the difference between 'collect' and 'collectLatest'?",
+          "options": ["No difference", "collectLatest cancels the previous collection when a new value arrives", "collect is faster", "collectLatest is deprecated"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "coroutines", "flow"]
+        },
+        {
+          "id": "kcfo_q3",
+          "text": "What does 'debounce' do in a Flow?",
+          "options": ["Speeds up emissions", "Waits for a period of inactivity before emitting the latest value", "Filters duplicates", "Batches emissions"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "coroutines", "flow"]
+        },
+        {
+          "id": "kcfo_q4",
+          "text": "How do you convert a cold Flow to a hot SharedFlow?",
+          "options": ["flow.toHot()", "Using shareIn or stateIn operators", "Using launch", "Flows are always hot"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "coroutines", "flow"]
+        },
+        {
+          "id": "kcfo_q5",
+          "text": "What does 'flatMapLatest' do?",
+          "options": ["Maps and flattens all emissions", "Maps to a new flow, cancelling the previous one on new emission", "Flattens a list", "Sorts emissions"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "coroutines", "flow"]
+        }
+      ]
+    },
+    {
+      "id": "android_process_death",
+      "title": "Process Death & State Restoration",
+      "questions": [
+        {
+          "id": "apd_q1",
+          "text": "What is Android process death?",
+          "options": ["App crash", "System killing the app process to free memory while it's in background", "User force-stopping the app", "Battery optimization"],
+          "correctIndex": 1,
+          "tags": ["android", "process-death", "lifecycle"]
+        },
+        {
+          "id": "apd_q2",
+          "text": "What survives process death?",
+          "options": ["ViewModel data", "SavedStateHandle data and onSaveInstanceState", "Singletons", "Static variables"],
+          "correctIndex": 1,
+          "tags": ["android", "process-death", "state-management"]
+        },
+        {
+          "id": "apd_q3",
+          "text": "How do you test process death scenarios?",
+          "options": ["Kill the app from recent apps", "Use 'Don't keep activities' in Developer Options or adb commands", "Restart the phone", "It can't be tested"],
+          "correctIndex": 1,
+          "tags": ["android", "process-death", "testing"]
+        },
+        {
+          "id": "apd_q4",
+          "text": "What is rememberSaveable in Compose?",
+          "options": ["Same as remember", "Saves state across configuration changes and process death", "Saves to database", "Saves to SharedPreferences"],
+          "correctIndex": 1,
+          "tags": ["android", "process-death", "compose"]
+        },
+        {
+          "id": "apd_q5",
+          "text": "Does Room data survive process death?",
+          "options": ["No", "Yes, database files persist on disk", "Only if exported", "Only with WAL mode"],
+          "correctIndex": 1,
+          "tags": ["android", "process-death", "room"]
+        }
+      ]
+    },
+    {
+      "id": "compose_gestures",
+      "title": "Compose Gestures & Input",
+      "questions": [
+        {
+          "id": "cg_q1",
+          "text": "How do you make a composable clickable?",
+          "options": ["onClick attribute", "Modifier.clickable { }", "setOnClickListener", "Click composable"],
+          "correctIndex": 1,
+          "tags": ["compose", "gestures", "input"]
+        },
+        {
+          "id": "cg_q2",
+          "text": "What does Modifier.pointerInput do?",
+          "options": ["Handles mouse input only", "Provides low-level access to pointer/touch events", "Changes the cursor", "Disables touch"],
+          "correctIndex": 1,
+          "tags": ["compose", "gestures", "advanced"]
+        },
+        {
+          "id": "cg_q3",
+          "text": "How do you detect a long press in Compose?",
+          "options": ["Modifier.longClick", "Modifier.combinedClickable(onLongClick = {})", "onLongPress callback", "Timer-based detection"],
+          "correctIndex": 1,
+          "tags": ["compose", "gestures", "input"]
+        },
+        {
+          "id": "cg_q4",
+          "text": "What is the difference between detectTapGestures and clickable?",
+          "options": ["No difference", "detectTapGestures is lower-level, offering more control over press/release", "clickable is deprecated", "detectTapGestures is faster"],
+          "correctIndex": 1,
+          "tags": ["compose", "gestures", "advanced"]
+        },
+        {
+          "id": "cg_q5",
+          "text": "How do you handle drag gestures in Compose?",
+          "options": ["Using draggable modifier or detectDragGestures", "Using ScrollView", "Using onTouchEvent", "Drag is not supported"],
+          "correctIndex": 0,
+          "tags": ["compose", "gestures", "drag"]
+        }
+      ]
+    },
+    {
+      "id": "kotlin_dsl_builders",
+      "title": "Kotlin DSLs & Type-Safe Builders",
+      "questions": [
+        {
+          "id": "kdsb_q1",
+          "text": "What makes Kotlin good for building DSLs?",
+          "options": ["Static typing only", "Lambdas with receivers, extension functions, and operator overloading", "XML support", "Reflection"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "dsl", "advanced"]
+        },
+        {
+          "id": "kdsb_q2",
+          "text": "What is a lambda with receiver?",
+          "options": ["A lambda that takes arguments", "A lambda where the body has access to the receiver's members via 'this'", "A callback", "An event handler"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "dsl", "lambdas"]
+        },
+        {
+          "id": "kdsb_q3",
+          "text": "Which Kotlin feature is used in buildString { }?",
+          "options": ["Coroutines", "Lambda with receiver (StringBuilder.() -> Unit)", "Reflection", "Annotations"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "dsl", "stdlib"]
+        },
+        {
+          "id": "kdsb_q4",
+          "text": "What does @DslMarker annotation do?",
+          "options": ["Marks a function as deprecated", "Restricts scope access in nested DSL builders", "Creates documentation", "Enables debugging"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "dsl", "annotations"]
+        },
+        {
+          "id": "kdsb_q5",
+          "text": "Where are Kotlin DSLs commonly used in Android?",
+          "options": ["Only in tests", "Gradle build scripts, Compose UI, Ktor", "Only in XML layouts", "Only for networking"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "dsl", "android"]
+        }
+      ]
+    },
+    {
+      "id": "android_gradle",
+      "title": "Android Gradle & Build System",
+      "questions": [
+        {
+          "id": "ag_q1",
+          "text": "What is the purpose of build.gradle.kts?",
+          "options": ["UI layout", "Build configuration and dependency management", "Database schema", "Test configuration only"],
+          "correctIndex": 1,
+          "tags": ["android", "gradle", "build"]
+        },
+        {
+          "id": "ag_q2",
+          "text": "What does 'implementation' dependency configuration mean?",
+          "options": ["Available to all modules", "Available to this module only, not transitive", "Available only in tests", "Available at compile time only"],
+          "correctIndex": 1,
+          "tags": ["android", "gradle", "dependencies"]
+        },
+        {
+          "id": "ag_q3",
+          "text": "What is a version catalog in Gradle?",
+          "options": ["A UI catalog", "A centralized file (libs.versions.toml) for managing dependency versions", "A changelog", "A library index"],
+          "correctIndex": 1,
+          "tags": ["android", "gradle", "dependencies"]
+        },
+        {
+          "id": "ag_q4",
+          "text": "What does 'minSdk' specify?",
+          "options": ["Maximum supported API", "Minimum Android API level the app supports", "Target API", "Compile API"],
+          "correctIndex": 1,
+          "tags": ["android", "gradle", "configuration"]
+        },
+        {
+          "id": "ag_q5",
+          "text": "What is the difference between 'api' and 'implementation' in Gradle?",
+          "options": ["No difference", "'api' exposes the dependency to consumers, 'implementation' keeps it internal", "'api' is deprecated", "'implementation' is for tests"],
+          "correctIndex": 1,
+          "tags": ["android", "gradle", "dependencies"]
+        }
+      ]
+    },
+    {
+      "id": "kotlin_interfaces_abstract",
+      "title": "Kotlin Interfaces & Abstract Classes",
+      "questions": [
+        {
+          "id": "kia_q1",
+          "text": "Can Kotlin interfaces have default method implementations?",
+          "options": ["No", "Yes", "Only abstract methods", "Only properties"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "interfaces", "oop"]
+        },
+        {
+          "id": "kia_q2",
+          "text": "What is the key difference between an interface and an abstract class?",
+          "options": ["No difference", "Abstract class can have state (backing fields), interface cannot", "Interface is faster", "Abstract class can't have methods"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "interfaces", "classes"]
+        },
+        {
+          "id": "kia_q3",
+          "text": "How many interfaces can a Kotlin class implement?",
+          "options": ["Only one", "Multiple", "Two", "None"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "interfaces", "inheritance"]
+        },
+        {
+          "id": "kia_q4",
+          "text": "What does 'fun interface' (SAM interface) enable?",
+          "options": ["Multiple methods", "Lambda conversion for single abstract method interfaces", "Static methods", "Default implementations"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "interfaces", "functional-programming"]
+        },
+        {
+          "id": "kia_q5",
+          "text": "When should you prefer an interface over an abstract class?",
+          "options": ["When you need shared state", "When you need a contract without implementation details or state", "Always", "Never"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "interfaces", "best-practices"]
+        }
+      ]
+    },
+    {
+      "id": "compose_text_input",
+      "title": "Compose Text Input & Forms",
+      "questions": [
+        {
+          "id": "cti_q1",
+          "text": "What composable is used for text input in Compose?",
+          "options": ["EditText", "TextField or OutlinedTextField", "TextInput", "InputField"],
+          "correctIndex": 1,
+          "tags": ["compose", "text-input", "forms"]
+        },
+        {
+          "id": "cti_q2",
+          "text": "How do you manage text state in a TextField?",
+          "options": ["It manages itself", "Using remember { mutableStateOf(\"\") } with value and onValueChange", "Using a database", "Using SharedPreferences"],
+          "correctIndex": 1,
+          "tags": ["compose", "text-input", "state"]
+        },
+        {
+          "id": "cti_q3",
+          "text": "What is a VisualTransformation in TextField?",
+          "options": ["A color change", "Transforms the visual display of text (e.g., password masking)", "A font change", "An animation"],
+          "correctIndex": 1,
+          "tags": ["compose", "text-input", "transformation"]
+        },
+        {
+          "id": "cti_q4",
+          "text": "How do you show a keyboard with specific input type?",
+          "options": ["Using XML attributes", "Using KeyboardOptions(keyboardType = KeyboardType.Email)", "Using InputMethodManager", "Using a flag"],
+          "correctIndex": 1,
+          "tags": ["compose", "text-input", "keyboard"]
+        },
+        {
+          "id": "cti_q5",
+          "text": "What does KeyboardActions do?",
+          "options": ["Styles the keyboard", "Defines actions for keyboard IME buttons (Done, Next, Search)", "Creates shortcuts", "Disables the keyboard"],
+          "correctIndex": 1,
+          "tags": ["compose", "text-input", "keyboard"]
+        }
+      ]
+    },
+    {
+      "id": "android_image_loading",
+      "title": "Image Loading in Android",
+      "questions": [
+        {
+          "id": "ail_q1",
+          "text": "What is Coil in Android?",
+          "options": ["A database library", "An image loading library for Kotlin/Compose", "A networking library", "A testing framework"],
+          "correctIndex": 1,
+          "tags": ["android", "image-loading", "coil"]
+        },
+        {
+          "id": "ail_q2",
+          "text": "Why should you use an image loading library instead of loading images manually?",
+          "options": ["It's required by Google", "Handles caching, memory management, and async loading", "Images can't be loaded without it", "For DRM protection"],
+          "correctIndex": 1,
+          "tags": ["android", "image-loading", "performance"]
+        },
+        {
+          "id": "ail_q3",
+          "text": "What composable does Coil provide for Jetpack Compose?",
+          "options": ["ImageView", "AsyncImage", "CoilImage", "RemoteImage"],
+          "correctIndex": 1,
+          "tags": ["android", "image-loading", "compose"]
+        },
+        {
+          "id": "ail_q4",
+          "text": "What is image caching?",
+          "options": ["Compressing images", "Storing loaded images in memory/disk to avoid re-downloading", "Encrypting images", "Resizing images"],
+          "correctIndex": 1,
+          "tags": ["android", "image-loading", "performance"]
+        },
+        {
+          "id": "ail_q5",
+          "text": "How do you handle loading and error states with Coil?",
+          "options": ["Try-catch only", "Using placeholder and error parameters in AsyncImage", "Using a separate composable", "It handles automatically"],
+          "correctIndex": 1,
+          "tags": ["android", "image-loading", "error-handling"]
+        }
+      ]
+    },
+    {
+      "id": "kotlin_coroutines_channels",
+      "title": "Coroutines: Channels & Shared State",
+      "questions": [
+        {
+          "id": "kcc_q1",
+          "text": "What is a Channel in Kotlin coroutines?",
+          "options": ["A UI component", "A concurrent communication primitive for transferring values between coroutines", "A network socket", "A database connection"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "coroutines", "channels"]
+        },
+        {
+          "id": "kcc_q2",
+          "text": "What is the difference between Channel and Flow?",
+          "options": ["No difference", "Channel is hot (active), Flow is cold (starts on collection)", "Flow is deprecated", "Channel is for UI only"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "coroutines", "channels"]
+        },
+        {
+          "id": "kcc_q3",
+          "text": "What does Channel.BUFFERED capacity mean?",
+          "options": ["No buffer", "Uses a fixed buffer, suspends sender when full", "Unlimited buffer", "Drops old values"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "coroutines", "channels"]
+        },
+        {
+          "id": "kcc_q4",
+          "text": "What is a Mutex in coroutines?",
+          "options": ["A flow operator", "A mutual exclusion primitive for protecting shared mutable state", "A channel type", "A dispatcher"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "coroutines", "concurrency"]
+        },
+        {
+          "id": "kcc_q5",
+          "text": "Why should you prefer Flow over Channel for most use cases?",
+          "options": ["Flow is faster", "Flow provides better composability and lifecycle-awareness", "Channel is deprecated", "No particular reason"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "coroutines", "best-practices"]
+        }
+      ]
+    },
+    {
+      "id": "android_deep_links",
+      "title": "Deep Links & App Links",
+      "questions": [
+        {
+          "id": "adl_q1",
+          "text": "What is a deep link in Android?",
+          "options": ["A long URL", "A URI that navigates directly to a specific content within the app", "A database link", "A download link"],
+          "correctIndex": 1,
+          "tags": ["android", "deep-links", "navigation"]
+        },
+        {
+          "id": "adl_q2",
+          "text": "What is the difference between deep links and App Links?",
+          "options": ["No difference", "App Links are verified, deep links may show a disambiguation dialog", "Deep links are deprecated", "App Links work offline"],
+          "correctIndex": 1,
+          "tags": ["android", "deep-links", "app-links"]
+        },
+        {
+          "id": "adl_q3",
+          "text": "Where do you declare deep link intent filters?",
+          "options": ["In build.gradle", "In AndroidManifest.xml", "In strings.xml", "In the Application class"],
+          "correctIndex": 1,
+          "tags": ["android", "deep-links", "manifest"]
+        },
+        {
+          "id": "adl_q4",
+          "text": "Can Navigation Component handle deep links in Compose?",
+          "options": ["No", "Yes, using the deepLinks parameter in composable()", "Only with fragments", "Only with Activities"],
+          "correctIndex": 1,
+          "tags": ["android", "deep-links", "compose"]
+        },
+        {
+          "id": "adl_q5",
+          "text": "What is Digital Asset Links file used for?",
+          "options": ["Styling", "Verifying App Links ownership between your app and website", "Analytics", "Push notifications"],
+          "correctIndex": 1,
+          "tags": ["android", "deep-links", "verification"]
+        }
+      ]
+    },
+    {
+      "id": "compose_custom_layouts",
+      "title": "Compose Custom Layouts",
+      "questions": [
+        {
+          "id": "ccl_q1",
+          "text": "How do you create a fully custom layout in Compose?",
+          "options": ["Using XML", "Using the Layout composable with a custom MeasurePolicy", "Using Canvas only", "It's not possible"],
+          "correctIndex": 1,
+          "tags": ["compose", "layout", "custom"]
+        },
+        {
+          "id": "ccl_q2",
+          "text": "What are the two phases of layout in Compose?",
+          "options": ["Draw and animate", "Measure and place", "Compose and decompose", "Build and render"],
+          "correctIndex": 1,
+          "tags": ["compose", "layout", "internals"]
+        },
+        {
+          "id": "ccl_q3",
+          "text": "What does SubcomposeLayout enable?",
+          "options": ["Nested scrolling", "Measuring children that depend on the layout's own measurements", "Animation", "Navigation"],
+          "correctIndex": 1,
+          "tags": ["compose", "layout", "advanced"]
+        },
+        {
+          "id": "ccl_q4",
+          "text": "What is Modifier.layout used for?",
+          "options": ["Setting background color", "Customizing how a single composable is measured and placed", "Adding padding", "Creating animations"],
+          "correctIndex": 1,
+          "tags": ["compose", "layout", "modifier"]
+        },
+        {
+          "id": "ccl_q5",
+          "text": "What are intrinsic measurements in Compose?",
+          "options": ["Final measurements", "Querying children for their preferred size before actual measurement", "Screen measurements", "Font measurements"],
+          "correctIndex": 1,
+          "tags": ["compose", "layout", "intrinsics"]
+        }
+      ]
+    },
+    {
+      "id": "android_notifications",
+      "title": "Android Notifications",
+      "questions": [
+        {
+          "id": "anot_q1",
+          "text": "What is required starting from Android 8.0 (Oreo) for notifications?",
+          "options": ["A special permission", "A notification channel", "A foreground service", "User approval"],
+          "correctIndex": 1,
+          "tags": ["android", "notifications", "channels"]
+        },
+        {
+          "id": "anot_q2",
+          "text": "How do you create a notification in Android?",
+          "options": ["Using Toast", "Using NotificationCompat.Builder", "Using AlertDialog", "Using Snackbar"],
+          "correctIndex": 1,
+          "tags": ["android", "notifications", "basics"]
+        },
+        {
+          "id": "anot_q3",
+          "text": "What is a PendingIntent used for in notifications?",
+          "options": ["Styling", "Defining an action that occurs when the user taps the notification", "Scheduling", "Cancelling"],
+          "correctIndex": 1,
+          "tags": ["android", "notifications", "intents"]
+        },
+        {
+          "id": "anot_q4",
+          "text": "Starting from Android 13, what new permission is needed for notifications?",
+          "options": ["INTERNET", "POST_NOTIFICATIONS", "RECEIVE_NOTIFICATIONS", "SHOW_NOTIFICATIONS"],
+          "correctIndex": 1,
+          "tags": ["android", "notifications", "permissions"]
+        },
+        {
+          "id": "anot_q5",
+          "text": "What does notification importance level control?",
+          "options": ["The color", "How visually and audibly interruptive the notification is", "The size", "The duration"],
+          "correctIndex": 1,
+          "tags": ["android", "notifications", "channels"]
+        }
+      ]
+    },
+    {
+      "id": "kotlin_sealed_enum",
+      "title": "Kotlin Sealed Classes vs Enums",
+      "questions": [
+        {
+          "id": "kse_q1",
+          "text": "When should you prefer sealed class over enum?",
+          "options": ["Always", "When subclasses need to hold different data", "When you have fewer than 3 options", "Enums are always better"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "sealed-classes", "enums"]
+        },
+        {
+          "id": "kse_q2",
+          "text": "Can sealed class subclasses be data classes?",
+          "options": ["No", "Yes", "Only objects", "Only abstract classes"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "sealed-classes", "data-handling"]
+        },
+        {
+          "id": "kse_q3",
+          "text": "What advantage does 'when' expression have with sealed classes?",
+          "options": ["Faster execution", "Compiler warns if not all cases are covered (exhaustive)", "Automatic null handling", "No advantage"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "sealed-classes", "pattern-matching"]
+        },
+        {
+          "id": "kse_q4",
+          "text": "Can sealed interfaces exist in Kotlin?",
+          "options": ["No", "Yes, since Kotlin 1.5", "Only as experimental", "Only with annotations"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "sealed-classes", "interfaces"]
+        },
+        {
+          "id": "kse_q5",
+          "text": "What is the key restriction of a sealed class hierarchy?",
+          "options": ["Cannot have methods", "All subclasses must be defined in the same package", "Cannot be serialized", "Limited to 5 subclasses"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "sealed-classes", "restrictions"]
+        }
+      ]
+    },
+    {
+      "id": "android_compose_testing",
+      "title": "Compose UI Testing",
+      "questions": [
+        {
+          "id": "act_q1",
+          "text": "What rule is needed for Compose UI tests?",
+          "options": ["ActivityTestRule", "createComposeRule()", "ComposeTestRule", "JUnit4Rule"],
+          "correctIndex": 1,
+          "tags": ["compose", "testing", "setup"]
+        },
+        {
+          "id": "act_q2",
+          "text": "How do you assert a composable is displayed?",
+          "options": ["isVisible()", "assertIsDisplayed()", "assertTrue(displayed)", "checkDisplay()"],
+          "correctIndex": 1,
+          "tags": ["compose", "testing", "assertions"]
+        },
+        {
+          "id": "act_q3",
+          "text": "How do you simulate a click in Compose tests?",
+          "options": ["click()", "performClick()", "tap()", "fireClick()"],
+          "correctIndex": 1,
+          "tags": ["compose", "testing", "actions"]
+        },
+        {
+          "id": "act_q4",
+          "text": "What does onNodeWithTag find?",
+          "options": ["Nodes by text content", "Nodes by their testTag modifier", "Nodes by type", "Nodes by position"],
+          "correctIndex": 1,
+          "tags": ["compose", "testing", "finders"]
+        },
+        {
+          "id": "act_q5",
+          "text": "How do you type text into a TextField in tests?",
+          "options": ["setText()", "performTextInput(\"text\")", "typeText()", "sendKeys()"],
+          "correctIndex": 1,
+          "tags": ["compose", "testing", "actions"]
+        }
+      ]
+    },
+    {
+      "id": "kotlin_multiplatform_intro",
+      "title": "Kotlin Multiplatform Introduction",
+      "questions": [
+        {
+          "id": "kmp_q1",
+          "text": "What is Kotlin Multiplatform (KMP)?",
+          "options": ["A UI framework", "A technology for sharing code between platforms (Android, iOS, Web, Desktop)", "A testing tool", "A build system"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "multiplatform", "architecture"]
+        },
+        {
+          "id": "kmp_q2",
+          "text": "What does 'expect/actual' mechanism provide in KMP?",
+          "options": ["Testing assertions", "Platform-specific implementations of shared declarations", "Dependency injection", "Error handling"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "multiplatform", "platform-specific"]
+        },
+        {
+          "id": "kmp_q3",
+          "text": "What is Compose Multiplatform?",
+          "options": ["Android-only Compose", "Jetpack Compose extended to iOS, Desktop, and Web", "A different UI framework", "A testing library"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "multiplatform", "compose"]
+        },
+        {
+          "id": "kmp_q4",
+          "text": "Which layer is typically shared in KMP apps?",
+          "options": ["UI layer only", "Business logic and data layers", "Only networking", "Everything including UI"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "multiplatform", "architecture"]
+        },
+        {
+          "id": "kmp_q5",
+          "text": "What is kotlinx.serialization useful for in KMP?",
+          "options": ["Only Android serialization", "Cross-platform JSON/data serialization", "UI serialization", "Database queries"],
+          "correctIndex": 1,
+          "tags": ["kotlin", "multiplatform", "serialization"]
         }
       ]
     }

@@ -44,65 +44,39 @@ class FinishQuizUseCaseTest {
     }
 
     @Test
-    fun testInvoke_WhenRegularQuiz_ClearsProgressAndMarksCompleted() = runTest {
+    fun testInvoke_ClearsProgressMarksCompletedAndUnlocks() = runTest {
         val quizId = "quiz_42"
 
         finishQuizUseCase(quizId)
 
         verify(quizRepository).clearQuizProgress(quizId)
         verify(quizRepository).markQuizCompleted(quizId)
-        verify(quizRepository, never()).markInitialAssessmentCompleted()
-        verify(quizRepository, never()).generateAdaptiveQuizzes()
+        verify(quizRepository).unlockNextQuiz()
     }
 
     @Test
-    fun testInvoke_WhenAssessmentQuiz_RunsFullAssessmentFollowUp() = runTest {
-        val quizId = FinishQuizUseCase.INITIAL_ASSESSMENT_ID
-
-        finishQuizUseCase(quizId)
-
-        verify(quizRepository).clearQuizProgress(quizId)
-        verify(quizRepository).markQuizCompleted(quizId)
-        verify(quizRepository).markInitialAssessmentCompleted()
-        verify(quizRepository).generateAdaptiveQuizzes()
-    }
-
-    @Test
-    fun testInvoke_WhenClearProgressThrows_StillMarksCompletedSwallowed() = runTest {
+    fun testInvoke_WhenClearProgressThrows_IsSwallowed() = runTest {
         val quizId = "quiz_42"
         whenever(quizRepository.clearQuizProgress(quizId)).thenThrow(RuntimeException("boom"))
 
-        // Should not propagate.
         finishQuizUseCase(quizId)
 
         verify(quizRepository).clearQuizProgress(quizId)
-        // markQuizCompleted is in the same try block, so it's skipped after the throw.
+        // markQuizCompleted is in the same try block, so skipped after throw.
         verify(quizRepository, never()).markQuizCompleted(quizId)
+        // unlockNextQuiz should still be attempted in its own try block.
+        verify(quizRepository).unlockNextQuiz()
     }
 
     @Test
-    fun testInvoke_WhenAssessmentFollowUpThrows_IsSwallowed() = runTest {
-        val quizId = FinishQuizUseCase.INITIAL_ASSESSMENT_ID
-        whenever(quizRepository.markInitialAssessmentCompleted())
-            .thenThrow(RuntimeException("boom"))
+    fun testInvoke_WhenUnlockThrows_IsSwallowed() = runTest {
+        val quizId = "quiz_42"
+        whenever(quizRepository.unlockNextQuiz()).thenThrow(RuntimeException("boom"))
 
         finishQuizUseCase(quizId)
 
         verify(quizRepository).clearQuizProgress(quizId)
         verify(quizRepository).markQuizCompleted(quizId)
-        verify(quizRepository).markInitialAssessmentCompleted()
-        verify(quizRepository, never()).generateAdaptiveQuizzes()
-    }
-
-    @Test
-    fun testInvoke_WhenGenerateAdaptiveThrows_IsSwallowed() = runTest {
-        val quizId = FinishQuizUseCase.INITIAL_ASSESSMENT_ID
-        whenever(quizRepository.generateAdaptiveQuizzes()).thenThrow(RuntimeException("boom"))
-
-        // Should not propagate even though the second try throws.
-        finishQuizUseCase(quizId)
-
-        verify(quizRepository).markInitialAssessmentCompleted()
-        verify(quizRepository).generateAdaptiveQuizzes()
+        verify(quizRepository).unlockNextQuiz()
     }
 }

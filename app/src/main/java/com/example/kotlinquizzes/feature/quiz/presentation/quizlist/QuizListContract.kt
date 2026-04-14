@@ -8,10 +8,8 @@ object QuizListContract {
     data class QuizListState(
         val isLoading: Boolean = false,
         val isRefreshing: Boolean = false,
-        val isGenerating: Boolean = false,
         val userName: String = "",
         val quizzes: List<Quiz> = emptyList(),
-        val showLevelingDialog: Boolean = false,
         @StringRes val errorMessageResId: Int? = null
     )
 
@@ -19,8 +17,6 @@ object QuizListContract {
         data object RetryClicked : QuizListAction
         data object RefreshPulled : QuizListAction
         data class QuizClicked(val quizId: String) : QuizListAction
-        data object DismissLevelingDialog : QuizListAction
-        data object StartLevelingQuiz : QuizListAction
     }
 
     sealed interface QuizListEffect {

@@ -1,5 +1,3 @@
-import java.util.Properties
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -12,16 +10,6 @@ plugins {
     //Hilt
     id("com.google.dagger.hilt.android")
     id("kotlin-kapt")
-}
-
-val claudeApiKey: String = run {
-    val localPropsFile = rootProject.file("local.properties")
-    if (localPropsFile.exists()) {
-        val props = Properties().apply { localPropsFile.inputStream().use { load(it) } }
-        props.getProperty("CLAUDE_API_KEY", "")
-    } else {
-        System.getenv("CLAUDE_API_KEY") ?: ""
-    }
 }
 
 android {
@@ -38,8 +26,6 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        buildConfigField("String", "CLAUDE_API_KEY", "\"$claudeApiKey\"")
     }
 
     buildTypes {
@@ -119,6 +105,11 @@ dependencies {
 
     // DataStore
     implementation("androidx.datastore:datastore-preferences:1.1.1")
+
+    // Room
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
 
     //Icons
     implementation("androidx.compose.material:material-icons-extended")

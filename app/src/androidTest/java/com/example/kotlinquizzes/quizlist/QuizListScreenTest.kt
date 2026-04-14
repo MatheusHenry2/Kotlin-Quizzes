@@ -1,7 +1,6 @@
 package com.example.kotlinquizzes.quizlist
 
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
@@ -173,11 +172,8 @@ class QuizListScreenTest {
             }
         }
 
-        // The content container should exist even when empty
         composeTestRule.onNodeWithTag(TestTags.QUIZ_LIST_CONTENT).assertIsDisplayed()
-        // The empty state message should be visible
         composeTestRule.onNodeWithTag(TestTags.QUIZ_LIST_EMPTY).assertIsDisplayed()
-        // Welcome text should still be visible
         composeTestRule.onNodeWithTag(TestTags.WELCOME_TEXT).assertIsDisplayed()
     }
 
@@ -301,7 +297,6 @@ class QuizListScreenTest {
             }
         }
 
-        // Avatar should still render with default initial "U"
         composeTestRule.onNodeWithTag(TestTags.AVATAR_CIRCLE).assertIsDisplayed()
     }
 
@@ -321,83 +316,13 @@ class QuizListScreenTest {
             }
         }
 
-        // Click avatar multiple times rapidly
         val avatar = composeTestRule.onNodeWithTag(TestTags.AVATAR_CIRCLE)
         avatar.performClick()
         avatar.performClick()
         avatar.performClick()
 
-        // Screen should remain stable - no blank screen
         composeTestRule.onNodeWithTag(TestTags.QUIZ_LIST_CONTENT).assertIsDisplayed()
         composeTestRule.onNodeWithText("Kotlin Basics").assertIsDisplayed()
-    }
-
-    // --- Leveling Dialog Tests ---
-
-    @Test
-    fun levelingDialog_showsWhenRequired() {
-        composeTestRule.setContent {
-            KotlinQuizzesTheme {
-                QuizListContent(
-                    state = QuizListState(
-                        isLoading = false,
-                        userName = "Test",
-                        showLevelingDialog = true,
-                        quizzes = emptyList()
-                    ),
-                    onAction = {},
-                    onNavigateToInsights = {},
-                )
-            }
-        }
-
-        composeTestRule.onNodeWithText("Discover Your Level").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Start Assessment").assertIsDisplayed()
-        composeTestRule.onNodeWithText("Maybe Later").assertIsDisplayed()
-    }
-
-    @Test
-    fun levelingDialog_dismissTriggersAction() {
-        var receivedAction: QuizListAction? = null
-        composeTestRule.setContent {
-            KotlinQuizzesTheme {
-                QuizListContent(
-                    state = QuizListState(
-                        isLoading = false,
-                        userName = "Test",
-                        showLevelingDialog = true,
-                        quizzes = emptyList()
-                    ),
-                    onAction = { receivedAction = it },
-                    onNavigateToInsights = {},
-                )
-            }
-        }
-
-        composeTestRule.onNodeWithText("Maybe Later").performClick()
-        assertEquals(QuizListAction.DismissLevelingDialog, receivedAction)
-    }
-
-    @Test
-    fun levelingDialog_startQuizTriggersAction() {
-        var receivedAction: QuizListAction? = null
-        composeTestRule.setContent {
-            KotlinQuizzesTheme {
-                QuizListContent(
-                    state = QuizListState(
-                        isLoading = false,
-                        userName = "Test",
-                        showLevelingDialog = true,
-                        quizzes = emptyList()
-                    ),
-                    onAction = { receivedAction = it },
-                    onNavigateToInsights = {},
-                )
-            }
-        }
-
-        composeTestRule.onNodeWithText("Start Assessment").performClick()
-        assertEquals(QuizListAction.StartLevelingQuiz, receivedAction)
     }
 
     // --- Bottom Navigation Tests ---
@@ -442,12 +367,10 @@ class QuizListScreenTest {
             }
         }
 
-        // Rapidly click the same quiz
         composeTestRule.onNodeWithText("Kotlin Basics").performClick()
         composeTestRule.onNodeWithText("Kotlin Basics").performClick()
         composeTestRule.onNodeWithText("Kotlin Basics").performClick()
 
-        // All clicks should fire (ViewModel is responsible for deduplication)
         assertTrue(receivedActions.isNotEmpty())
         assertTrue(receivedActions.all { it == QuizListAction.QuizClicked("quiz_1") })
     }
@@ -469,7 +392,6 @@ class QuizListScreenTest {
 
         composeTestRule.onNodeWithTag(TestTags.QUIZ_LIST_LOADING).assertIsDisplayed()
 
-        // Transition to content
         composeTestRule.setContent {
             KotlinQuizzesTheme {
                 QuizListContent(
