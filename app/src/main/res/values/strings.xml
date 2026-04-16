@@ -74,6 +74,9 @@
     <string name="bottom_nav_home">Home</string>
     <string name="bottom_nav_insights">Insights</string>
 
+    <!-- WebView Screen -->
+    <string name="webview_documentation_title">Documentation</string>
+
     <!-- Learning Insights Screen -->
     <string name="insights_your_progress">Your Progress</string>
     <string name="insights_accuracy">Accuracy</string>

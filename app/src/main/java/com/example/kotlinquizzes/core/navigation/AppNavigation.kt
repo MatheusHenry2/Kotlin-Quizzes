@@ -1,5 +1,7 @@
 package com.example.kotlinquizzes.core.navigation
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -116,6 +118,11 @@ fun AppNavigation(uiEventManager: UiEventManager) {
                             popUpTo(NavigationConstants.Routes.QUIZ_LIST) { inclusive = true }
                             launchSingleTop = true
                         }
+                    },
+                    onOpenDocumentation = { url ->
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        context.startActivity(intent)
                     },
                 )
             }

@@ -21,6 +21,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Code
+import androidx.compose.material.icons.filled.Psychology
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -30,6 +32,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -40,12 +43,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.kotlinquizzes.R
 import com.example.kotlinquizzes.core.navigation.BottomNavBar
 import com.example.kotlinquizzes.core.navigation.BottomNavDestination
+import com.example.kotlinquizzes.core.theme.Gray600
+import com.example.kotlinquizzes.core.theme.Purple600
 import com.example.kotlinquizzes.core.theme.PurpleSoft
 import com.example.kotlinquizzes.core.theme.PurpleSubtitle
 import com.example.kotlinquizzes.core.theme.TextPrimary
@@ -54,9 +60,7 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.style.TextAlign
 import com.example.kotlinquizzes.core.utils.TestTags
-import com.example.kotlinquizzes.core.theme.Gray600
 import com.example.kotlinquizzes.feature.quiz.domain.model.Quiz
 import com.example.kotlinquizzes.feature.quiz.presentation.quizlist.QuizListContract.QuizListAction
 import com.example.kotlinquizzes.feature.quiz.presentation.quizlist.QuizListContract.QuizListEffect
@@ -126,6 +130,14 @@ internal fun QuizListContent(
 
     )
     { paddingValues ->
+        // Leveling dialog — shown only for the assessment quiz
+        if (state.showLevelingDialog) {
+            LevelingDialog(
+                onDismiss = { onAction(QuizListAction.DismissLevelingDialog) },
+                onStartAssessment = { onAction(QuizListAction.ConfirmStartAssessment) },
+            )
+        }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -297,6 +309,55 @@ private fun QuizListItem(
             )
         }
     }
+}
+
+@Composable
+private fun LevelingDialog(
+    onDismiss: () -> Unit,
+    onStartAssessment: () -> Unit,
+) {
+    AlertDialog(
+        modifier = Modifier.testTag(TestTags.LEVELING_DIALOG),
+        onDismissRequest = onDismiss,
+        icon = {
+            Icon(
+                imageVector = Icons.Default.Psychology,
+                contentDescription = stringResource(R.string.leveling_dialog_icon_description),
+                tint = Purple600,
+                modifier = Modifier.size(40.dp),
+            )
+        },
+        title = {
+            Text(
+                text = stringResource(R.string.leveling_dialog_title),
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold,
+            )
+        },
+        text = {
+            Text(
+                text = stringResource(R.string.leveling_dialog_description),
+                textAlign = TextAlign.Center,
+                color = Gray600,
+            )
+        },
+        confirmButton = {
+            Button(
+                onClick = onStartAssessment,
+                modifier = Modifier.testTag(TestTags.LEVELING_START_BUTTON),
+            ) {
+                Text(stringResource(R.string.leveling_dialog_start_assessment_button))
+            }
+        },
+        dismissButton = {
+            TextButton(
+                onClick = onDismiss,
+                modifier = Modifier.testTag(TestTags.LEVELING_DISMISS_BUTTON),
+            ) {
+                Text(stringResource(R.string.leveling_dialog_maybe_later_button))
+            }
+        },
+    )
 }
 
 @Composable

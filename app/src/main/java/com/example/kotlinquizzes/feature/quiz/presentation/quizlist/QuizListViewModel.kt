@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kotlinquizzes.R
 import com.example.kotlinquizzes.core.ui.event.UiEventManager
+import com.example.kotlinquizzes.core.utils.Constants
 import com.example.kotlinquizzes.core.utils.Constants.TAG
 import com.example.kotlinquizzes.feature.auth.domain.usecase.GetCurrentUserNameUseCase
 import com.example.kotlinquizzes.feature.quiz.domain.repository.QuizRepository
@@ -49,10 +50,27 @@ class QuizListViewModel @Inject constructor(
         when (action) {
             is QuizListAction.QuizClicked -> {
                 Log.d(TAG, "Quiz selected with ID: ${action.quizId}")
-                viewModelScope.launch {
-                    _effect.send(QuizListEffect.NavigateToQuiz(action.quizId))
+                if (action.quizId == Constants.ASSESSMENT_QUIZ_ID) {
+                    // Show the leveling dialog before entering the assessment quiz
+                    _state.update { it.copy(showLevelingDialog = true) }
+                } else {
+                    viewModelScope.launch {
+                        _effect.send(QuizListEffect.NavigateToQuiz(action.quizId))
+                    }
                 }
             }
+
+            QuizListAction.DismissLevelingDialog -> {
+                _state.update { it.copy(showLevelingDialog = false) }
+            }
+
+            QuizListAction.ConfirmStartAssessment -> {
+                _state.update { it.copy(showLevelingDialog = false) }
+                viewModelScope.launch {
+                    _effect.send(QuizListEffect.NavigateToQuiz(Constants.ASSESSMENT_QUIZ_ID))
+                }
+            }
+
             QuizListAction.RetryClicked -> observeQuizzes()
             QuizListAction.RefreshPulled -> refreshQuizzes()
         }

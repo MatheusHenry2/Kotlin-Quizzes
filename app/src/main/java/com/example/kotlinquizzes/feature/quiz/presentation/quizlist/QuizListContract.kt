@@ -10,13 +10,16 @@ object QuizListContract {
         val isRefreshing: Boolean = false,
         val userName: String = "",
         val quizzes: List<Quiz> = emptyList(),
-        @StringRes val errorMessageResId: Int? = null
+        @StringRes val errorMessageResId: Int? = null,
+        val showLevelingDialog: Boolean = false,
     )
 
     sealed interface QuizListAction {
         data object RetryClicked : QuizListAction
         data object RefreshPulled : QuizListAction
         data class QuizClicked(val quizId: String) : QuizListAction
+        data object DismissLevelingDialog : QuizListAction
+        data object ConfirmStartAssessment : QuizListAction
     }
 
     sealed interface QuizListEffect {

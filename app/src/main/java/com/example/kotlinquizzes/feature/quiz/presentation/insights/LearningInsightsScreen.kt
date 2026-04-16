@@ -69,6 +69,7 @@ private val TrackGray = Color(0xFFDBDDDD)
 @Composable
 fun LearningInsightsScreen(
     onNavigateToHome: () -> Unit,
+    onOpenDocumentation: (String) -> Unit,
     viewModel: LearningInsightsViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
@@ -85,6 +86,7 @@ fun LearningInsightsScreen(
         state = state,
         onAction = viewModel::onAction,
         onNavigateToHome = onNavigateToHome,
+        onOpenDocumentation = onOpenDocumentation,
     )
 }
 
@@ -93,6 +95,7 @@ internal fun LearningInsightsContent(
     state: LearningInsightsState,
     onAction: (LearningInsightsAction) -> Unit,
     onNavigateToHome: () -> Unit,
+    onOpenDocumentation: (String) -> Unit = {},
 ) {
     Scaffold(
         containerColor = Gray50,
@@ -146,6 +149,7 @@ internal fun LearningInsightsContent(
                     InsightsBody(
                         insights = state.insights,
                         onBackToHome = { onAction(LearningInsightsAction.BackToHomeClicked) },
+                        onOpenDocumentation = onOpenDocumentation,
                     )
                 }
 
@@ -166,6 +170,7 @@ internal fun LearningInsightsContent(
 private fun InsightsBody(
     insights: LearningInsights,
     onBackToHome: () -> Unit,
+    onOpenDocumentation: (String) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -177,7 +182,10 @@ private fun InsightsBody(
     ) {
         TopSummaryCard(insights = insights)
         MasteryByCategorySection(masteries = insights.masteryByCategory)
-        TopicsToImproveSection(topics = insights.topicsToImprove)
+        TopicsToImproveSection(
+            topics = insights.topicsToImprove,
+            onOpenDocumentation = onOpenDocumentation,
+        )
         BackToHomeButton(onClick = onBackToHome)
     }
 }
@@ -204,38 +212,39 @@ private fun TopSummaryCard(insights: LearningInsights) {
                 letterSpacing = 1.4.sp,
             )
 
+            // Two symmetric columns: Accuracy (left) and Total Quizzes (right).
+            // Both use weight(1f) so they share the width equally and align
+            // at the same vertical baseline regardless of number size.
             Row(
                 modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Row(
-                    modifier = Modifier.weight(1f),
-                    verticalAlignment = Alignment.Bottom,
-                ) {
+                Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = "${insights.accuracyPercent}%",
                         color = Purple600,
                         fontSize = 48.sp,
                         fontWeight = FontWeight.ExtraBold,
+                        modifier = Modifier.testTag(TestTags.INSIGHTS_ACCURACY),
                     )
-                    Spacer(Modifier.width(12.dp))
                     Text(
-                        text = stringResource(R.string.insights_accuracy),
+                        text = stringResource(R.string.insights_accuracy).uppercase(),
                         color = Gray600,
-                        fontSize = 14.sp,
+                        fontSize = 12.sp,
                         fontWeight = FontWeight.Medium,
-                        modifier = Modifier.padding(bottom = 10.dp),
+                        letterSpacing = 0.4.sp,
                     )
                 }
 
                 Column(
+                    modifier = Modifier.weight(1f),
                     horizontalAlignment = Alignment.End,
-                    verticalArrangement = Arrangement.Center,
                 ) {
                     Text(
                         text = insights.totalQuizzesCompleted.toString(),
                         color = TextPrimary,
-                        fontSize = 24.sp,
+                        fontSize = 32.sp,
                         fontWeight = FontWeight.Bold,
                     )
                     Text(
@@ -399,7 +408,10 @@ private fun MasteryRow(mastery: CategoryMastery) {
 }
 
 @Composable
-private fun TopicsToImproveSection(topics: List<WeakTopic>) {
+private fun TopicsToImproveSection(
+    topics: List<WeakTopic>,
+    onOpenDocumentation: (String) -> Unit,
+) {
     Column(verticalArrangement = Arrangement.spacedBy(24.dp)) {
         Text(
             text = stringResource(R.string.insights_topics_to_improve),
@@ -428,7 +440,10 @@ private fun TopicsToImproveSection(topics: List<WeakTopic>) {
         } else {
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 topics.forEach { topic ->
-                    WeakTopicRow(topic = topic)
+                    WeakTopicRow(
+                        topic = topic,
+                        onOpenDocumentation = onOpenDocumentation,
+                    )
                 }
             }
         }
@@ -436,12 +451,23 @@ private fun TopicsToImproveSection(topics: List<WeakTopic>) {
 }
 
 @Composable
-private fun WeakTopicRow(topic: WeakTopic) {
+private fun WeakTopicRow(
+    topic: WeakTopic,
+    onOpenDocumentation: (String) -> Unit,
+) {
+    val docUrl = tagDocumentationUrl(topic.tag)
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
             .background(Gray200)
+            .then(
+                if (docUrl != null) {
+                    Modifier.clickable { onOpenDocumentation(docUrl) }
+                } else {
+                    Modifier
+                }
+            )
             .padding(20.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -477,7 +503,8 @@ private fun WeakTopicRow(topic: WeakTopic) {
         Icon(
             imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
             contentDescription = null,
-            tint = Gray600,
+            // Arrow tinted Purple when there's a doc link, gray otherwise
+            tint = if (docUrl != null) Purple600 else Gray600,
             modifier = Modifier.size(16.dp),
         )
     }
@@ -512,3 +539,59 @@ private fun prettifyTag(tag: String): String =
         .joinToString(" ") { part ->
             part.replaceFirstChar { it.uppercase() }
         }
+
+/**
+ * Maps a quiz tag to its official Kotlin/Android documentation URL.
+ * All links point to kotlinlang.org or developer.android.com.
+ */
+private fun tagDocumentationUrl(tag: String): String = when (tag.lowercase()) {
+    // Kotlin core
+    "kotlin", "basics", "variables"    -> "https://kotlinlang.org/docs/basic-syntax.html"
+    "null-safety"                       -> "https://kotlinlang.org/docs/null-safety.html"
+    "operators"                         -> "https://kotlinlang.org/docs/operator-overloading.html"
+    "collections"                       -> "https://kotlinlang.org/docs/collections-overview.html"
+    "functional", "lambdas"             -> "https://kotlinlang.org/docs/lambdas.html"
+    "scope-functions"                   -> "https://kotlinlang.org/docs/scope-functions.html"
+    "idioms"                            -> "https://kotlinlang.org/docs/idioms.html"
+    "generics"                          -> "https://kotlinlang.org/docs/generics.html"
+    "delegation"                        -> "https://kotlinlang.org/docs/delegation.html"
+    "properties"                        -> "https://kotlinlang.org/docs/properties.html"
+    "extensions"                        -> "https://kotlinlang.org/docs/extensions.html"
+    "sealed"                            -> "https://kotlinlang.org/docs/sealed-classes.html"
+    "enum"                              -> "https://kotlinlang.org/docs/enum-classes.html"
+    "sequences"                         -> "https://kotlinlang.org/docs/sequences.html"
+    "error-handling"                    -> "https://kotlinlang.org/docs/exception-handling.html"
+    "dsl"                               -> "https://kotlinlang.org/docs/type-safe-builders.html"
+    "multiplatform"                     -> "https://kotlinlang.org/docs/multiplatform.html"
+    "oop", "classes"                    -> "https://kotlinlang.org/docs/classes.html"
+    "interfaces"                        -> "https://kotlinlang.org/docs/interfaces.html"
+    // Coroutines / Flow
+    "coroutines", "concurrency"         -> "https://kotlinlang.org/docs/coroutines-guide.html"
+    "flow"                              -> "https://kotlinlang.org/docs/flow.html"
+    // Android core
+    "android", "components"             -> "https://developer.android.com/guide/components/fundamentals"
+    "lifecycle"                         -> "https://developer.android.com/topic/libraries/architecture/lifecycle"
+    "permissions"                       -> "https://developer.android.com/guide/topics/permissions/overview"
+    "notifications"                     -> "https://developer.android.com/develop/ui/views/notifications"
+    "deep-links"                        -> "https://developer.android.com/training/app-links"
+    "security"                          -> "https://developer.android.com/topic/security/best-practices"
+    "gradle"                            -> "https://developer.android.com/studio/build"
+    // Jetpack Compose
+    "compose"                           -> "https://developer.android.com/jetpack/compose/documentation"
+    "state"                             -> "https://developer.android.com/jetpack/compose/state"
+    "navigation"                        -> "https://developer.android.com/guide/navigation"
+    "animations"                        -> "https://developer.android.com/jetpack/compose/animation/introduction"
+    "gestures"                          -> "https://developer.android.com/jetpack/compose/touch-input/gestures"
+    "accessibility"                     -> "https://developer.android.com/jetpack/compose/accessibility"
+    // Architecture
+    "viewmodel", "architecture"         -> "https://developer.android.com/topic/architecture"
+    "room", "database"                  -> "https://developer.android.com/training/data-storage/room"
+    "hilt", "dependency-injection"      -> "https://developer.android.com/training/dependency-injection/hilt-android"
+    "networking", "retrofit"            -> "https://developer.android.com/training/basics/network-ops/connecting"
+    "datastore"                         -> "https://developer.android.com/topic/libraries/architecture/datastore"
+    "workmanager"                       -> "https://developer.android.com/topic/libraries/architecture/workmanager"
+    "firebase"                          -> "https://firebase.google.com/docs/auth/android/start"
+    "testing"                           -> "https://developer.android.com/training/testing"
+    // Default: Android developer home
+    else                                -> "https://developer.android.com/docs"
+}
