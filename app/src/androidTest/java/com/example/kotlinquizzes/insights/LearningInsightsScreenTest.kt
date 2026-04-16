@@ -317,26 +317,6 @@ class LearningInsightsScreenTest {
         assertTrue(navigatedToHome)
     }
 
-    @Test
-    fun backToHomeButton_triggersAction() {
-        var receivedAction: LearningInsightsAction? = null
-        composeTestRule.setContent {
-            KotlinQuizzesTheme {
-                LearningInsightsContent(
-                    state = LearningInsightsState(
-                        isLoading = false,
-                        insights = sampleInsights
-                    ),
-                    onAction = { receivedAction = it },
-                    onNavigateToHome = {},
-                )
-            }
-        }
-
-        composeTestRule.onNodeWithText("Back to Home").performClick()
-        assertEquals(LearningInsightsAction.BackToHomeClicked, receivedAction)
-    }
-
     // --- State Transition Tests ---
 
     @Test

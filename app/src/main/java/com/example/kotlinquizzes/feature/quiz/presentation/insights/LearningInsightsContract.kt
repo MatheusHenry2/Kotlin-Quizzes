@@ -13,10 +13,5 @@ object LearningInsightsContract {
 
     sealed interface LearningInsightsAction {
         data object RetryClicked : LearningInsightsAction
-        data object BackToHomeClicked : LearningInsightsAction
-    }
-
-    sealed interface LearningInsightsEffect {
-        data object NavigateToHome : LearningInsightsEffect
     }
 }

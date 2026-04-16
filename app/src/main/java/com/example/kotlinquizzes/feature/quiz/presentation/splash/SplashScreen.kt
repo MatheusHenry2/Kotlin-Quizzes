@@ -3,6 +3,7 @@ package com.example.kotlinquizzes.feature.quiz.presentation.splash
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,9 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Code
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,6 +31,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -40,7 +39,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.kotlinquizzes.R
 import com.example.kotlinquizzes.core.theme.Gray50
-import com.example.kotlinquizzes.core.theme.Purple100
 import com.example.kotlinquizzes.core.theme.Purple500
 import com.example.kotlinquizzes.core.theme.Purple600
 import com.example.kotlinquizzes.core.theme.TextPrimary
@@ -111,7 +109,9 @@ fun SplashScreen(
 
 @Composable
 private fun BrandLogo() {
-    Box(
+    Image(
+        painter = painterResource(R.drawable.img),
+        contentDescription = stringResource(R.string.app_brand_name),
         modifier = Modifier
             .size(176.dp)
             .shadow(
@@ -120,25 +120,8 @@ private fun BrandLogo() {
                 ambientColor = TextPrimary.copy(alpha = 0.05f),
                 spotColor = TextPrimary.copy(alpha = 0.05f),
             )
-            .clip(RoundedCornerShape(32.dp))
-            .background(White),
-        contentAlignment = Alignment.Center,
-    ) {
-        Box(
-            modifier = Modifier
-                .size(96.dp)
-                .clip(RoundedCornerShape(24.dp))
-                .background(Purple100),
-            contentAlignment = Alignment.Center,
-        ) {
-            Icon(
-                imageVector = Icons.Default.Code,
-                contentDescription = null,
-                tint = Purple600,
-                modifier = Modifier.size(56.dp),
-            )
-        }
-    }
+            .clip(RoundedCornerShape(32.dp)),
+    )
 }
 
 @Composable

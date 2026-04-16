@@ -130,20 +130,4 @@ class LearningInsightsViewModelTest {
         assertEquals(sampleInsights, state.insights)
     }
 
-    @Test
-    fun testBackToHomeClicked_EmitsNavigateToHomeEffect() = runTest {
-        whenever(getLearningInsightsUseCase()).thenReturn(sampleInsights)
-
-        viewModel = LearningInsightsViewModel(getLearningInsightsUseCase)
-        advanceUntilIdle()
-
-        val effects = mutableListOf<LearningInsightsContract.LearningInsightsEffect>()
-        val job = launch { viewModel.effect.collect { effects.add(it) } }
-
-        viewModel.onAction(LearningInsightsContract.LearningInsightsAction.BackToHomeClicked)
-        advanceUntilIdle()
-
-        assertTrue(effects.contains(LearningInsightsContract.LearningInsightsEffect.NavigateToHome))
-        job.cancel()
-    }
 }

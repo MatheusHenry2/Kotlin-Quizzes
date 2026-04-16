@@ -18,7 +18,6 @@ object TestTags {
     const val INSIGHTS_ERROR = "insights_error"
     const val INSIGHTS_CONTENT = "insights_content"
     const val INSIGHTS_ACCURACY = "insights_accuracy"
-    const val INSIGHTS_BACK_HOME = "insights_back_home"
 
     // QuizScreen
     const val QUIZ_LOADING = "quiz_loading"

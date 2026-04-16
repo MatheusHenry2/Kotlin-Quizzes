@@ -7,14 +7,11 @@ import com.example.kotlinquizzes.R
 import com.example.kotlinquizzes.core.utils.Constants.TAG
 import com.example.kotlinquizzes.feature.quiz.domain.usecase.GetLearningInsightsUseCase
 import com.example.kotlinquizzes.feature.quiz.presentation.insights.LearningInsightsContract.LearningInsightsAction
-import com.example.kotlinquizzes.feature.quiz.presentation.insights.LearningInsightsContract.LearningInsightsEffect
 import com.example.kotlinquizzes.feature.quiz.presentation.insights.LearningInsightsContract.LearningInsightsState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,9 +25,6 @@ class LearningInsightsViewModel @Inject constructor(
     private val _state = MutableStateFlow(LearningInsightsState())
     val state: StateFlow<LearningInsightsState> = _state.asStateFlow()
 
-    private val _effect = Channel<LearningInsightsEffect>(Channel.BUFFERED)
-    val effect = _effect.receiveAsFlow()
-
     init {
         loadInsights()
     }
@@ -38,11 +32,6 @@ class LearningInsightsViewModel @Inject constructor(
     fun onAction(action: LearningInsightsAction) {
         when (action) {
             LearningInsightsAction.RetryClicked -> loadInsights()
-            LearningInsightsAction.BackToHomeClicked -> {
-                viewModelScope.launch {
-                    _effect.send(LearningInsightsEffect.NavigateToHome)
-                }
-            }
         }
     }
 

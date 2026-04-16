@@ -30,7 +30,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -58,9 +57,7 @@ import com.example.kotlinquizzes.feature.quiz.domain.model.LearningInsights
 import com.example.kotlinquizzes.feature.quiz.domain.model.WeakTopic
 import com.example.kotlinquizzes.core.utils.TestTags
 import com.example.kotlinquizzes.feature.quiz.presentation.insights.LearningInsightsContract.LearningInsightsAction
-import com.example.kotlinquizzes.feature.quiz.presentation.insights.LearningInsightsContract.LearningInsightsEffect
 import com.example.kotlinquizzes.feature.quiz.presentation.insights.LearningInsightsContract.LearningInsightsState
-import kotlinx.coroutines.flow.collectLatest
 
 private val AccentRed = Color(0xFFF74B6D)
 private val AccentRedTint = Color(0x1AF74B6D)
@@ -69,18 +66,10 @@ private val TrackGray = Color(0xFFDBDDDD)
 @Composable
 fun LearningInsightsScreen(
     onNavigateToHome: () -> Unit,
-    onOpenDocumentation: (String) -> Unit,
+    onOpenDocumentation: (String) -> Unit = {},
     viewModel: LearningInsightsViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
-
-    LaunchedEffect(Unit) {
-        viewModel.effect.collectLatest { effect ->
-            when (effect) {
-                LearningInsightsEffect.NavigateToHome -> onNavigateToHome()
-            }
-        }
-    }
 
     LearningInsightsContent(
         state = state,
@@ -148,7 +137,6 @@ internal fun LearningInsightsContent(
                 state.insights != null -> {
                     InsightsBody(
                         insights = state.insights,
-                        onBackToHome = { onAction(LearningInsightsAction.BackToHomeClicked) },
                         onOpenDocumentation = onOpenDocumentation,
                     )
                 }
@@ -169,7 +157,6 @@ internal fun LearningInsightsContent(
 @Composable
 private fun InsightsBody(
     insights: LearningInsights,
-    onBackToHome: () -> Unit,
     onOpenDocumentation: (String) -> Unit,
 ) {
     Column(
@@ -186,7 +173,6 @@ private fun InsightsBody(
             topics = insights.topicsToImprove,
             onOpenDocumentation = onOpenDocumentation,
         )
-        BackToHomeButton(onClick = onBackToHome)
     }
 }
 
@@ -506,27 +492,6 @@ private fun WeakTopicRow(
             // Arrow tinted Purple when there's a doc link, gray otherwise
             tint = if (docUrl != null) Purple600 else Gray600,
             modifier = Modifier.size(16.dp),
-        )
-    }
-}
-
-@Composable
-private fun BackToHomeButton(onClick: () -> Unit) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(24.dp))
-            .background(Gray200)
-            .clickable(onClick = onClick)
-            .padding(vertical = 16.dp)
-            .testTag(TestTags.INSIGHTS_BACK_HOME),
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(
-            text = stringResource(R.string.back_to_home),
-            color = Purple600,
-            fontSize = 16.sp,
-            fontWeight = FontWeight.SemiBold,
         )
     }
 }
